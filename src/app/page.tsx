@@ -4,7 +4,7 @@ import Button from "@/src/components/Button";
 export default function Home() {
   return (
     <>
-      <Button.Solid size="lg">시작하기</Button.Solid>
+      <Button.Main size="lg">시작하기</Button.Main>
       <Button.Outline size="lg">시작하기</Button.Outline>
     </>
   );

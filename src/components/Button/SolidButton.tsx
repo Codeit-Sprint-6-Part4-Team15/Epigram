@@ -1,9 +1,9 @@
-interface SolidButtonProps {
+interface MainButtonProps {
   children: string;
   size: string;
 }
 
-export default function SolidButton({ size, children }: SolidButtonProps) {
+export default function MainButton({ size, children }: MainButtonProps) {
   const sizeStyle = (size: string) => {
     switch (size) {
       case "xs":

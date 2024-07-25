@@ -1,8 +1,8 @@
 import OutlineButton from "./OutlineButton";
-import SolidButton from "./SolidButton";
+import MainButton from "./SolidButton";
 
 const Button = Object.assign({
-  Solid: SolidButton,
+  Main: MainButton,
   Outline: OutlineButton,
 });
 
