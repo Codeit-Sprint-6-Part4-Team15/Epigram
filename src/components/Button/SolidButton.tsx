@@ -19,7 +19,7 @@ export default function SolidButton({ size, children }: SolidButtonProps) {
     }
   };
   return (
-    <button type="button" className={`${sizeStyle(size)} rounded-[8px] bg-black-500 text-white hover:bg-black-600 active:bg-black-700 disabled:bg-blue-300`}>
+    <button type="button" className={`${sizeStyle(size)} rounded-[8px] bg-black-500 text-white hover:bg-black-600 active:bg-black-700 disabled:bg-blue-400`}>
       {children}
     </button>
   );
