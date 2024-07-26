@@ -1,6 +1,5 @@
 "use client";
-import Image from "next/image";
-import Button from "@/src/components/Button";
+import Button from "@/src/components/commons/Button";
 
 export default function Home() {
   const handleClick = () => {
@@ -8,13 +7,16 @@ export default function Home() {
   };
   return (
     <>
-      <Button type="link" href="/" size="xs">
+      <Button type="button" variant="main" size={{ default: "xs", md: "xs", xl: "sm" }} onClick={handleClick}>
         시작하기
       </Button>
-      <Button type="button" style="outline" size="lg">
+      <Button type="button" variant="outline" size={{ default: "sm", md: "md", xl: "lg" }} onClick={handleClick}>
         시작하기
       </Button>
-      <Button type="button" style="main" size="lg" onClick={handleClick}>
+      <Button type="button" variant="wide" size={{ default: "xl", md: "2xl", xl: "3xl" }} onClick={handleClick} disabled>
+        시작하기
+      </Button>
+      <Button type="link" href="/" variant="main" size={{ default: "xs", md: "xs", xl: "sm" }} onClick={handleClick}>
         시작하기
       </Button>
     </>
