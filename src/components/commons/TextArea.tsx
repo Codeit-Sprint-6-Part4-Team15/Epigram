@@ -8,7 +8,7 @@ interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement>{
     variant?: "outlined" | "solid";
 }
 
-const TextArea: React.FC<TextAreaProps> = ({ placeholder, variant="outlined", ...props }) => {
+export default function TextArea({ placeholder, variant = "outlined", ...props }: TextAreaProps) {
   const [value, setValue] = useState('');
   const [isOverLimit, setIsOverLimit] = useState(false);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -74,5 +74,3 @@ const TextArea: React.FC<TextAreaProps> = ({ placeholder, variant="outlined", ..
     </div>
   );
 };
-
-export default TextArea;
