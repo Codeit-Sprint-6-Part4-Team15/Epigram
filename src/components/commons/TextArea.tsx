@@ -53,11 +53,14 @@ const TextArea: React.FC<TextAreaProps> = ({ placeholder, variant="outlined", ..
     <div>
       <textarea
         ref={textAreaRef}
-        className={`border resize-none overflow-hidden ${paddingClass} ${widthClass} ${heightClass} ${backgroundColor} ${borderColor} ${borderRadius} focus:border-black-600 ${textClass} lg:typo-xl-regualr transition-all duration-300`}
+        className={`border resize-none overflow-hidden ${paddingClass} ${widthClass} ${heightClass} ${backgroundColor} ${borderColor} ${borderRadius} focus:border-black-600 focus:outline-none ${textClass} lg:typo-xl-regualr transition-all duration-300`}
         maxLength={maxLength}
         value={value}
         placeholder={placeholder || defaultPlaceholder}
         onChange={handleChange}
+        spellCheck={false}
+        autoCorrect="off"
+        autoComplete="off"
         {...props}
       />
       {isOverLimit && (
