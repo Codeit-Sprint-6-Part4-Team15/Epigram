@@ -1,6 +1,7 @@
 "use client";
 
 import React, { TextareaHTMLAttributes, useEffect, useRef, useState } from "react";
+import '@/src/styles.css';
 
 interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement>{
     placeholder?: string;
@@ -22,7 +23,7 @@ const TextArea: React.FC<TextAreaProps> = ({ placeholder, variant="outlined", ..
   };
     
     useEffect(() => {
-    if (textAreaRef.current) {
+    if (variant === "outlined" && textAreaRef.current) {
       textAreaRef.current.style.height = 'auto';
       textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`;
     }
@@ -53,7 +54,9 @@ const TextArea: React.FC<TextAreaProps> = ({ placeholder, variant="outlined", ..
     <div>
       <textarea
         ref={textAreaRef}
-        className={`border resize-none overflow-hidden ${paddingClass} ${widthClass} ${heightClass} ${backgroundColor} ${borderColor} ${borderRadius} focus:border-black-600 focus:outline-none ${textClass} lg:typo-xl-regualr transition-all duration-300`}
+        className={`border resize-none ${paddingClass} ${widthClass} ${heightClass} ${backgroundColor} ${borderColor} ${borderRadius} focus:border-black-600 focus:outline-none ${textClass} lg:typo-xl-regualr transition-all duration-300 ${
+          variant === "solid" ? "overflow-y-auto" : "overflow-hidden"
+        }`}
         maxLength={maxLength}
         value={value}
         placeholder={placeholder || defaultPlaceholder}
