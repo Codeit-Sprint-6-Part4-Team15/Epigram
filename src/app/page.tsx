@@ -1,113 +1,132 @@
 import Image from "next/image";
+import backgroundImg from "@/public/assets/landing-background.svg"
+import chevron from "@/public/assets/ic-chevron-up.svg"
+import more from "@/public/assets/ic-more-vertical.svg"
+import landingImg1 from "@/public/assets/img-desktop-landing01.svg"
+import landingImg2 from "@/public/assets/img-desktop-landing02.svg"
+import landingImg3 from "@/public/assets/img-desktop-landing03.svg"
+import cardImg1 from "@/public/assets/img-desktop-card01.svg"
+import cardImg2 from "@/public/assets/img-desktop-card02.svg"
+import cardImg3 from "@/public/assets/img-desktop-card03.svg"
+import logo2Img1 from "@/public/assets/img-logo2-xl.webp"
+import shreddedPaper1 from "@/public/assets/shredded-paper-1.webp"
+import shreddedPaper2 from "@/public/assets/shredded-paper-2.webp"
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
+    <div className="flex flex-col items-center bg-bg-100">
+    <div className="w-[400px] flex flex-col items-center mt-[320px]">
+      <Image src={backgroundImg}
+      alt="배경 이미지"
+      layout="fill"
+      objectFit="cover"
+      className="z-[1]"/>
+      <div className="z-[2] flex flex-col text-center items-center">
+      <p className="iropke-4xl">
+        나만 갖고 있기엔
+      아까운 글이 있지 않나요?</p>
+      <p className="iropke-xl mt-[40px]">다른 사람들과 감정을 공유해 보세요.</p>
+      <Link href="/">
+      <button className="w-[286px] h-[64px] mt-[48px] bg-black-500 text-white rounded-[12px]">시작하기</button>
+      </Link>
+      <button className="mt-[214px] text-blue-400 text-[16px]">더 알아보기</button>
+      <Image src={chevron}
+      alt="더 알아보기 버튼"
+      width={25}
+      height={25}/>
+      </div>
+    </div>
+    <Image src={shreddedPaper1}
+        alt="배경 이미지"
+        width={2640}
+        height={15}
+        className="mt-[20px]"/>
+   
+    <main className="flex flex-col text-center">
+      <div className="flex mt-[240px]">
+      <Image src={landingImg1}
+        alt="랜딩페이지 이미지"
+        width={744}
+        height={388}/>
+        <div className="ml-[80px] mt-[192px] text-left">
+          <p className="typo-3xl-bold">명언이나 글귀,</p>
+          <p className="typo-3xl-bold">토막 상식들을 공유해 보세요.</p>
+          <p className="mt-[40px] typo-2xl-bold text-blue-600">나만 알던 소중한 글들을</p>
+          <p className="typo-2xl-bold text-blue-600">다른 사람들에게 전파하세요.</p>
+      </div>
+      </div>
+      <div className="flex mt-[380px]">
+        <div className="mr-[80px] mt-[192px] text-right">
+      <p className="typo-3xl-bold">감정 상태에 따라,</p>
+      <p className="typo-3xl-bold"> 알맞은 위로를 받을 수 있어요.</p>
+      <p className="typo-2xl-bold text-blue-600 mt-[40px]">
+        태그를 통해 글을 모아 볼 수 있어요.
         </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+        </div>
+        <Image src={landingImg2}
+      alt="랜딩페이지 이미지"
+      width={744}
+      height={388}/>
+      </div>
+      <div className="flex mt-[380px]">
+      <Image src={landingImg3}
+      alt="랜딩페이지 이미지"
+      width={744}
+      height={388}/>
+      <div className="ml-[80px] mt-[192px] text-left">
+      <p className="typo-3xl-bold">
+        내가 요즘 어떤 감정 상태인지 </p>
+        <p className="typo-3xl-bold">통계로 한눈에 볼 수 있어요.
+        </p>
+        <p className="typo-2xl-bold text-blue-600 mt-[40px]">
+        감정 달력으로</p>
+        <p className="typo-2xl-bold text-blue-600">내 마음에 담긴 감정을 확인해보세요
+        </p>
         </div>
       </div>
-
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+      <div className="mt-[480px] text-center flex flex-col items-center mb-[60px]">
+      <p className="typo-3xl-bold">사용자들이 직접</p>
+      <p className="typo-3xl-bold"> 인용한 에피그램들</p>
+      <Image src={cardImg1}
+      alt="랜딩페이지 이미지"
+      width={640}
+      height={388}
+      className="mt-[100px]"/>
+       <Image src={cardImg2}
+      alt="랜딩페이지 이미지"
+      width={640}
+      height={388}
+      className="mt-[60px]"/>
+       <Image src={cardImg3}
+      alt="랜딩페이지 이미지"
+      width={640}
+      height={388}
+      className="mt-[60px]"/>
+       <Image src={more}
+      alt="더 알아보기 버튼"
+      width={25}
+      height={25}
+      className="mt-[40px]"/>
+        </div>
     </main>
+    <div className="relative w-screen">
+    <div className="flex flex-col items-center  relative z-[2]">
+    <Image src={logo2Img1}
+      alt="날마다 에피그램"
+      width={184}
+      height={388}
+      className="mt-[495px]"/>
+        <Link href="/">
+    <button className="w-[286px] h-[64px] mt-[48px] bg-black-500 text-white rounded-[12px] mb-[400px]">시작하기</button>
+    </Link>
+    </div>
+    <Image src={backgroundImg}
+      alt="배경 이미지"
+      layout="fill"
+      objectFit="cover"
+      className=" b-0 w-screen z-[1]"/>
+    </div>
+    </div>
   );
 }
