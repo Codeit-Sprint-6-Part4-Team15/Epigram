@@ -56,7 +56,8 @@ const config: Config = {
         },
         line: {
           100: "#F2F2F2",
-          200: "#CFDBEA", 
+          200: "#CFDBEA",
+          300: "#D7D7D7",
         },
         illust: {
           "yellow": "#FBC85B",
