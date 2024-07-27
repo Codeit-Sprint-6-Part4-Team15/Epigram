@@ -13,3 +13,7 @@
          url('https://cdn.jsdelivr.net/gh/webfontworld/iropke/IropkeBatang.ttf') format("truetype");
     font-display: swap;
 }
+
+body{
+    overflow-x: hidden
+}
