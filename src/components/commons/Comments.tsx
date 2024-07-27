@@ -1,13 +1,6 @@
 "use client";
 
-import { Comment } from "@/src/types";
-
-
-interface CommentsProps {
-  comments: Comment[];
-  onEdit: (id: number) => void;
-  onDelete: (id: number) => void;
-}
+import { CommentsProps } from "@/src/types";
 
 export default function Comments({ comments, onEdit, onDelete }: CommentsProps) {
     const formatTimeAgo = (dateString: string) => {
