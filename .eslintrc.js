@@ -1,7 +1,10 @@
 module.exports = {
   parser: "@typescript-eslint/parser",
+<<<<<<< HEAD
   root: true,
   parser: '@typescript-eslint/parser',
+=======
+>>>>>>> 9a69b34 (feat: RadioGroup 컴포넌트 추가)
   parserOptions: {
     ecmaVersion: 2020,
     sourceType: "module",
@@ -9,6 +12,7 @@ module.exports = {
       jsx: true,
     },
     project: "./tsconfig.json",
+<<<<<<< HEAD
     project: './tsconfig.json',
     createDefaultProgram: true,
   },
@@ -16,6 +20,8 @@ module.exports = {
     browser: true,
     node: true,
     es6: true,
+=======
+>>>>>>> 9a69b34 (feat: RadioGroup 컴포넌트 추가)
   },
   extends: [
     "eslint:recommended",
@@ -49,10 +55,6 @@ module.exports = {
     "react/prop-types": "off",
     "no-console": "error",
     "react/jsx-props-no-spreading": "off",
-    'react/react-in-jsx-scope': 'off', // Next.js doesn't require React to be in scope
-    'react/prop-types': 'off',
-    'no-console': 'error',
-    'react/jsx-props-no-spreading': 'off',
     '@typescript-eslint/semi': 'off',
     'react/jsx-filename-extension': ['warn', { extensions: ['.ts', '.tsx'] }],
     'no-useless-catch': 'off',
