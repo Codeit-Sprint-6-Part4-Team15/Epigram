@@ -4,25 +4,29 @@
 
 @layer base {
   @font-face {
-    font-family: "Pretendard";
-    src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff") format("woff");
+    font-family: 'Pretendard';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
+      format('woff');
     font-weight: 400;
     font-style: normal;
   }
   @font-face {
-    font-family: "IropkeBatang";
+    font-family: 'IropkeBatang';
     font-style: normal;
     font-weight: 400;
     src: url(//cdn.jsdelivr.net/font-iropke-batang/1.2/IropkeBatangM.eot);
     src:
-      url(//cdn.jsdelivr.net/font-iropke-batang/1.2/IropkeBatangM.eot?#iefix) format("embedded-opentype"),
-      url(//cdn.jsdelivr.net/font-iropke-batang/1.2/IropkeBatangM.woff) format("woff"),
-      url(//cdn.jsdelivr.net/font-iropke-batang/1.2/IropkeBatangM.ttf) format("truetype");
+      url(//cdn.jsdelivr.net/font-iropke-batang/1.2/IropkeBatangM.eot?#iefix)
+        format('embedded-opentype'),
+      url(//cdn.jsdelivr.net/font-iropke-batang/1.2/IropkeBatangM.woff)
+        format('woff'),
+      url(//cdn.jsdelivr.net/font-iropke-batang/1.2/IropkeBatangM.ttf)
+        format('truetype');
   }
 }
 @layer utilities {
   .radio:checked + label i:after {
-    content: "";
+    content: '';
     display: block;
     width: 50%;
     height: 50%;
@@ -30,7 +34,7 @@
     border-radius: 50%;
   }
   .toggle + label i:after {
-    content: "";
+    content: '';
     display: block;
     width: 10px;
     height: 10px;
@@ -56,17 +60,17 @@
   }
 }
 body {
-  font-family: "Pretendard", sans-serif;
-  overflow-x: hidden
+  font-family: 'Pretendard', sans-serif;
+  overflow-x: hidden;
 }
 body::-webkit-scrollbar {
-    width: 8px;  /* 스크롤바의 너비 */
+  width: 8px; /* 스크롤바의 너비 */
 }
 body::-webkit-scrollbar-thumb {
-    height: 5%; /* 스크롤바의 길이 */
-    background: #919191; /* 스크롤바의 색상 */ 
-    border-radius: 30px;
+  height: 5%; /* 스크롤바의 길이 */
+  background: #919191; /* 스크롤바의 색상 */
+  border-radius: 30px;
 }
 body::-webkit-scrollbar-track {
-    background: rgba(33, 122, 244, .1);  /*스크롤바 뒷 배경 색상*/
+  background: rgba(33, 122, 244, 0.1); /*스크롤바 뒷 배경 색상*/
 }
