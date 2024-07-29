@@ -106,7 +106,7 @@ export default function Home() {
     <div className="flex flex-col items-center bg-bg-100">
     <div className="w-[440px] flex flex-col items-center mt-[320px] ">
     <Image 
-  src="/assets/landingPage/landing-background.svg"
+  src="/assets/landingPage/landing-background.webp"
   alt="배경 이미지"
   layout="fill"
   objectFit="cover"
@@ -143,13 +143,13 @@ export default function Home() {
                 height={250} />
             </div>
            <div className="hidden md:block xl:hidden">
-              <Image src="/assets/landingPage/landing01-md.svg"
+              <Image src="/assets/landingPage/landing01-md.webp"
                 alt="랜딩페이지 이미지 (중간 크기)"
                 width={500}
                 height={250} />
             </div>
             <div className="hidden xl:block">
-              <Image src="/assets/landingPage/landing01-lg.svg"
+              <Image src="/assets/landingPage/landing01-lg.webp"
                 alt="랜딩페이지 이미지 (큰 크기)"
                 width={744}
                 height={388} />
@@ -177,13 +177,13 @@ export default function Home() {
                 height={250} />
             </div>
            <div className="hidden md:block xl:hidden">
-              <Image src="/assets/landingPage/landing02-md.svg"
+              <Image src="/assets/landingPage/landing02-md.webp"
                 alt="랜딩페이지 이미지 (중간 크기)"
                 width={500}
                 height={250} />
             </div>
             <div className="hidden xl:block">
-              <Image src="/assets/landingPage/landing02-lg.svg"
+              <Image src="/assets/landingPage/landing02-lg.webp"
                 alt="랜딩페이지 이미지 (큰 크기)"
                 width={744}
                 height={388} />
@@ -205,13 +205,13 @@ export default function Home() {
                 height={250} />
             </div>
            <div className="hidden md:block xl:hidden">
-              <Image src="/assets/landingPage/landing03-md.svg"
+              <Image src="/assets/landingPage/landing03-md.webp"
                 alt="랜딩페이지 이미지 (중간 크기)"
                 width={500}
                 height={250} />
             </div>
             <div className="hidden xl:block">
-              <Image src="/assets/landingPage/landing03-lg.svg"
+              <Image src="/assets/landingPage/landing03-lg.webp"
                 alt="랜딩페이지 이미지 (큰 크기)"
                 width={744}
                 height={388} />
@@ -227,19 +227,19 @@ export default function Home() {
       <p className="typo-2xl-bold xl:typo-3xl-bold mb-[40px] xl:mb-[60px]">사용자들이 직접 <br/>인용한 에피그램들</p>
       <ScrollWrapper direction="up">
       <div className="block md:hidden xl:hidden">
-              <Image src="/assets/landingPage/card01-sm.svg"
+              <Image src="/assets/landingPage/card01-sm.webp"
                 alt="카드 이미지 (작은 크기)"
                 width={312}
                 height={152} />
             </div>
            <div className="hidden md:block xl:hidden">
-              <Image src="/assets/landingPage/card01-md.svg"
+              <Image src="/assets/landingPage/card01-md.webp"
                 alt="카드 이미지 (중간 크기)"
                 width={384}
                 height={180} />
             </div>
             <div className="hidden xl:block">
-              <Image src="/assets/landingPage/card01-lg.svg"
+              <Image src="/assets/landingPage/card01-lg.webp"
                 alt="카드 이미지 (큰 크기)"
                 width={640}
                 height={198} />
@@ -247,20 +247,20 @@ export default function Home() {
       </ScrollWrapper>
       <ScrollWrapper direction="up"
           >
-         <div className="block md:hidden xl:hidden mt-[16]">
-              <Image src="/assets/landingPage/card02-sm.svg"
+         <div className="block md:hidden xl:hidden mt-[16px]">
+              <Image src="/assets/landingPage/card02-sm.webp"
                 alt="카드 이미지 (작은 크기)"
                 width={312}
                 height={200} />
             </div>
-           <div className="hidden md:block xl:hidden mt-[20]">
-              <Image src="/assets/landingPage/card02-md.svg"
+           <div className="hidden md:block xl:hidden mt-[20px]">
+              <Image src="/assets/landingPage/card02-md.webp"
                 alt="카드 이미지 (중간 크기)"
                 width={384}
                 height={232} />
             </div>
-            <div className="hidden xl:block mt-[60]">
-              <Image src="/assets/landingPage/card02-lg.svg"
+            <div className="hidden xl:block mt-[60px]">
+              <Image src="/assets/landingPage/card02-lg.webp"
                 alt="카드 이미지 (큰 크기)"
                 width={640}
                 height={276} />
@@ -268,20 +268,20 @@ export default function Home() {
       </ScrollWrapper>
       <ScrollWrapper direction="up"
           >
-         <div className="block md:hidden xl:hidden mt-[16]">
-              <Image src="/assets/landingPage/card03-sm.svg"
+         <div className="block md:hidden xl:hidden mt-[16px]">
+              <Image src="/assets/landingPage/card03-sm.webp"
                 alt="카드 이미지 (작은 크기)"
                 width={312}
                 height={152} />
             </div>
-           <div className="hidden md:block xl:hidden mt-[20]">
-              <Image src="/assets/landingPage/card03-md.svg"
+           <div className="hidden md:block xl:hidden mt-[20px]">
+              <Image src="/assets/landingPage/card03-md.webp"
                 alt="카드 이미지 (중간 크기)"
                 width={384}
                 height={180} />
             </div>
-            <div className="hidden xl:block mt-[60]">
-              <Image src="/assets/landingPage/card03-lg.svg"
+            <div className="hidden xl:block mt-[60px]">
+              <Image src="/assets/landingPage/card03-lg.webp"
                 alt="카드 이미지 (큰 크기)"
                 width={640}
                 height={196} />
@@ -301,21 +301,21 @@ export default function Home() {
     <div className="relative w-screen">
     <div className="flex flex-col items-center  relative z-[2]">
       <div className="block md:hidden xl:hidden">
-      <Image src="/assets/landingPage/logo2-lg.svg"
+      <Image src="/assets/landingPage/logo2-lg.webp"
       alt="날마다 에피그램"
       width={122}
       height={200}
       className="mt-[180px]"/>
             </div>
             <div className="hidden md:block xl:hidden">
-      <Image src="/assets/landingPage/logo2-lg.svg"
+      <Image src="/assets/landingPage/logo2-lg.webp"
       alt="날마다 에피그램"
       width={122}
       height={200}
       className="mt-[180px]"/>
             </div>
        <div className="hidden md:hidden xl:block">
-      <Image src="/assets/landingPage/logo2-xl.svg"
+      <Image src="/assets/landingPage/logo2-xl.webp"
       alt="날마다 에피그램"
       width={184}
       height={388}
@@ -325,7 +325,7 @@ export default function Home() {
     <button className="typo-lg-semibold w-[112px] h-[48px] mt-[24px] xl:w-[286px] xl:h-[64px] xl:mt-[48px] bg-black-500 text-white rounded-[12px] mb-[200px] xl:mb-[400px]">시작하기</button>
     </Link>
     </div>
-    <Image src="/assets/landingPage/landing-background.svg"
+    <Image src="/assets/landingPage/landing-background.webp"
       alt="배경 이미지"
       layout="fill"
       objectFit="cover"
