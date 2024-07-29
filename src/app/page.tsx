@@ -299,7 +299,7 @@ export default function Home() {
         
     </main>
     <div className="relative w-screen">
-    <div className="flex flex-col items-center  relative z-[2]">
+    <div className="flex flex-col items-center relative z-[2]">
       <div className="block md:hidden xl:hidden">
       <Image src="/assets/landingPage/logo2-lg.webp"
       alt="날마다 에피그램"
