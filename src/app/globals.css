@@ -22,3 +22,12 @@
 body {
   font-family:'Pretendard', sans-serif;
 }
+
+.radio:checked + label .label:after {
+  content:'';
+  display:block;
+  width:50%;
+  height:50%;
+  background:#40516E;
+  border-radius:50%;
+}
