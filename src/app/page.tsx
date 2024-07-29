@@ -104,12 +104,14 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center bg-bg-100">
-    <div className="w-[440px] flex flex-col items-center mt-[320px]">
-      <Image src="/assets/landingPage/landing-background.svg"
-      alt="배경 이미지"
-      layout="fill"
-      objectFit="cover"
-      className="z-[1]"/>
+    <div className="w-[440px] flex flex-col items-center mt-[320px] ">
+    <Image 
+  src="/assets/landingPage/landing-background.svg"
+  alt="배경 이미지"
+  layout="fill"
+  objectFit="cover"
+  className="z-[1]"
+/>
       <div className="z-[2] flex flex-col text-center items-center">
       <p className="iropke-2xl md:iropke-3xl xl:iropke-4xl white-space" dangerouslySetInnerHTML={{ __html: displayText }}></p>
       {showElements && (
@@ -131,8 +133,6 @@ export default function Home() {
       )}
       </div>
     </div>
-
-      
     <main ref={mainRef} className="flex flex-col text-center">
       <div className="flex flex-col mt-[174px] xl:flex-row xl:mt-[240px] mr-[24px] ml-[24px]">
             <ScrollWrapper direction="left">
