@@ -132,7 +132,7 @@ const config: Config = {
         },
         ".border-bottom-zigzag": {
           background: "#ccc",
-          borderImage: "url('../../public/assets/border_note.png') 40 / 15px 40px / 0 0 15px 0 round",
+          borderImage: "url('../../public/assets/border_note.svg') 40 / 14px 40px / 0 0 14px 0 round",
         },
         // main text -  pretendard
         // 3xl
