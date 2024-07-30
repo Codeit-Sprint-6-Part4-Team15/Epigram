@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
-import Modal from "@/src/components/commons/Modal";
+import Modal from "@/src/components/commons/Modal/Modal";
 import useModal from "@/src/hooks/useModal";
-import ConfirmModal from "../components/commons/ConfirmModal";
+import ConfirmModal from "@/src/components/commons/Modal/ConfirmModal";
 
 export default function Home() {
   const [isDeleteModalOpened, { open: openDeleteModal, close: closeDeleteModal }] = useModal(false);
