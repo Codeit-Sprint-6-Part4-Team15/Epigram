@@ -1,24 +1,24 @@
 "use client";
-import Button from "@/src/components/commons/Button";
+import { useState } from "react";
+import RadioGroup from "@/src/components/commons/RadioGroup";
+import Toggle from "../components/commons/Toggle";
 
 export default function Home() {
-  const handleClick = () => {
-    alert(1);
+  const [selectedFruit, setSelectedFruit] = useState<string>("apple");
+  const [isPublic, setIsPublic] = useState(false);
+
+  const handleChange = (value: string) => {
+    setSelectedFruit(value);
   };
+
+  const handleToggle = (value: boolean) => {
+    setIsPublic(value);
+  }
+
   return (
     <>
-      <Button type="button" variant="main" size={{ default: "xs", md: "xs", xl: "sm" }} onClick={handleClick}>
-        시작하기
-      </Button>
-      <Button type="button" variant="outline" size={{ default: "sm", md: "md", xl: "lg" }} onClick={handleClick}>
-        시작하기
-      </Button>
-      <Button type="button" variant="wide" size={{ default: "xl", md: "2xl", xl: "3xl" }} onClick={handleClick} disabled>
-        시작하기
-      </Button>
-      <Button type="link" href="/" variant="main" size={{ default: "xs", md: "xs", xl: "sm" }} onClick={handleClick}>
-        시작하기
-      </Button>
+      <RadioGroup name="fruit" size="sm" content={{ apple: "사과", banana: "바나나", mango: "망고" }} selectedValue={selectedFruit} onChange={handleChange} />
+      <Toggle content={{public : "공개"}} checked={isPublic} onChange={handleToggle}/>
     </>
   );
 }

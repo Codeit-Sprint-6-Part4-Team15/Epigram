@@ -22,3 +22,39 @@
 body {
   font-family:'Pretendard', sans-serif;
 }
+
+.radio:checked + label .label:after {
+  content:'';
+  display:block;
+  width:50%;
+  height:50%;
+  background:#40516E;
+  border-radius:50%;
+}
+
+.toggle + label .label:after {
+  content:'';
+  display: block;
+  width:10px;
+  height:10px;
+  background:#fff;
+  border-radius:50%;
+  transition:.2s transform ease;
+}
+.toggle:checked + label .label {
+  background:#373737;
+}
+.toggle:checked + label .label:after {
+  transform:translateX(16px);
+}
+
+
+@media (min-width: 1200px) {
+  .toggle + label .label:after {
+    width:16px;
+    height:16px;
+  }
+  .toggle:checked + label .label:after {
+    transform:translateX(18px);
+  }
+}
