@@ -1,24 +1,23 @@
 "use client";
 import { useState } from "react";
-import RadioGroup from "@/src/components/commons/RadioGroup";
-import Toggle from "../components/commons/Toggle";
+import Modal from "@/src/components/commons/Modal";
+import useModal from "@/src/hooks/useModal";
+import ConfirmModal from "../components/commons/ConfirmModal";
 
 export default function Home() {
-  const [selectedFruit, setSelectedFruit] = useState<string>("apple");
-  const [isPublic, setIsPublic] = useState(false);
+  const [isDeleteModalOpened, { open: openDeleteModal, close: closeDeleteModal }] = useModal(false);
 
-  const handleChange = (value: string) => {
-    setSelectedFruit(value);
+  const handleDelete = () => {
+    alert(1);
+    closeDeleteModal();
   };
-
-  const handleToggle = (value: boolean) => {
-    setIsPublic(value);
-  }
 
   return (
     <>
-      <RadioGroup name="fruit" size="sm" content={{ apple: "사과", banana: "바나나", mango: "망고" }} selectedValue={selectedFruit} onChange={handleChange} />
-      <Toggle content={{public : "공개"}} checked={isPublic} onChange={handleToggle}/>
+      <button onClick={openDeleteModal}>버튼</button>
+      <Modal opened={isDeleteModalOpened} onClose={closeDeleteModal}>
+        <ConfirmModal message="댓글을 삭제하시겠어요?" btnText="삭제하기" onClose={closeDeleteModal} onSubmit={handleDelete} />
+      </Modal>
     </>
   );
 }
