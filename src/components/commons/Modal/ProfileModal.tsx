@@ -1,14 +1,26 @@
 import { Writer } from "@/src/type";
+import Image from "next/image";
+import IcoClose from "@/public/assets/ic_close.svg";
 
 interface ProfileModalProps {
   writer: Writer;
+  onClose: () => void;
 }
 
-export default function ProfileModal({ writer }: ProfileModalProps) {
+export default function ProfileModal({ writer, onClose }: ProfileModalProps) {
   return (
-    <div className="flex min-h-[194px] w-[328px] flex-col items-center justify-center gap-[26px] rounded-[12px] bg-white md:min-h-[216px] md:gap-[36px] xl:min-h-[218px] xl:w-[360px] xl:gap-[40px]">
-      <p className="typo-lg-semibold text-black-700 md:typo-xl-semibold xl:typo-2xl-semibold">{message}</p>
-      <div className="flex justify-between gap-[16px]"></div>
+    <div className="flex min-h-[164px] w-[328px] flex-col items-center rounded-[12px] bg-[#F5F7FA] px-[40px] pb-[30px] pt-[24px] xl:min-h-[188px] xl:w-[360px]">
+      <div className="flex w-full justify-end">
+        <button type="button" onClick={onClose}>
+          <Image src={IcoClose} width={20} height={20} alt="닫기" />
+        </button>
+      </div>
+      <div className="flex flex-col items-center gap-[24px]">
+        <figure className="relative h-[48px] w-[48px] overflow-hidden rounded-full border border-blue-300 bg-white">
+          <Image src={writer.image} fill alt="프로필" />
+        </figure>
+        <strong className="typo-lg-semibold text-black-400 xl:typo-xl-semibold">{writer.nickname}</strong>
+      </div>
     </div>
   );
 }
