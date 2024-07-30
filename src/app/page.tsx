@@ -15,7 +15,7 @@ export default function Home() {
   return (
     <>
       <button onClick={openDeleteModal}>버튼</button>
-      <Modal opened={isDeleteModalOpened} onClose={closeDeleteModal}>
+      <Modal opened={isDeleteModalOpened}>
         <ConfirmModal message="댓글을 삭제하시겠어요?" btnText="삭제하기" onClose={closeDeleteModal} onSubmit={handleDelete} />
       </Modal>
     </>
