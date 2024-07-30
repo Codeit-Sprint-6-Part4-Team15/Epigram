@@ -72,6 +72,7 @@ const config: Config = {
         state: {
           error: "#FF6577",
         },
+        dim: "rgba(0,0,0,0.6)",
       },
       fontSize: {
         "8": "0.5rem",
