@@ -5,7 +5,7 @@ import DonutChart from "../components/DonutChart";
 export default function Home() {
   return (
     <>
-      <DonutChart rateArr={[35, 20, 19, 17, 9]} />
+      <DonutChart rateObj={{ HAPPY: 35, MOVED: 20, WORRIED: 19, SAD: 17, ANGRY: 9 }} />
     </>
   );
 }
