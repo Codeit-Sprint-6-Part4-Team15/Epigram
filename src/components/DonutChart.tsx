@@ -35,7 +35,7 @@ function getGraphRateArr(obj: EmotionRates) {
   return newArr;
 }
 
-const STROKE_WIDTH = 2;
+const STROKE_WIDTH = 4;
 const FACE_WIDTH = 1;
 const OUTLINE_WIDTH = 1.5;
 const SPACE_LENGTH = (OUTLINE_WIDTH * 2 * 360) / 100 / Math.PI;
@@ -92,65 +92,65 @@ export default function DonutChart({ rateObj, bestEmotion }: DonutChartProps) {
             <path
               fill="#48BB98"
               stroke="#48BB98"
-              strokeWidth={4}
+              strokeWidth={STROKE_WIDTH}
               strokeLinejoin="round"
               strokeLinecap="round"
-              d={`M ${getCoordFromDegrees(SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
-            A ${50 - STROKE_WIDTH} ${50 - STROKE_WIDTH} 0 0 0 ${getCoordFromDegrees(rates[0] - SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
-          L ${getCoordFromDegrees(rates[0] - SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH, 100)}
-          A ${50 - FACE_WIDTH - STROKE_WIDTH} ${50 - FACE_WIDTH - STROKE_WIDTH} 0 0 1 ${getCoordFromDegrees(SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH, 100)}`}
+              d={`M ${getCoordFromDegrees(SPACE_LENGTH, 50 - STROKE_WIDTH / 2, 100)}
+            A ${50 - STROKE_WIDTH / 2} ${50 - STROKE_WIDTH / 2} 0 0 0 ${getCoordFromDegrees(rates[0] - SPACE_LENGTH, 50 - STROKE_WIDTH / 2, 100)}
+          L ${getCoordFromDegrees(rates[0] - SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH / 2, 100)}
+          A ${50 - FACE_WIDTH - STROKE_WIDTH / 2} ${50 - FACE_WIDTH - STROKE_WIDTH / 2} 0 0 1 ${getCoordFromDegrees(SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH / 2, 100)}`}
             />
           )}
           {rates[1] && (
             <path
               fill="#FBC85B"
               stroke="#FBC85B"
-              strokeWidth={4}
+              strokeWidth={STROKE_WIDTH}
               strokeLinejoin="round"
               strokeLinecap="round"
-              d={`M ${getCoordFromDegrees(rates[0] + SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
-            A ${50 - OUTLINE_WIDTH} ${50 - OUTLINE_WIDTH} 0 0 0 ${getCoordFromDegrees(rates[1] - SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
-            L ${getCoordFromDegrees(rates[1] - SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH, 100)}
-            A ${50 - FACE_WIDTH - STROKE_WIDTH} ${50 - FACE_WIDTH - STROKE_WIDTH} 0 0 1 ${getCoordFromDegrees(rates[0] + SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH, 100)}`}
+              d={`M ${getCoordFromDegrees(rates[0] + SPACE_LENGTH, 50 - STROKE_WIDTH / 2, 100)}
+            A ${50 - OUTLINE_WIDTH} ${50 - OUTLINE_WIDTH} 0 0 0 ${getCoordFromDegrees(rates[1] - SPACE_LENGTH, 50 - STROKE_WIDTH / 2, 100)}
+            L ${getCoordFromDegrees(rates[1] - SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH / 2, 100)}
+            A ${50 - FACE_WIDTH - STROKE_WIDTH / 2} ${50 - FACE_WIDTH - STROKE_WIDTH / 2} 0 0 1 ${getCoordFromDegrees(rates[0] + SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH / 2, 100)}`}
             />
           )}
           {rates[2] && (
             <path
               fill="#C7D1E0"
               stroke="#C7D1E0"
-              strokeWidth={4}
+              strokeWidth={STROKE_WIDTH}
               strokeLinejoin="round"
               strokeLinecap="round"
-              d={`M ${getCoordFromDegrees(rates[1] + SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
-            A ${50 - OUTLINE_WIDTH} ${50 - OUTLINE_WIDTH} 0 0 0 ${getCoordFromDegrees(rates[2] - SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
-            L ${getCoordFromDegrees(rates[2] - SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH, 100)}
-            A ${50 - FACE_WIDTH - STROKE_WIDTH} ${50 - FACE_WIDTH - STROKE_WIDTH} 0 0 1 ${getCoordFromDegrees(rates[1] + SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH, 100)}`}
+              d={`M ${getCoordFromDegrees(rates[1] + SPACE_LENGTH, 50 - STROKE_WIDTH / 2, 100)}
+            A ${50 - OUTLINE_WIDTH} ${50 - OUTLINE_WIDTH} 0 0 0 ${getCoordFromDegrees(rates[2] - SPACE_LENGTH, 50 - STROKE_WIDTH / 2, 100)}
+            L ${getCoordFromDegrees(rates[2] - SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH / 2, 100)}
+            A ${50 - FACE_WIDTH - STROKE_WIDTH / 2} ${50 - FACE_WIDTH - STROKE_WIDTH / 2} 0 0 1 ${getCoordFromDegrees(rates[1] + SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH / 2, 100)}`}
             />
           )}
           {rates[3] && (
             <path
               fill="#E3E9F1"
               stroke="#E3E9F1"
-              strokeWidth={4}
+              strokeWidth={STROKE_WIDTH}
               strokeLinejoin="round"
               strokeLinecap="round"
-              d={`M ${getCoordFromDegrees(rates[2] + SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
-            A ${50 - OUTLINE_WIDTH} ${50 - OUTLINE_WIDTH} 0 0 0 ${getCoordFromDegrees(rates[3] - SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
-            L ${getCoordFromDegrees(rates[3] - SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH, 100)}
-            A ${50 - FACE_WIDTH - STROKE_WIDTH} ${50 - FACE_WIDTH - STROKE_WIDTH} 0 0 1 ${getCoordFromDegrees(rates[2] + SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH, 100)}`}
+              d={`M ${getCoordFromDegrees(rates[2] + SPACE_LENGTH, 50 - STROKE_WIDTH / 2, 100)}
+            A ${50 - OUTLINE_WIDTH} ${50 - OUTLINE_WIDTH} 0 0 0 ${getCoordFromDegrees(rates[3] - SPACE_LENGTH, 50 - STROKE_WIDTH / 2, 100)}
+            L ${getCoordFromDegrees(rates[3] - SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH / 2, 100)}
+            A ${50 - FACE_WIDTH - STROKE_WIDTH / 2} ${50 - FACE_WIDTH - STROKE_WIDTH / 2} 0 0 1 ${getCoordFromDegrees(rates[2] + SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH / 2, 100)}`}
             />
           )}
           {rates[4] && (
             <path
               fill="#EFF3F8"
               stroke="#EFF3F8"
-              strokeWidth={4}
+              strokeWidth={STROKE_WIDTH}
               strokeLinejoin="round"
               strokeLinecap="round"
-              d={`M ${getCoordFromDegrees(rates[3] + SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
-            A ${50 - OUTLINE_WIDTH} ${50 - OUTLINE_WIDTH} 0 0 0 ${getCoordFromDegrees(rates[4] - SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
-            L ${getCoordFromDegrees(rates[4] - SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH, 100)}
-            A ${50 - FACE_WIDTH - STROKE_WIDTH} ${50 - FACE_WIDTH - STROKE_WIDTH} 0 0 1 ${getCoordFromDegrees(rates[3] + SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH, 100)}`}
+              d={`M ${getCoordFromDegrees(rates[3] + SPACE_LENGTH, 50 - STROKE_WIDTH / 2, 100)}
+            A ${50 - OUTLINE_WIDTH} ${50 - OUTLINE_WIDTH} 0 0 0 ${getCoordFromDegrees(rates[4] - SPACE_LENGTH, 50 - STROKE_WIDTH / 2, 100)}
+            L ${getCoordFromDegrees(rates[4] - SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH / 2, 100)}
+            A ${50 - FACE_WIDTH - STROKE_WIDTH / 2} ${50 - FACE_WIDTH - STROKE_WIDTH / 2} 0 0 1 ${getCoordFromDegrees(rates[3] + SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH / 2, 100)}`}
             />
           )}
         </svg>
