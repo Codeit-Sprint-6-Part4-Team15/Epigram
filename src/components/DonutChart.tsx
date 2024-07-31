@@ -35,9 +35,9 @@ function getGraphRateArr(obj: EmotionRates) {
   return newArr;
 }
 
-const STROKE_WIDTH = 4;
-const FACE_WIDTH = 2;
-const OUTLINE_WIDTH = 2.25;
+const STROKE_WIDTH = 2;
+const FACE_WIDTH = 1;
+const OUTLINE_WIDTH = 1.5;
 const SPACE_LENGTH = (OUTLINE_WIDTH * 2 * 360) / 100 / Math.PI;
 
 export default function DonutChart({ rateObj, bestEmotion }: DonutChartProps) {
