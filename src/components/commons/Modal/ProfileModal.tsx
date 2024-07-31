@@ -1,6 +1,7 @@
 import { Writer } from "@/src/type";
 import Image from "next/image";
 import IcoClose from "@/public/assets/ic_close.svg";
+import IcoUser from "@/public/assets/ic_user.svg";
 
 interface ProfileModalProps {
   writer: Writer;
@@ -17,7 +18,7 @@ export default function ProfileModal({ writer, onClose }: ProfileModalProps) {
       </div>
       <div className="flex flex-col items-center gap-[24px]">
         <figure className="relative h-[48px] w-[48px] overflow-hidden rounded-full border border-blue-300 bg-white">
-          <Image src={writer.image} fill alt="프로필" />
+          <Image src={writer.image ?? IcoUser} fill alt="프로필" />
         </figure>
         <strong className="typo-lg-semibold text-black-400 xl:typo-xl-semibold">{writer.nickname}</strong>
       </div>
