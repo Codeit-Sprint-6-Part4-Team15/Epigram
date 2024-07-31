@@ -67,17 +67,6 @@ const ScrollWrapper = ({ children, direction }: ScrollWrapperProps) => {
 
 
 export default function Home() {
-  const [selectedFruit, setSelectedFruit] = useState<string>("apple");
-  const [isPublic, setIsPublic] = useState(false);
-
-  const handleChange = (value: string) => {
-    setSelectedFruit(value);
-  };
-
-  const handleToggle = (value: boolean) => {
-    setIsPublic(value);
-  }
-
   const mainRef = useRef<HTMLDivElement>(null);
   const [typingCompleted, setTypingCompleted] = useState(false);
   const [showElements, setShowElements] = useState(false);
@@ -119,12 +108,12 @@ export default function Home() {
     <div className="flex flex-col items-center bg-bg-100">
     <div className="w-[440px] flex flex-col items-center mt-[320px] ">
     <Image 
-  src="/assets/landingPage/landing-background.webp"
-  alt="배경 이미지"
-  layout="fill"
-  objectFit="cover"
-  className="z-[1]"
-/>
+        src="/assets/landingPage/landing-background.webp"
+        alt="배경 이미지"
+        layout="fill"
+        objectFit="cover"
+        className="z-[1]"
+      />
       <div className="z-[2] flex flex-col text-center items-center">
       <p className="iropke-2xl md:iropke-3xl xl:iropke-4xl white-space" dangerouslySetInnerHTML={{ __html: displayText }}></p>
       {showElements && (

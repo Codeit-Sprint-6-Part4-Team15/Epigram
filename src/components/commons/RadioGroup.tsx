@@ -15,7 +15,7 @@ const SizeStyles = {
 
 export default function RadioGroup({ name, size, content, selectedValue, onChange }: RadioGroupProps) {
   return (
-    <div className="flex gap-[16px] md:gap-[24px]">
+    <div className="flex gap-[16px] md:gap-[24px] mt-[8px]">
       {Object.entries(content).map(([value, label]) => (
         <>
           <input type="radio" id={value} name={name} value={value} checked={selectedValue === value} onChange={() => onChange(value)} className="radio hidden" />
