@@ -49,7 +49,7 @@ export default function DonutChart({ rateObj, bestEmotion }: DonutChartProps) {
     const coordX = x * radius + svgSize / 2;
     const coordY = y * -radius + svgSize / 2;
     return `${coordX} ${coordY}`;
-  }
+  };
 
   const getEmojiImg = (emoji: string) => {
     switch (emoji) {
@@ -66,7 +66,7 @@ export default function DonutChart({ rateObj, bestEmotion }: DonutChartProps) {
       default:
         return IcoHappy;
     }
-  }
+  };
   const getEmojiTxt = (emoji: string) => {
     switch (emoji) {
       case "HAPPY":
@@ -82,69 +82,79 @@ export default function DonutChart({ rateObj, bestEmotion }: DonutChartProps) {
       default:
         return "기쁨";
     }
-  }
+  };
 
   return (
-    <div className="flex gap-[48px] md:gap-[76px] xl:gap-[120px]">
-      <div className="relative w-[180px] p-[10px]">
+    <div className="flex items-center gap-[48px] md:gap-[76px] xl:gap-[120px]">
+      <div className="relative h-[180px] w-[180px]">
         <svg className="w-full" viewBox="0 0 100 100" transform="rotate(-90) scale(1 -1)">
-          {rates[0] && <path
-            fill="#48BB98"
-            stroke="#48BB98"
-            strokeWidth={4}
-            strokeLinejoin="round"
-            strokeLinecap="round"
-            d={`M ${getCoordFromDegrees(SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
+          {rates[0] && (
+            <path
+              fill="#48BB98"
+              stroke="#48BB98"
+              strokeWidth={4}
+              strokeLinejoin="round"
+              strokeLinecap="round"
+              d={`M ${getCoordFromDegrees(SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
             A ${50 - STROKE_WIDTH} ${50 - STROKE_WIDTH} 0 0 0 ${getCoordFromDegrees(rates[0] - SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
           L ${getCoordFromDegrees(rates[0] - SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH, 100)}
           A ${50 - FACE_WIDTH - STROKE_WIDTH} ${50 - FACE_WIDTH - STROKE_WIDTH} 0 0 1 ${getCoordFromDegrees(SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH, 100)}`}
-          />}
-          {rates[1] && <path
-            fill="#FBC85B"
-            stroke="#FBC85B"
-            strokeWidth={4}
-            strokeLinejoin="round"
-            strokeLinecap="round"
-            d={`M ${getCoordFromDegrees(rates[0] + SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
+            />
+          )}
+          {rates[1] && (
+            <path
+              fill="#FBC85B"
+              stroke="#FBC85B"
+              strokeWidth={4}
+              strokeLinejoin="round"
+              strokeLinecap="round"
+              d={`M ${getCoordFromDegrees(rates[0] + SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
             A ${50 - OUTLINE_WIDTH} ${50 - OUTLINE_WIDTH} 0 0 0 ${getCoordFromDegrees(rates[1] - SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
             L ${getCoordFromDegrees(rates[1] - SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH, 100)}
             A ${50 - FACE_WIDTH - STROKE_WIDTH} ${50 - FACE_WIDTH - STROKE_WIDTH} 0 0 1 ${getCoordFromDegrees(rates[0] + SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH, 100)}`}
-          />}
-          {rates[2] && <path
-            fill="#C7D1E0"
-            stroke="#C7D1E0"
-            strokeWidth={4}
-            strokeLinejoin="round"
-            strokeLinecap="round"
-            d={`M ${getCoordFromDegrees(rates[1] + SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
+            />
+          )}
+          {rates[2] && (
+            <path
+              fill="#C7D1E0"
+              stroke="#C7D1E0"
+              strokeWidth={4}
+              strokeLinejoin="round"
+              strokeLinecap="round"
+              d={`M ${getCoordFromDegrees(rates[1] + SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
             A ${50 - OUTLINE_WIDTH} ${50 - OUTLINE_WIDTH} 0 0 0 ${getCoordFromDegrees(rates[2] - SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
             L ${getCoordFromDegrees(rates[2] - SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH, 100)}
             A ${50 - FACE_WIDTH - STROKE_WIDTH} ${50 - FACE_WIDTH - STROKE_WIDTH} 0 0 1 ${getCoordFromDegrees(rates[1] + SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH, 100)}`}
-          />}
-          {rates[3] && <path
-            fill="#E3E9F1"
-            stroke="#E3E9F1"
-            strokeWidth={4}
-            strokeLinejoin="round"
-            strokeLinecap="round"
-            d={`M ${getCoordFromDegrees(rates[2] + SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
+            />
+          )}
+          {rates[3] && (
+            <path
+              fill="#E3E9F1"
+              stroke="#E3E9F1"
+              strokeWidth={4}
+              strokeLinejoin="round"
+              strokeLinecap="round"
+              d={`M ${getCoordFromDegrees(rates[2] + SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
             A ${50 - OUTLINE_WIDTH} ${50 - OUTLINE_WIDTH} 0 0 0 ${getCoordFromDegrees(rates[3] - SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
             L ${getCoordFromDegrees(rates[3] - SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH, 100)}
             A ${50 - FACE_WIDTH - STROKE_WIDTH} ${50 - FACE_WIDTH - STROKE_WIDTH} 0 0 1 ${getCoordFromDegrees(rates[2] + SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH, 100)}`}
-          />}
-          {rates[4] && <path
-            fill="#EFF3F8"
-            stroke="#EFF3F8"
-            strokeWidth={4}
-            strokeLinejoin="round"
-            strokeLinecap="round"
-            d={`M ${getCoordFromDegrees(rates[3] + SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
+            />
+          )}
+          {rates[4] && (
+            <path
+              fill="#EFF3F8"
+              stroke="#EFF3F8"
+              strokeWidth={4}
+              strokeLinejoin="round"
+              strokeLinecap="round"
+              d={`M ${getCoordFromDegrees(rates[3] + SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
             A ${50 - OUTLINE_WIDTH} ${50 - OUTLINE_WIDTH} 0 0 0 ${getCoordFromDegrees(rates[4] - SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
             L ${getCoordFromDegrees(rates[4] - SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH, 100)}
             A ${50 - FACE_WIDTH - STROKE_WIDTH} ${50 - FACE_WIDTH - STROKE_WIDTH} 0 0 1 ${getCoordFromDegrees(rates[3] + SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH, 100)}`}
-          />}
+            />
+          )}
         </svg>
-        <div className="absolute inset-0 flex flex-col gap-[8px] items-center justify-center">
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-[8px]">
           <Image src={getEmojiImg(bestEmotion)} width={40} height={40} alt={bestEmotion} />
           <strong>{getEmojiTxt(bestEmotion)}</strong>
         </div>
@@ -152,10 +162,10 @@ export default function DonutChart({ rateObj, bestEmotion }: DonutChartProps) {
       <div>
         <ul className="flex flex-col gap-[14px]">
           {Object.entries(getSortedObj(rateObj)).map(([emoji, rate]) => (
-            <li className="flex gap-[8px] chart-option items-center">
-              <i className="block w-[8px] h-[8px] rounded-[2px]"></i>
+            <li className="chart-option flex items-center gap-[8px]">
+              <i className="block h-[8px] w-[8px] rounded-[2px]"></i>
               <Image src={getEmojiImg(emoji)} width={24} height={24} alt={emoji} />
-              <span className="typo-sm-semibold xl:typo-xl-semibold text-gray-200 hover:text-black-600">{rate}%</span>
+              <span className="typo-sm-semibold text-gray-200 xl:typo-xl-semibold hover:text-black-600">{rate}%</span>
             </li>
           ))}
         </ul>
