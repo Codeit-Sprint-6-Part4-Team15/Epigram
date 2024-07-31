@@ -1,7 +1,14 @@
 import { useEffect, useState } from "react";
 
+interface EmotionRates {
+  HAPPY: number;
+  MOVED: number;
+  WORRIED: number;
+  SAD: number;
+  ANGRY: number;
+}
 interface DonutChartProps {
-  rateArr: number[];
+  rateObj: EmotionRates;
 }
 
 function getCoordFromDegrees(angle: number, radius: number, svgSize: number) {
@@ -12,8 +19,9 @@ function getCoordFromDegrees(angle: number, radius: number, svgSize: number) {
   return `${coordX} ${coordY}`;
 }
 
-function getGraphRateArr(arr: number[]) {
-  const newArr = arr.map((x, index, arr) => {
+function getGraphRateArr(obj: EmotionRates) {
+  const sortedObj = Object.fromEntries(Object.entries(obj).sort(([, a], [, b]) => b - a));
+  const newArr = Object.values(sortedObj).map((x, index, arr) => {
     let result = 0;
     for (let i = 0; i <= index; i++) {
       result += arr[i];
@@ -28,8 +36,8 @@ const FACE_WIDTH = 2;
 const OUTLINE_WIDTH = 2.25;
 const SPACE_LENGTH = (OUTLINE_WIDTH * 2 * 360) / 100 / Math.PI;
 
-export default function DonutChart({ rateArr }: DonutChartProps) {
-  const [rates, setRates] = useState(getGraphRateArr(rateArr));
+export default function DonutChart({ rateObj }: DonutChartProps) {
+  const [rates, setRates] = useState(getGraphRateArr(rateObj));
 
   return (
     <div className="w-[180px] p-[10px]">
