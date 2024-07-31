@@ -3,72 +3,67 @@
 @tailwind utilities;
 
 @font-face {
-    font-family: 'IropkeBatang';
-    font-weight: normal;
-    font-style: normal;
-    src: url('https://cdn.jsdelivr.net/gh/webfontworld/iropke/IropkeBatang.eot');
-    src: url('https://cdn.jsdelivr.net/gh/webfontworld/iropke/IropkeBatang.eot?#iefix') format('embedded-opentype'),
-         url('https://cdn.jsdelivr.net/gh/webfontworld/iropke/IropkeBatang.woff2') format('woff2'),
-         url('https://cdn.jsdelivr.net/gh/webfontworld/iropke/IropkeBatang.woff') format('woff'),
-         url('https://cdn.jsdelivr.net/gh/webfontworld/iropke/IropkeBatang.ttf') format("truetype");
-    font-display: swap;
+  font-family: "IropkeBatang";
+  font-weight: normal;
+  font-style: normal;
+  src: url("https://cdn.jsdelivr.net/gh/webfontworld/iropke/IropkeBatang.eot");
+  src:
+    url("https://cdn.jsdelivr.net/gh/webfontworld/iropke/IropkeBatang.eot?#iefix") format("embedded-opentype"),
+    url("https://cdn.jsdelivr.net/gh/webfontworld/iropke/IropkeBatang.woff2") format("woff2"),
+    url("https://cdn.jsdelivr.net/gh/webfontworld/iropke/IropkeBatang.woff") format("woff"),
+    url("https://cdn.jsdelivr.net/gh/webfontworld/iropke/IropkeBatang.ttf") format("truetype");
+  font-display: swap;
 }
 body {
-  font-family:'Pretendard', sans-serif;
+  font-family: "Pretendard", sans-serif;
   overflow-x: hidden;
 }
 
 .radio:checked + label .label:after {
-  content:'';
-  display:block;
-  width:50%;
-  height:50%;
-  background:#40516E;
-  border-radius:50%;
+  content: "";
+  display: block;
+  width: 50%;
+  height: 50%;
+  background: #40516e;
+  border-radius: 50%;
 }
 
 .toggle + label .label:after {
-  content:'';
+  content: "";
   display: block;
-  width:10px;
-  height:10px;
-  background:#fff;
-  border-radius:50%;
-  transition:.2s transform ease;
+  width: 10px;
+  height: 10px;
+  background: #fff;
+  border-radius: 50%;
+  transition: 0.2s transform ease;
 }
 .toggle:checked + label .label {
-  background:#373737;
+  background: #373737;
 }
 .toggle:checked + label .label:after {
-  transform:translateX(16px);
+  transform: translateX(16px);
 }
-
 
 @media (min-width: 1200px) {
   .toggle + label .label:after {
-    width:16px;
-    height:16px;
+    width: 16px;
+    height: 16px;
   }
   .toggle:checked + label .label:after {
-    transform:translateX(18px);
+    transform: translateX(18px);
   }
 }
 
-
 body::-webkit-scrollbar {
-  width: 8px;  /* 스크롤바의 너비 */
+  width: 8px; /* 스크롤바의 너비 */
 }
 
 body::-webkit-scrollbar-thumb {
   height: 5%; /* 스크롤바의 길이 */
-  background: #919191; /* 스크롤바의 색상 */ 
+  background: #919191; /* 스크롤바의 색상 */
   border-radius: 30px;
 }
 
 body::-webkit-scrollbar-track {
-  background: rgba(33, 122, 244, .1);  /*스크롤바 뒷 배경 색상*/
+  background: rgba(33, 122, 244, 0.1); /*스크롤바 뒷 배경 색상*/
 }
-
-
-
-
