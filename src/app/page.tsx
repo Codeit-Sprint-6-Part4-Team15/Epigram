@@ -4,11 +4,11 @@ import Modal from "@/src/components/commons/Modal/Modal";
 import useModal from "@/src/hooks/useModal";
 import ConfirmModal from "@/src/components/commons/Modal/ConfirmModal";
 import ProfileModal from "@/src/components/commons/Modal/ProfileModal";
-import IcoUser from "@/public/assets/ic_user.svg";
 
+// FIX: API 연결 후 삭제
 const writer = {
   nickname: "지킬과 하이드",
-  image: IcoUser,
+  image: null,
   id: 1,
 };
 
