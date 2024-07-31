@@ -15,6 +15,7 @@ interface EmotionRates {
 }
 interface DonutChartProps {
   rateObj: EmotionRates;
+  bestEmotion: string;
 }
 
 function getSortedObj(obj: Object) {
@@ -39,7 +40,7 @@ const FACE_WIDTH = 2;
 const OUTLINE_WIDTH = 2.25;
 const SPACE_LENGTH = (OUTLINE_WIDTH * 2 * 360) / 100 / Math.PI;
 
-export default function DonutChart({ rateObj }: DonutChartProps) {
+export default function DonutChart({ rateObj, bestEmotion }: DonutChartProps) {
   const [rates, setRates] = useState(getGraphRateArr(rateObj));
 
   const getCoordFromDegrees = (angle: number, radius: number, svgSize: number) => {
@@ -66,10 +67,26 @@ export default function DonutChart({ rateObj }: DonutChartProps) {
         return IcoHappy;
     }
   }
+  const getEmojiTxt = (emoji: string) => {
+    switch (emoji) {
+      case "HAPPY":
+        return "기쁨";
+      case "MOVED":
+        return "감동";
+      case "WORRIED":
+        return "걱정";
+      case "SAD":
+        return "슬픔";
+      case "ANGRY":
+        return "분노";
+      default:
+        return "기쁨";
+    }
+  }
 
   return (
     <div className="flex gap-[48px] md:gap-[76px] xl:gap-[120px]">
-      <div className="w-[180px] p-[10px]">
+      <div className="relative w-[180px] p-[10px]">
         <svg className="w-full" viewBox="0 0 100 100" transform="rotate(-90) scale(1 -1)">
           {rates[0] && <path
             fill="#48BB98"
@@ -78,7 +95,7 @@ export default function DonutChart({ rateObj }: DonutChartProps) {
             strokeLinejoin="round"
             strokeLinecap="round"
             d={`M ${getCoordFromDegrees(SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
-          A ${50 - STROKE_WIDTH} ${50 - STROKE_WIDTH} 0 0 0 ${getCoordFromDegrees(rates[0] - SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
+            A ${50 - STROKE_WIDTH} ${50 - STROKE_WIDTH} 0 0 0 ${getCoordFromDegrees(rates[0] - SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
           L ${getCoordFromDegrees(rates[0] - SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH, 100)}
           A ${50 - FACE_WIDTH - STROKE_WIDTH} ${50 - FACE_WIDTH - STROKE_WIDTH} 0 0 1 ${getCoordFromDegrees(SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH, 100)}`}
           />}
@@ -89,9 +106,9 @@ export default function DonutChart({ rateObj }: DonutChartProps) {
             strokeLinejoin="round"
             strokeLinecap="round"
             d={`M ${getCoordFromDegrees(rates[0] + SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
-          A ${50 - OUTLINE_WIDTH} ${50 - OUTLINE_WIDTH} 0 0 0 ${getCoordFromDegrees(rates[1] - SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
-          L ${getCoordFromDegrees(rates[1] - SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH, 100)}
-          A ${50 - FACE_WIDTH - STROKE_WIDTH} ${50 - FACE_WIDTH - STROKE_WIDTH} 0 0 1 ${getCoordFromDegrees(rates[0] + SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH, 100)}`}
+            A ${50 - OUTLINE_WIDTH} ${50 - OUTLINE_WIDTH} 0 0 0 ${getCoordFromDegrees(rates[1] - SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
+            L ${getCoordFromDegrees(rates[1] - SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH, 100)}
+            A ${50 - FACE_WIDTH - STROKE_WIDTH} ${50 - FACE_WIDTH - STROKE_WIDTH} 0 0 1 ${getCoordFromDegrees(rates[0] + SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH, 100)}`}
           />}
           {rates[2] && <path
             fill="#C7D1E0"
@@ -100,9 +117,9 @@ export default function DonutChart({ rateObj }: DonutChartProps) {
             strokeLinejoin="round"
             strokeLinecap="round"
             d={`M ${getCoordFromDegrees(rates[1] + SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
-          A ${50 - OUTLINE_WIDTH} ${50 - OUTLINE_WIDTH} 0 0 0 ${getCoordFromDegrees(rates[2] - SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
-          L ${getCoordFromDegrees(rates[2] - SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH, 100)}
-          A ${50 - FACE_WIDTH - STROKE_WIDTH} ${50 - FACE_WIDTH - STROKE_WIDTH} 0 0 1 ${getCoordFromDegrees(rates[1] + SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH, 100)}`}
+            A ${50 - OUTLINE_WIDTH} ${50 - OUTLINE_WIDTH} 0 0 0 ${getCoordFromDegrees(rates[2] - SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
+            L ${getCoordFromDegrees(rates[2] - SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH, 100)}
+            A ${50 - FACE_WIDTH - STROKE_WIDTH} ${50 - FACE_WIDTH - STROKE_WIDTH} 0 0 1 ${getCoordFromDegrees(rates[1] + SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH, 100)}`}
           />}
           {rates[3] && <path
             fill="#E3E9F1"
@@ -111,9 +128,9 @@ export default function DonutChart({ rateObj }: DonutChartProps) {
             strokeLinejoin="round"
             strokeLinecap="round"
             d={`M ${getCoordFromDegrees(rates[2] + SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
-          A ${50 - OUTLINE_WIDTH} ${50 - OUTLINE_WIDTH} 0 0 0 ${getCoordFromDegrees(rates[3] - SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
-          L ${getCoordFromDegrees(rates[3] - SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH, 100)}
-          A ${50 - FACE_WIDTH - STROKE_WIDTH} ${50 - FACE_WIDTH - STROKE_WIDTH} 0 0 1 ${getCoordFromDegrees(rates[2] + SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH, 100)}`}
+            A ${50 - OUTLINE_WIDTH} ${50 - OUTLINE_WIDTH} 0 0 0 ${getCoordFromDegrees(rates[3] - SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
+            L ${getCoordFromDegrees(rates[3] - SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH, 100)}
+            A ${50 - FACE_WIDTH - STROKE_WIDTH} ${50 - FACE_WIDTH - STROKE_WIDTH} 0 0 1 ${getCoordFromDegrees(rates[2] + SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH, 100)}`}
           />}
           {rates[4] && <path
             fill="#EFF3F8"
@@ -122,11 +139,15 @@ export default function DonutChart({ rateObj }: DonutChartProps) {
             strokeLinejoin="round"
             strokeLinecap="round"
             d={`M ${getCoordFromDegrees(rates[3] + SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
-          A ${50 - OUTLINE_WIDTH} ${50 - OUTLINE_WIDTH} 0 0 0 ${getCoordFromDegrees(rates[4] - SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
-          L ${getCoordFromDegrees(rates[4] - SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH, 100)}
-          A ${50 - FACE_WIDTH - STROKE_WIDTH} ${50 - FACE_WIDTH - STROKE_WIDTH} 0 0 1 ${getCoordFromDegrees(rates[3] + SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH, 100)}`}
+            A ${50 - OUTLINE_WIDTH} ${50 - OUTLINE_WIDTH} 0 0 0 ${getCoordFromDegrees(rates[4] - SPACE_LENGTH, 50 - STROKE_WIDTH, 100)}
+            L ${getCoordFromDegrees(rates[4] - SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH, 100)}
+            A ${50 - FACE_WIDTH - STROKE_WIDTH} ${50 - FACE_WIDTH - STROKE_WIDTH} 0 0 1 ${getCoordFromDegrees(rates[3] + SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH, 100)}`}
           />}
         </svg>
+        <div className="absolute inset-0 flex flex-col gap-[8px] items-center justify-center">
+          <Image src={getEmojiImg(bestEmotion)} width={40} height={40} alt={bestEmotion} />
+          <strong>{getEmojiTxt(bestEmotion)}</strong>
+        </div>
       </div>
       <div>
         <ul className="flex flex-col gap-[14px]">
