@@ -1,9 +1,10 @@
-'use client'
+"use client";
+import RadioGroup from "@/src/components/commons/RadioGroup";
+import Toggle from "../components/commons/Toggle";
 import Image from "next/image";
-import { ReactNode, useState } from "react";
+import { ReactNode, useState , useEffect, useRef} from "react";
 import Link from "next/link";
 import { motion, useAnimation, useInView } from "framer-motion"
-import { useEffect, useRef } from "react";
 
 interface ScrollWrapperProps {
   children: ReactNode;
@@ -66,6 +67,17 @@ const ScrollWrapper = ({ children, direction }: ScrollWrapperProps) => {
 
 
 export default function Home() {
+  const [selectedFruit, setSelectedFruit] = useState<string>("apple");
+  const [isPublic, setIsPublic] = useState(false);
+
+  const handleChange = (value: string) => {
+    setSelectedFruit(value);
+  };
+
+  const handleToggle = (value: boolean) => {
+    setIsPublic(value);
+  }
+
   const mainRef = useRef<HTMLDivElement>(null);
   const [typingCompleted, setTypingCompleted] = useState(false);
   const [showElements, setShowElements] = useState(false);
@@ -103,6 +115,7 @@ export default function Home() {
   }, [typingCompleted, animation]);
 
   return (
+    <>
     <div className="flex flex-col items-center bg-bg-100">
     <div className="w-[440px] flex flex-col items-center mt-[320px] ">
     <Image 
@@ -332,5 +345,6 @@ export default function Home() {
       className=" w-screen z-[1]"/>
     </div>
     </div>
+    </>
   );
 }
