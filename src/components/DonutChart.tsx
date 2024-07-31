@@ -134,7 +134,7 @@ export default function DonutChart({ rateObj }: DonutChartProps) {
             <li className="flex gap-[8px] chart-option items-center">
               <i className="block w-[8px] h-[8px] rounded-[2px]"></i>
               <Image src={getEmojiImg(emoji)} width={24} height={24} alt={emoji} />
-              <span>{rate}%</span>
+              <span className="typo-sm-semibold xl:typo-xl-semibold text-gray-200 hover:text-black-600">{rate}%</span>
             </li>
           ))}
         </ul>
