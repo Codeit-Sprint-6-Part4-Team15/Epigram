@@ -10,7 +10,7 @@ interface ProfileModalProps {
 
 export default function ProfileModal({ writer, onClose }: ProfileModalProps) {
   return (
-    <div className="flex min-h-[164px] w-[328px] flex-col items-center rounded-[12px] bg-[#F5F7FA] px-[40px] pb-[30px] pt-[24px] xl:min-h-[188px] xl:w-[360px]">
+    <div className="flex min-h-[166px] w-[328px] flex-col items-center rounded-[12px] bg-[#F5F7FA] px-[40px] pb-[30px] pt-[24px] xl:min-h-[188px] xl:w-[360px]">
       <div className="flex w-full justify-end">
         <button type="button" onClick={onClose}>
           <Image src={IcoClose} width={20} height={20} alt="닫기" />
