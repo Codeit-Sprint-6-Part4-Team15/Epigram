@@ -325,7 +325,7 @@ export default function Home() {
     </div>
 =======
     <>
-      <DonutChart bestEmotion="HAPPY" rateObj={{ HAPPY: 35, MOVED: 20, WORRIED: 19, SAD: 17, ANGRY: 9 }} />
+      <DonutChart bestEmotion="HAPPY" rateObj={{ HAPPY: 50, MOVED: 9, WORRIED: 19, SAD: 17, ANGRY: 5 }} />
     </>
 >>>>>>> f235c1f (feat: DonutChart bestEmotion prop 추가)
   );
