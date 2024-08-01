@@ -4,82 +4,62 @@
 
 @layer base {
   @font-face {
-    font-family: 'Pretendard';
-    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-family: "Pretendard";
+    src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff") format("woff");
     font-weight: 400;
     font-style: normal;
   }
 
   @font-face {
-    font-family: 'IropkeBatang';
+    font-family: "IropkeBatang";
     font-style: normal;
     font-weight: 400;
     src: url(//cdn.jsdelivr.net/font-iropke-batang/1.2/IropkeBatangM.eot);
-    src: url(//cdn.jsdelivr.net/font-iropke-batang/1.2/IropkeBatangM.eot?#iefix) format('embedded-opentype'),
-      url(//cdn.jsdelivr.net/font-iropke-batang/1.2/IropkeBatangM.woff) format('woff'),
-      url(//cdn.jsdelivr.net/font-iropke-batang/1.2/IropkeBatangM.ttf) format('truetype');
+    src:
+      url(//cdn.jsdelivr.net/font-iropke-batang/1.2/IropkeBatangM.eot?#iefix) format("embedded-opentype"),
+      url(//cdn.jsdelivr.net/font-iropke-batang/1.2/IropkeBatangM.woff) format("woff"),
+      url(//cdn.jsdelivr.net/font-iropke-batang/1.2/IropkeBatangM.ttf) format("truetype");
   }
 }
 
 body {
-  font-family: 'Pretendard', sans-serif;
+  font-family: "Pretendard", sans-serif;
 }
 
-.radio:checked+label .label:after {
-  content: '';
+.radio:checked + label .label:after {
+  content: "";
   display: block;
   width: 50%;
   height: 50%;
-  background: #40516E;
+  background: #40516e;
   border-radius: 50%;
 }
 
-.toggle+label .label:after {
-  content: '';
+.toggle + label .label:after {
+  content: "";
   display: block;
   width: 10px;
   height: 10px;
   background: #fff;
   border-radius: 50%;
-  transition: .2s transform ease;
+  transition: 0.2s transform ease;
 }
 
-.toggle:checked+label .label {
+.toggle:checked + label .label {
   background: #373737;
 }
 
-.toggle:checked+label .label:after {
+.toggle:checked + label .label:after {
   transform: translateX(16px);
 }
 
-
 @media (min-width: 1200px) {
-  .toggle+label .label:after {
+  .toggle + label .label:after {
     width: 16px;
     height: 16px;
   }
 
-  .toggle:checked+label .label:after {
+  .toggle:checked + label .label:after {
     transform: translateX(18px);
   }
-}
-
-.chart-option:first-child i {
-  background: #48BB98;
-}
-
-.chart-option:nth-child(2) i {
-  background: #FBC85B;
-}
-
-.chart-option:nth-child(3) i {
-  background: #C7D1E0;
-}
-
-.chart-option:nth-child(4) i {
-  background: #E3E9F1;
-}
-
-.chart-option:last-child i {
-  background: #EFF3F8;
 }
