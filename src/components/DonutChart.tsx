@@ -86,7 +86,7 @@ export default function DonutChart({ rateObj, bestEmotion }: DonutChartProps) {
 
   return (
     <div className="flex items-center gap-[48px] md:gap-[76px] xl:gap-[120px]">
-      <div className="relative h-[180px] w-[180px]">
+      <div className="relative h-[120px] w-[120px] xl:h-[180px] xl:w-[180px]">
         <svg className="w-full" viewBox="0 0 100 100" transform="rotate(-90) scale(1 -1)">
           {rates[0] && (
             <path
@@ -155,16 +155,20 @@ export default function DonutChart({ rateObj, bestEmotion }: DonutChartProps) {
           )}
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-[8px]">
-          <Image src={getEmojiImg(bestEmotion)} width={40} height={40} alt={bestEmotion} />
+          <figure className="relative h-[24px] w-[24px] xl:h-[40px] xl:w-[40px]">
+            <Image src={getEmojiImg(bestEmotion)} fill alt={bestEmotion} />
+          </figure>
           <strong>{getEmojiTxt(bestEmotion)}</strong>
         </div>
       </div>
       <div>
-        <ul className="flex flex-col gap-[14px]">
+        <ul className="flex flex-col gap-[8px] xl:gap-[14px]">
           {Object.entries(getSortedObj(rateObj)).map(([emoji, rate]) => (
             <li className="chart-option flex items-center gap-[8px]">
               <i className="block h-[8px] w-[8px] rounded-[2px]"></i>
-              <Image src={getEmojiImg(emoji)} width={24} height={24} alt={emoji} />
+              <figure className="relative h-[18px] w-[18px] xl:h-[24px] xl:w-[24px]">
+                <Image src={getEmojiImg(emoji)} fill alt={emoji} />
+              </figure>
               <span className="typo-sm-semibold text-gray-200 xl:typo-xl-semibold hover:text-black-600">{rate}%</span>
             </li>
           ))}
