@@ -54,7 +54,7 @@ export default function TextArea({ placeholder, variant = "outlined", ...props }
     <div>
       <textarea
         ref={textAreaRef}
-        className={`border resize-none ${paddingClass} ${widthClass} ${heightClass} ${backgroundColor} ${borderColor} ${borderRadius} focus:border-black-600 focus:outline-none ${textClass} lg:typo-xl-regualr transition-all duration-300 ${
+        className={`border resize-none ${paddingClass} ${widthClass} ${heightClass} ${backgroundColor} ${borderColor} ${borderRadius} focus:border-black-600 focus:outline-none ${textClass} lg:typo-xl-regualr ${
           variant === "solid" ? "overflow-y-auto" : "overflow-hidden"
         }`}
         maxLength={maxLength}
