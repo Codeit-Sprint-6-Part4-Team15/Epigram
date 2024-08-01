@@ -1,11 +1,11 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
-import IcoHappy from "@/public/assets/emoji-smile.svg";
-import IcoMoved from "@/public/assets/emoji-heart.svg";
-import IcoWorried from "@/public/assets/emoji-worry.svg";
-import IcoSad from "@/public/assets/emoji-sad.svg";
-import IcoAngry from "@/public/assets/emoji-mad.svg";
+import IcoHappy from "@/public/assets/ic_emoji-smile.svg";
+import IcoMoved from "@/public/assets/ic_emoji-heart.svg";
+import IcoWorried from "@/public/assets/ic_emoji-worry.svg";
+import IcoSad from "@/public/assets/ic_emoji-sad.svg";
+import IcoAngry from "@/public/assets/ic_emoji-mad.svg";
 
 interface EmotionRates {
   HAPPY: number;
@@ -97,9 +97,9 @@ export default function DonutChart({ rateObj }: DonutChartProps) {
               strokeLinejoin="round"
               strokeLinecap="round"
               d={`M ${getCoordFromDegrees(SPACE_LENGTH, 50 - STROKE_WIDTH / 2, 100)}
-            A ${50 - STROKE_WIDTH / 2} ${50 - STROKE_WIDTH / 2} 0 0 0 ${getCoordFromDegrees(rates[0] - SPACE_LENGTH, 50 - STROKE_WIDTH / 2, 100)}
+            A ${50 - STROKE_WIDTH / 2} ${50 - STROKE_WIDTH / 2} 0 ${rates[0] > 50 ? 1 : 0} 0 ${getCoordFromDegrees(rates[0] - SPACE_LENGTH, 50 - STROKE_WIDTH / 2, 100)}
           L ${getCoordFromDegrees(rates[0] - SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH / 2, 100)}
-          A ${50 - FACE_WIDTH - STROKE_WIDTH / 2} ${50 - FACE_WIDTH - STROKE_WIDTH / 2} 0 0 1 ${getCoordFromDegrees(SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH / 2, 100)}`}
+          A ${50 - FACE_WIDTH - STROKE_WIDTH / 2} ${50 - FACE_WIDTH - STROKE_WIDTH / 2} 0 ${rates[0] > 50 ? 1 : 0} 1 ${getCoordFromDegrees(SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH / 2, 100)}`}
             />
           )}
           {rates[1] && (
@@ -165,7 +165,7 @@ export default function DonutChart({ rateObj }: DonutChartProps) {
       <div>
         <ul className="flex flex-col gap-[8px] xl:gap-[14px]">
           {Object.entries(getSortedObj(rateObj)).map(([emoji, rate]) => (
-            <li className="group flex items-center gap-[8px]">
+            <li key={emoji} className="group flex items-center gap-[8px]">
               <i className="block h-[8px] w-[8px] rounded-[2px] group-first:bg-illust-green group-last:bg-illust-sub-gray_3 group-[:nth-child(2)]:bg-illust-yellow group-[:nth-child(3)]:bg-illust-sub-gray_1 group-[:nth-child(4)]:bg-illust-sub-gray_2"></i>
               <figure className="relative h-[18px] w-[18px] xl:h-[24px] xl:w-[24px]">
                 <Image src={getEmojiImg(emoji)} fill alt={emoji} />
