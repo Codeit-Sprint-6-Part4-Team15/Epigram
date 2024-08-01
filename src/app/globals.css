@@ -59,6 +59,43 @@
     }
   }
 }
+
+@layer utilities {
+  .radio:checked + label i:after {
+    content: '';
+    display: block;
+    width: 50%;
+    height: 50%;
+    background: #40516e;
+    border-radius: 50%;
+  }
+  .toggle + label i:after {
+    content: '';
+    display: block;
+    width: 10px;
+    height: 10px;
+    background: #fff;
+    border-radius: 50%;
+    transition: 0.2s transform ease;
+  }
+  .toggle:checked + label i {
+    background: #373737;
+  }
+  .toggle:checked + label i:after {
+    transform: translateX(16px);
+  }
+
+  @media (min-width: 1200px) {
+    .toggle + label i:after {
+      width: 16px;
+      height: 16px;
+    }
+    .toggle:checked + label i:after {
+      transform: translateX(18px);
+    }
+  }
+}
+
 body {
   font-family: 'Pretendard', sans-serif;
   overflow-x: hidden;

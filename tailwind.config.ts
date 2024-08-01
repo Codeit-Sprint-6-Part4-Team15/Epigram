@@ -295,6 +295,8 @@ const config: Config = {
           lineHeight: theme("lineHeight.18"),
           fontWeight: theme("fontWeight.medium"),
         },
+        // input
+        ".radio-after": "peer-checked:after:content-[''] after:block after:w-[50%] after:h-[50%] after:bg-[#40516e] after:rounded-1/2",
       });
     }),
   ],
