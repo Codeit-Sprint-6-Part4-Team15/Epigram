@@ -1,15 +1,18 @@
 "use client";
 
-import Dropdown from "@/src/components/commons/Dropdown";
-import { useState } from "react";
+import DropdownMenu from "@/src/components/commons/DropdownMenu";
+import { useEffect, useState } from "react";
 
 
 export default function Page() {
-    const [selectedValue, setSelectedValue] = useState("필터: 없음");
+    const [selectedValue, setSelectedValue] = useState("");
+    useEffect(()=>{
+        console.log(selectedValue);
+    },[selectedValue])
 
     return (
         <div>
-             <Dropdown selectedValue={selectedValue} setSelectedValue={setSelectedValue} />
+             <DropdownMenu selectedValue={selectedValue} setSelectedValue={setSelectedValue} />
         </div>
     )
   }

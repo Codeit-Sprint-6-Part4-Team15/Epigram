@@ -279,7 +279,7 @@ export default function Home() {
            </ScrollWrapper>
            <ScrollWrapper direction="up"
           >
-       <Image src="assets/landingPage/ic-more-vertical.svg"
+       <Image src="assets/ic-more-vertical.svg"
       alt="더 알아보기 버튼"
       width={25}
       height={25}

@@ -4,12 +4,12 @@ import useDetectClose from "@/src/hooks/useDetectClose";
 import Image from "next/image";
 import { useRef } from "react";
 
-interface DropdownProps {
+interface EmojiDropdownProps {
   selectedValue: string;
   setSelectedValue: (value: string) => void;
 }
 
-const Dropdown : React.FC<DropdownProps> =({ selectedValue, setSelectedValue }) => {
+const EmojiDropdown : React.FC<EmojiDropdownProps> =({ selectedValue, setSelectedValue }) => {
   const dropDownRef = useRef<HTMLButtonElement | null>(null);
   const [isOpen, setIsOpen] = useDetectClose(dropDownRef, false);
 
@@ -90,4 +90,4 @@ const Dropdown : React.FC<DropdownProps> =({ selectedValue, setSelectedValue }) 
   );
 };
 
-export default Dropdown;
+export default EmojiDropdown;
