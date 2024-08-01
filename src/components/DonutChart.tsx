@@ -164,8 +164,8 @@ export default function DonutChart({ rateObj, bestEmotion }: DonutChartProps) {
       <div>
         <ul className="flex flex-col gap-[8px] xl:gap-[14px]">
           {Object.entries(getSortedObj(rateObj)).map(([emoji, rate]) => (
-            <li className="chart-option flex items-center gap-[8px]">
-              <i className="block h-[8px] w-[8px] rounded-[2px]"></i>
+            <li className="group flex items-center gap-[8px]">
+              <i className="block h-[8px] w-[8px] rounded-[2px] group-first:bg-illust-green group-last:bg-illust-sub-gray_3 group-[:nth-child(2)]:bg-illust-yellow group-[:nth-child(3)]:bg-illust-sub-gray_1 group-[:nth-child(4)]:bg-illust-sub-gray_2"></i>
               <figure className="relative h-[18px] w-[18px] xl:h-[24px] xl:w-[24px]">
                 <Image src={getEmojiImg(emoji)} fill alt={emoji} />
               </figure>
