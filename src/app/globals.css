@@ -14,6 +14,7 @@
     url("https://cdn.jsdelivr.net/gh/webfontworld/iropke/IropkeBatang.ttf") format("truetype");
   font-display: swap;
 }
+
 body {
   font-family: "Pretendard", sans-serif;
   overflow-x: hidden;
@@ -49,6 +50,7 @@ body {
     width: 16px;
     height: 16px;
   }
+
   .toggle:checked + label .label:after {
     transform: translateX(18px);
   }
