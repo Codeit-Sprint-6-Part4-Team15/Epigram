@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import { useState } from "react";
 import IcoHappy from "@/public/assets/emoji-smile.svg";
@@ -15,7 +16,6 @@ interface EmotionRates {
 }
 interface DonutChartProps {
   rateObj: EmotionRates;
-  bestEmotion: string;
 }
 
 function getSortedObj(obj: Object) {
@@ -40,8 +40,9 @@ const FACE_WIDTH = 1;
 const OUTLINE_WIDTH = 1.5;
 const SPACE_LENGTH = (OUTLINE_WIDTH * 2 * 360) / 100 / Math.PI;
 
-export default function DonutChart({ rateObj, bestEmotion }: DonutChartProps) {
+export default function DonutChart({ rateObj }: DonutChartProps) {
   const [rates, setRates] = useState(getGraphRateArr(rateObj));
+  const [bestEmotion, setBestEmotion] = useState(Object.keys(getSortedObj(rateObj))[0]);
 
   const getCoordFromDegrees = (angle: number, radius: number, svgSize: number) => {
     const x = Math.cos((angle * Math.PI) / 180);
