@@ -1,0 +1,30 @@
+textarea {
+  box-sizing: border-box;
+  overflow-y: overlay;
+}
+
+textarea::-webkit-scrollbar {
+  width: 20px;
+}
+
+textarea::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+textarea::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+  border: 9px solid transparent;
+  background-clip: content-box;
+}
+
+textarea::-webkit-scrollbar-thumb:hover {
+  background: #555;
+  background-clip: content-box;
+}
+
+textarea::-webkit-scrollbar-button {
+  display: none;
+}
+

@@ -9,7 +9,8 @@ const SizeStyles = {
   md: "xl:w-[42px] xl:h-[24px] xl:rounded-[16px] xl:px-[4px]",
 };
 
-export default function Toggle({ content, checked, onChange }: ToggleProps) {
+
+export default function Toggle({ content, checked, onChange } : ToggleProps) {
   return (
     <div>
       {Object.entries(content).map(([id, label]) => (
@@ -22,5 +23,5 @@ export default function Toggle({ content, checked, onChange }: ToggleProps) {
         </>
       ))}
     </div>
-  );
+  )
 }
