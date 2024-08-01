@@ -20,7 +20,7 @@ export default function RadioGroup({ name, size, content, selectedValue, onChang
         <>
           <input type="radio" id={value} name={name} value={value} checked={selectedValue === value} onChange={() => onChange(value)} className="radio hidden" />
           <label htmlFor={value} key={value} className="flex items-center gap-[8px]">
-            <span className={`${size === "sm" ? SizeStyles.sm : SizeStyles.md} label flex items-center justify-center rounded-1/2 border-[2px] border-blue-300`}></span>
+            <i className={`${size === "sm" ? SizeStyles.sm : SizeStyles.md} flex items-center justify-center rounded-1/2 border-[2px] border-blue-300`}></i>
             <span className={`${size === "sm" ? "typo-lg-medium" : "typo-xl-medium"} text-black-600`}>{label}</span>
           </label>
         </>
