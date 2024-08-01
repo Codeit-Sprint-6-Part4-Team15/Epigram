@@ -1,10 +1,12 @@
-"use client";
-import RadioGroup from "@/src/components/commons/RadioGroup";
-import Toggle from "../components/commons/Toggle";
+'use client'
 import Image from "next/image";
-import { ReactNode, useState , useEffect, useRef} from "react";
+import { ReactNode, useState } from "react";
 import Link from "next/link";
 import { motion, useAnimation, useInView } from "framer-motion"
+import { useEffect, useRef } from "react";
+import { useScrollAnimation } from "../hooks/useScrollAnimation";
+import Button from "../components/commons/Button";
+import { Router, useRouter } from "next/router";
 
 interface ScrollWrapperProps {
   children: ReactNode;
@@ -24,24 +26,6 @@ const imageVariantsRight = {
 const cardVariant = {
   hiddenState: { opacity: 0, y: 60 },
   showState: { opacity: 1, y: 0, transition: {ease: "easeInOut",duration: 1 } },
-};
-
-const useScrollAnimation = () => { //스크롤 애니메이션 커스텀 훅
-  const animation = useAnimation();
-  const ref = useRef(null)
-  const isInView = useInView(ref)
-
-  useEffect(() => {
-    if (isInView) {
-      // 엘리먼트가 뷰포트 내에 들어오면 showState 애니메이션 실행
-      animation.start("showState");
-    } else {
-      // 엘리먼트가 뷰포트에서 벗어나면 hiddenState 애니메이션 실행
-      animation.start("hiddenState");
-    }
-  }, [animation, isInView]);
-
-  return { ref, animation };
 };
 
 // 커스텀 훅이 적용된 Wrapper 컴포넌트
@@ -67,17 +51,6 @@ const ScrollWrapper = ({ children, direction }: ScrollWrapperProps) => {
 
 
 export default function Home() {
-  const [selectedFruit, setSelectedFruit] = useState<string>("apple");
-  const [isPublic, setIsPublic] = useState(false);
-
-  const handleChange = (value: string) => {
-    setSelectedFruit(value);
-  };
-
-  const handleToggle = (value: boolean) => {
-    setIsPublic(value);
-  }
-
   const mainRef = useRef<HTMLDivElement>(null);
   const [typingCompleted, setTypingCompleted] = useState(false);
   const [showElements, setShowElements] = useState(false);
@@ -89,6 +62,11 @@ export default function Home() {
       mainRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
+
+  const handleClick =()=>{ //시작하기 버튼 클릭 시
+    const router = useRouter()
+    router.push('/epigrams')
+  }
 
   //타이핑 효과 추가
   const [displayText, setDisplayText] = useState("");
@@ -115,7 +93,6 @@ export default function Home() {
   }, [typingCompleted, animation]);
 
   return (
-    <>
     <div className="flex flex-col items-center bg-bg-100">
     <div className="w-[440px] flex flex-col items-center mt-[320px] ">
     <Image 
@@ -131,9 +108,9 @@ export default function Home() {
             <div className="flex flex-col items-center">
                <ScrollWrapper direction="up">
       <p className="iropke-md md:iropke-xl xl:iropke-xl mt-[8px] md:mt-[24px] xl:mt-[40px]">다른 사람들과 감정을 공유해 보세요.</p>
-      <Link href="/">
-      <button className="w-[112px] h-[48px] mt-[24px] xl:w-[286px] xl:h-[64px] xl:mt-[48px] bg-black-500 text-white rounded-[12px]">시작하기</button>
-      </Link>
+      <Button type="button" variant="main" size={{ default: "sm", md: "sm", xl: "lg" }} onClick={handleClick} className="mt-[24px] xl:mt-[48px]">
+        시작하기
+      </Button>
       </ScrollWrapper>
       <button onClick={scrollToMain} className="flex flex-col items-center mt-[214px] text-blue-400 typo-xs-semibold md:typo-lg-medium xl:typo-lg-medium">더 알아보기
       <Image src="/assets/landingPage/ic-chevron-up.svg"
@@ -312,7 +289,7 @@ export default function Home() {
         
     </main>
     <div className="relative w-screen">
-    <div className="flex flex-col items-center relative z-[2]">
+    <div className="flex flex-col items-center  relative z-[2]">
       <div className="block md:hidden xl:hidden">
       <Image src="/assets/landingPage/logo2-lg.webp"
       alt="날마다 에피그램"
@@ -334,9 +311,9 @@ export default function Home() {
       height={388}
       className="mt-[495px]"/>
             </div>
-        <Link href="/">
-    <button className="typo-lg-semibold w-[112px] h-[48px] mt-[24px] xl:w-[286px] xl:h-[64px] xl:mt-[48px] bg-black-500 text-white rounded-[12px] mb-[200px] xl:mb-[400px]">시작하기</button>
-    </Link>
+    <Button type="button" variant="main" size={{ default: "sm", md: "sm", xl: "lg" }} onClick={handleClick} className="mt-[24px] xl:mt-[48px] mb-[200px] xl:mb-[400px]">
+        시작하기
+      </Button>
     </div>
     <Image src="/assets/landingPage/landing-background.webp"
       alt="배경 이미지"
@@ -345,6 +322,5 @@ export default function Home() {
       className=" w-screen z-[1]"/>
     </div>
     </div>
-    </>
   );
 }
