@@ -1,0 +1,100 @@
+.react-calendar {
+  border: none;
+  border-radius: 8px;
+  overflow: hidden;
+  font-family: 'Arial', sans-serif;
+}
+
+.react-calendar__tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  border-radius: 4px;
+}
+
+.react-calendar__tile--active {
+  background-color: #f0f0f0;
+}
+
+.react-calendar__tile--today {
+  border: 2px solid red;
+  color: red;
+  background: none;
+}
+
+.react-calendar__navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.react-calendar__navigation__label {
+  flex: 1;
+  text-align: left;
+}
+
+.react-calendar__navigation__arrow {
+  order: 2;
+}
+
+.react-calendar__tile--emotion-happy {
+  border: 2px solid green;
+}
+
+.react-calendar__tile--emotion-love {
+  border: 2px solid yellow;
+}
+
+.react-calendar__tile--emotion-worry {
+  border: 2px solid purple;
+}
+
+.react-calendar__tile--emotion-sad {
+  border: 2px solid blue;
+}
+
+.react-calendar__tile--emotion-angry {
+  border: 2px solid red;
+}
+
+.react-calendar__month-view__days__day--weekend {
+  color: initial;
+}
+
+.emotion-happy-selected {
+  border: 2px solid green;
+  border-radius: 8px;
+  padding: 1px;
+}
+
+.emotion-love-selected {
+  border: 2px solid yellow;
+  border-radius: 8px;
+  padding: 1px;
+}
+
+.emotion-worry-selected {
+  border: 2px solid purple;
+  border-radius: 8px;
+  padding: 1px;
+}
+
+.emotion-sad-selected {
+  border: 2px solid blue;
+  border-radius: 8px;
+  padding: 1px;
+}
+
+.emotion-angry-selected {
+  border: 2px solid red;
+  border-radius: 8px;
+  padding: 1px;
+}
+
+.selected-emotion {
+  border: 2px solid black;
+}
