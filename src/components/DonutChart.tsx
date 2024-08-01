@@ -74,7 +74,7 @@ export default function DonutChart({ rateObj, bestEmotion }: DonutChartProps) {
       case "MOVED":
         return "감동";
       case "WORRIED":
-        return "걱정";
+        return "고민";
       case "SAD":
         return "슬픔";
       case "ANGRY":
