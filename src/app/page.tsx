@@ -93,7 +93,6 @@ export default function Home() {
   }, [typingCompleted, animation]);
 
   return (
-<<<<<<< HEAD
     <div className="flex flex-col items-center bg-bg-100">
       <div className="w-[440px] flex flex-col items-center mt-[320px] ">
         <Image
@@ -323,10 +322,5 @@ export default function Home() {
           className=" w-screen z-[1]" />
       </div>
     </div>
-=======
-    <>
-      <DonutChart bestEmotion="HAPPY" rateObj={{ HAPPY: 50, MOVED: 9, WORRIED: 19, SAD: 17, ANGRY: 5 }} />
-    </>
->>>>>>> f235c1f (feat: DonutChart bestEmotion prop 추가)
   );
 }

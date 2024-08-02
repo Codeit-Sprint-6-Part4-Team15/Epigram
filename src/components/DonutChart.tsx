@@ -1,18 +1,8 @@
 "use client";
 import Image, { StaticImageData } from "next/image";
 import { useState } from "react";
+import { EmotionChartData, EmotionData } from "../types";
 
-interface EmotionData {
-  emotion: string;
-  rate: number;
-  image: StaticImageData;
-  label: string;
-  color: string;
-}
-
-interface EmotionChartData extends EmotionData {
-  deg: number;
-}
 
 interface DonutChartProps {
   data: EmotionData[];
@@ -53,7 +43,7 @@ export default function DonutChart({ data }: DonutChartProps) {
   const renderPath = (prevDeg: number, curDeg: number, color: string) => {
     const pathData = `
       M ${getCoordFromDegrees(prevDeg + SPACE_LENGTH, 50 - STROKE_WIDTH / 2)}
-      A ${50 - OUTLINE_WIDTH} ${50 - OUTLINE_WIDTH} 0 0 0 ${getCoordFromDegrees(curDeg - SPACE_LENGTH, 50 - STROKE_WIDTH / 2)}
+      A ${50 - STROKE_WIDTH / 2} ${50 - STROKE_WIDTH / 2} 0 0 0 ${getCoordFromDegrees(curDeg - SPACE_LENGTH, 50 - STROKE_WIDTH / 2)}
       L ${getCoordFromDegrees(curDeg - SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH / 2)}
       A ${50 - FACE_WIDTH - STROKE_WIDTH / 2} ${50 - FACE_WIDTH - STROKE_WIDTH / 2} 0 0 1 ${getCoordFromDegrees(prevDeg + SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH / 2)}
     `;
