@@ -1,7 +1,7 @@
 interface RadioGroupProps {
   name: string;
   size: "sm" | "md";
-  content: { value: string; label: string }[]; // 배열 형태로 변경
+  content: { value: string; label: string }[]; 
   selectedValue: string;
   onChange: (value: string) => void;
 }
