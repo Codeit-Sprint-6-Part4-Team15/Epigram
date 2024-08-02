@@ -40,7 +40,6 @@ async function getMonthlyData() {
     const rate = totalRecords > 0 ? Math.round((count / totalRecords) * 100) : 0;
     return { ...info, rate };
   });
-  console.log(updatedEmotionInfo);
 
   return updatedEmotionInfo;
 }
