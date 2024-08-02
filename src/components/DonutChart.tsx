@@ -39,14 +39,14 @@ const SPACE_LENGTH = (OUTLINE_WIDTH * 2 * 360) / 100 / Math.PI;
 export default function DonutChart({ data }: DonutChartProps) {
   const [sortedData, setSortedData] = useState<EmotionChartData[]>(sortAndCalculateDeg(data));
   const [bestEmotion, setBestEmotion] = useState<EmotionChartData>(sortedData[0]);
-  
+
   const getCoordFromDegrees = (angle: number, radius: number) => {
     const svgSize = 100;
     const x = Math.cos((angle * Math.PI) / 180);
     const y = Math.sin((angle * Math.PI) / 180);
     const coordX = x * radius + svgSize / 2;
     const coordY = y * -radius + svgSize / 2;
-    
+
     return `${coordX} ${coordY}`;
   };
 
@@ -57,7 +57,7 @@ export default function DonutChart({ data }: DonutChartProps) {
       L ${getCoordFromDegrees(curDeg - SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH / 2)}
       A ${50 - FACE_WIDTH - STROKE_WIDTH / 2} ${50 - FACE_WIDTH - STROKE_WIDTH / 2} 0 0 1 ${getCoordFromDegrees(prevDeg + SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH / 2)}
     `;
-    
+
     return (
       <path
         fill={color}
@@ -69,10 +69,10 @@ export default function DonutChart({ data }: DonutChartProps) {
       />
     );
   };
-  
+
   const renderDonutChart = () => {
     return sortedData.map((item, index) => {
-      if(item.rate === 0){
+      if (item.rate === 0) {
         return null;
       }
       if (index === 0) {
@@ -91,22 +91,20 @@ export default function DonutChart({ data }: DonutChartProps) {
           />
         );
       }
-      
+
       if (index > 0 && index < sortedData.length) {
         return renderPath(sortedData[index - 1].deg, item.deg, item.color);
       }
-  
+
       return null;
     });
   };
 
-  console.log(sortedData);
-  
   return (
     <div className="flex items-center gap-[48px] md:gap-[76px] xl:gap-[120px]">
       <div className="relative h-[120px] w-[120px] xl:h-[180px] xl:w-[180px]">
         <svg className="w-full" viewBox="0 0 100 100" transform="rotate(-90) scale(1 -1)">
-        {renderDonutChart()}
+          {renderDonutChart()}
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-[8px]">
           <figure className="relative h-[24px] w-[24px] xl:h-[40px] xl:w-[40px]">
@@ -119,7 +117,7 @@ export default function DonutChart({ data }: DonutChartProps) {
         <ul className="flex flex-col gap-[8px] xl:gap-[14px]">
           {sortedData.map((el) => (
             <li key={el.emotion} className="group flex items-center gap-[8px]">
-              <i style={{background:el.color}} className="block h-[8px] w-[8px] rounded-[2px]"></i>
+              <i style={{ background: el.color }} className="block h-[8px] w-[8px] rounded-[2px]"></i>
               <figure className="relative h-[18px] w-[18px] xl:h-[24px] xl:w-[24px]">
                 <Image src={el.image} fill alt={el.emotion} />
               </figure>
