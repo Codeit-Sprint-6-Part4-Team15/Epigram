@@ -1,7 +1,12 @@
 interface RadioGroupProps {
   name: string;
+<<<<<<< HEAD
   size: 'sm' | 'md';
   content: { value: string; label: string }[];
+=======
+  size: "sm" | "md";
+  content: { value: string; label: string }[]; // 배열 형태로 변경
+>>>>>>> 492ba2f (fix: RadioGroup 컴포넌트 prop value 형태 수정)
   selectedValue: string;
   onChange: (value: string) => void;
 }
