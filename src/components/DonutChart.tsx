@@ -106,7 +106,7 @@ export default function DonutChart({ data }: DonutChartProps) {
         <ul className="flex flex-col gap-[8px] xl:gap-[14px]">
           {sortedData.map((el) => (
             <li key={el.emotion} className="group flex items-center gap-[8px]">
-              <i style={{ background: el.color }} className="block h-[8px] w-[8px] rounded-[2px]"></i>
+              <i style={{ background: `${el.rate !== 0 ? el.color : "#ddd"}` }} className="block h-[8px] w-[8px] rounded-[2px]"></i>
               <figure className="relative h-[18px] w-[18px] xl:h-[24px] xl:w-[24px]">
                 <Image src={el.image} fill alt={el.emotion} />
               </figure>
