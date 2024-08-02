@@ -105,7 +105,7 @@ export default function DonutChart({ data }: DonutChartProps) {
   return (
     <div className="flex items-center gap-[48px] md:gap-[76px] xl:gap-[120px]">
       <div className="relative h-[120px] w-[120px] xl:h-[180px] xl:w-[180px]">
-        <svg className="w-full" viewBox="0 0 100 100" /*transform="rotate(-90) scale(1 -1)"*/>
+        <svg className="w-full" viewBox="0 0 100 100" transform="rotate(-90) scale(1 -1)">
         {renderDonutChart()}
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-[8px]">
