@@ -1,10 +1,6 @@
 module.exports = {
-  parser: "@typescript-eslint/parser",
-<<<<<<< HEAD
   root: true,
   parser: '@typescript-eslint/parser',
-=======
->>>>>>> 9a69b34 (feat: RadioGroup 컴포넌트 추가)
   parserOptions: {
     ecmaVersion: 2020,
     sourceType: "module",
@@ -12,16 +8,12 @@ module.exports = {
       jsx: true,
     },
     project: "./tsconfig.json",
-<<<<<<< HEAD
-    project: './tsconfig.json',
     createDefaultProgram: true,
   },
   env: {
     browser: true,
     node: true,
     es6: true,
-=======
->>>>>>> 9a69b34 (feat: RadioGroup 컴포넌트 추가)
   },
   extends: [
     "eslint:recommended",
