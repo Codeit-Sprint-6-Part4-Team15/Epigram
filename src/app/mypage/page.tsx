@@ -11,14 +11,14 @@ const emotionInfo: EmotionData[] = [
   { emotion: "ANGRY", rate: 0, image: IMG_EMOTION.ANGRY, label: "분노", color: "#8E80E3" },
 ];
 
-async function getMonthlyData() {
+async function getMonthlyData(id: number, year: number, month: number) {
   let monthlyData;
   try {
     const res = await instance.get("emotionLogs/monthly", {
       params: {
-        userId: 136,
-        year: 2024,
-        month: 8
+        userId: id,
+        year: year,
+        month: month
       }
     });
     monthlyData = await res.data;
@@ -48,7 +48,7 @@ async function getMonthlyData() {
 export default async function MyPage() {
   return (
     <div>
-      <DonutChart data={await getMonthlyData()} />
+      <DonutChart data={await getMonthlyData(136, 2024, 8)} />
     </div>
   );
 }
