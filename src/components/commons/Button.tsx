@@ -1,4 +1,4 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 import Link from "next/link";
 
 // 각 variant에 따른 size 가능 타입 정의
@@ -31,6 +31,7 @@ interface ButtonProps<V extends keyof VariantSizeMap> {
   href?: string;
   className?: string;
   disabled?: boolean;
+  style?:CSSProperties;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
@@ -96,7 +97,7 @@ const xlSizeStyles = {
 };
 
 // Button 컴포넌트 정의
-const Button = <V extends keyof VariantSizeMap>({ variant = "main", className = "", disabled = false, href, type, size, onClick, children }: ButtonProps<V>) => {
+const Button = <V extends keyof VariantSizeMap>({ variant = "main", className = "", disabled = false, href, type, size, style, onClick, children }: ButtonProps<V>) => {
   const getBtnStyle = (variant: Variant) => {
     switch (variant) {
       case "main":
@@ -135,14 +136,14 @@ const Button = <V extends keyof VariantSizeMap>({ variant = "main", className = 
 
   if (type === "link" && href) {
     return (
-      <Link href={href} className={`inline-block text-center ${getBtnStyle(variant)} ${getSizeStyle(size)} ${className}`}>
+      <Link href={href} className={`inline-block text-center ${getBtnStyle(variant)} ${getSizeStyle(size)} ${className}`} style={style}>
         {children}
       </Link>
     );
   }
 
   return (
-    <button type="button" className={`${getBtnStyle(variant)} ${getSizeStyle(size)} ${className}`} onClick={onClick} disabled={disabled}>
+    <button type="button" className={`${getBtnStyle(variant)} ${getSizeStyle(size)} ${className}`} onClick={onClick} disabled={disabled} style={style}>
       {children}
     </button>
   );
