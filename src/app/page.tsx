@@ -147,14 +147,14 @@ export default function Home() {
         </ScrollWrapper>
         <div className="ml-[0px] mt-[40px] xl:ml-[80px] xl:mt-[192px] text-left">
           <p className="typo-2xl-bold xl:typo-3xl-bold">명언이나 글귀, <br/>토막 상식들을 공유해 보세요.</p>
-          <p className="typo-lg-regualr mt-[20px] xl:mt-[40px] xl:typo-2xl-bold text-blue-600">나만 알던 소중한 글들을 
+          <p className="typo-lg-regular mt-[20px] xl:mt-[40px] xl:typo-2xl-bold text-blue-600">나만 알던 소중한 글들을 
           <br className="block md:hidden xl:block"/> 다른 사람들에게 전파하세요.</p>
       </div>
       </div>
       <div className="flex flex-col mt-[192px] md:mt-[220px] xl:mt-[380px] xl:flex-row mr-[24px] ml-[24px]">
         <div className="mr-[80px] mt-[192px] text-right hidden xl:block">
       <p className="typo-2xl-bold xl:typo-3xl-bold">감정 상태에 따라, <br/> 알맞은 위로를 받을 수 있어요.</p>
-      <p className="typo-lg-regualr mt-[20px] xl:mt-[40px] xl:typo-2xl-bold text-blue-600">
+      <p className="typo-lg-regular mt-[20px] xl:mt-[40px] xl:typo-2xl-bold text-blue-600">
         태그를 통해 글을 모아 볼 수 있어요.
         </p>
         </div>
@@ -181,7 +181,7 @@ export default function Home() {
       </ScrollWrapper>
       <div className="mt-[40px] xl:mt-[192px] text-right block md:block xl:hidden">
       <p className="typo-2xl-bold xl:typo-3xl-bold">감정 상태에 따라, <br/> 알맞은 위로를 받을 수 있어요.</p>
-      <p className="typo-lg-regualr mt-[20px] xl:mt-[40px] xl:typo-2xl-bold text-blue-600">
+      <p className="typo-lg-regular mt-[20px] xl:mt-[40px] xl:typo-2xl-bold text-blue-600">
         태그를 통해 글을 모아 볼 수 있어요.
         </p>
         </div>
@@ -209,7 +209,7 @@ export default function Home() {
       </ScrollWrapper>
       <div className="ml-[0px] xl:ml-[80px] mt-[40px] xl:mt-[192px] text-left">
       <p className="typo-2xl-bold xl:typo-3xl-bold">내가 요즘 어떤 감정 상태인지 <br/>통계로 한눈에 볼 수 있어요.</p>
-        <p className="typo-lg-regualr mt-[20px] xl:mt-[40px] xl:typo-2xl-bold text-blue-600">
+        <p className="typo-lg-regular mt-[20px] xl:mt-[40px] xl:typo-2xl-bold text-blue-600">
         감정 달력으로 <br className="block md:hidden xl:block"/>내 마음에 담긴 감정을 확인해보세요</p>
         </div>
       </div>
