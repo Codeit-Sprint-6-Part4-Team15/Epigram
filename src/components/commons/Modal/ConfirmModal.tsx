@@ -1,5 +1,6 @@
 import Image from "next/image";
 import IcoNotice from "@/public/assets/ic_notice.svg";
+import Button from "../Button";
 
 interface ConfirmModalProps {
   onClose: () => void;
@@ -18,13 +19,9 @@ export default function ConfirmModal({ onClose, onSubmit }: ConfirmModalProps) {
           <p className="typo-md-regular text-gray-400 md:typo-lg-regular xl:typo-2lg-regular">댓글은 삭제 후 복구할 수 없어요.</p>
         </div>
       </div>
-      <div className="flex justify-between gap-[16px]">
-        <button type="button" onClick={onClose} className="typo-lg-semibold h-[48px] w-[112px] rounded-[12px] bg-blue-200 text-black-700 xl:typo-xl-semibold xl:h-[56px] xl:w-[136px]">
-          취소
-        </button>
-        <button type="button" onClick={onSubmit} className="typo-lg-semibold h-[48px] w-[112px] rounded-[12px] bg-blue-900 text-white xl:typo-xl-semibold xl:h-[56px] xl:w-[136px]">
-          삭제하기
-        </button>
+      <div className="w-full flex justify-between gap-[16px]">
+        <Button type="button" onClick={onClose} style={{background:"#ECEFF4", color:"#2B2B2B"}} size={{default:"md", md:"md", xl:"md-2"}} variant="main">취소</Button>
+        <Button type="button" onClick={onSubmit} style={{background:"#2D394E"}} size={{default:"md", md:"md", xl:"md-2"}} variant="main">삭제하기</Button>
       </div>
     </div>
   );
