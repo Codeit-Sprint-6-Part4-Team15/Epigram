@@ -47,8 +47,12 @@ const config: Config = {
           900: "#2D394E",
           950: "#1A212D",
         },
+        red: {
+          100: "#FF6577",
+        },
         bg: {
           100: "#F5F7FA",
+          200: "#AFBACD",
         },
         line: {
           100: "#F2F2F2",
