@@ -2,11 +2,8 @@ import type { Config } from "tailwindcss";
 import plugin from "tailwindcss/plugin";
 
 const config: Config = {
-  content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
+  mode: "jit",
+  content: ["./src/pages/**/*.{js,ts,jsx,tsx,mdx}", "./src/components/**/*.{js,ts,jsx,tsx,mdx}", "./src/app/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
       screens: {
@@ -17,8 +14,7 @@ const config: Config = {
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       colors: {
         black: {
@@ -31,7 +27,7 @@ const config: Config = {
           700: "#2B2B2B",
           800: "#1F1F1F",
           900: "#121212",
-          950: "#05 0505",
+          950: "#050505",
         },
         gray: {
           100: "#DEDEDE",
@@ -60,19 +56,19 @@ const config: Config = {
           300: "#D7D7D7",
         },
         illust: {
-          "yellow": "#FBC85B",
-          "green": "#48BB98", 
-          "purple": "#8E80E3", 
-          "blue": "#5195EE", 
-          "red": "#E46E80", 
-          "brown": "#9A695E", 
-          "sub-yellow": "#E8AA26", 
-          "sub-blue_1": "#3E3E3E", 
-          "sub-blue_2": "#3E414D", 
-          "sub-blue_3": "#494D59", 
-          "sub-gray_1": "#C7D1E0", 
-          "sub-gray_2": "#E3E9F1", 
-          "sub-gray_3": "#EFF3F8", 
+          yellow: "#FBC85B",
+          green: "#48BB98",
+          purple: "#8E80E3",
+          blue: "#5195EE",
+          red: "#E46E80",
+          brown: "#9A695E",
+          "sub-yellow": "#E8AA26",
+          "sub-blue_1": "#3E3E3E",
+          "sub-blue_2": "#3E414D",
+          "sub-blue_3": "#494D59",
+          "sub-gray_1": "#C7D1E0",
+          "sub-gray_2": "#E3E9F1",
+          "sub-gray_3": "#EFF3F8",
         },
         state: {
           error: "#FF6577",
@@ -100,7 +96,7 @@ const config: Config = {
         "60": "3.75rem",
         "70": "4.375rem",
         "80": "5rem",
-        "90": "5.625rem", 
+        "90": "5.625rem",
       },
       fontFamily: {
         pretendard: ["Pretendard", "sans-serif"],
@@ -128,160 +124,159 @@ const config: Config = {
   plugins: [
     plugin(function ({ addComponents, theme }) {
       addComponents({
-        '.note' : {
-          background : "linear-gradient(to bottom, #f2f2f2 1px, #fff 1px 19px) center -1px / auto 20px repeat-y",
+        ".note": {
+          background: "linear-gradient(to bottom, #f2f2f2 1px, #fff 1px 19px) center -1px / auto 20px repeat-y",
           borderRadius: "16px",
           border: "1px solid #f2f2f2",
-          boxShadow : "0 3px 12px rgba(0,0,0,0.04)"
-
+          boxShadow: "0 3px 12px rgba(0,0,0,0.04)",
         },
-        '.border-bottom-zigzag' : {
+        ".border-bottom-zigzag": {
           background: "#ccc",
-          borderImage : "url('../../public/assets/border_note.png') 40 / 15px 40px / 0 0 15px 0 round",
+          borderImage: "url('../../public/assets/border_note.png') 40 / 15px 40px / 0 0 15px 0 round",
         },
         // main text -  pretendard
         // 3xl
-        '.typo-3xl-bold': {
-          fontSize: theme('fontSize.32'),
-          lineHeight: theme('lineHeight.42'),
-          fontWeight: theme('fontWeight.bold')
+        ".typo-3xl-bold": {
+          fontSize: theme("fontSize.32"),
+          lineHeight: theme("lineHeight.42"),
+          fontWeight: theme("fontWeight.bold"),
         },
         // 2xl
-        '.typo-2xl-bold' : {
-          fontSize: theme('fontSize.24'),
-          lineHeight: theme('lineHeight.32'),
-          fontWeight: theme('fontWeight.bold'), 
+        ".typo-2xl-bold": {
+          fontSize: theme("fontSize.24"),
+          lineHeight: theme("lineHeight.32"),
+          fontWeight: theme("fontWeight.bold"),
         },
-        '.typo-2xl-semibold' : {
-          fontSize: theme('fontSize.24'),
-          lineHeight: theme('lineHeight.32'),
-          fontWeight: theme('fontWeight.semibold'),
+        ".typo-2xl-semibold": {
+          fontSize: theme("fontSize.24"),
+          lineHeight: theme("lineHeight.32"),
+          fontWeight: theme("fontWeight.semibold"),
         },
-        '.typo-2xl-medium' : {
-          fontSize: theme('fontSize.24'),
-          lineHeight: theme('lineHeight.32'),
-          fontWeight: theme('fontWeight.medium'),
+        ".typo-2xl-medium": {
+          fontSize: theme("fontSize.24"),
+          lineHeight: theme("lineHeight.32"),
+          fontWeight: theme("fontWeight.medium"),
         },
-        '.typo-2xl-regualr' : {
-          fontSize: theme('fontSize.24'),
-          lineHeight: theme('lineHeight.32'),
-          fontWeight: theme('fontWeight.normal'),
+        ".typo-2xl-regualr": {
+          fontSize: theme("fontSize.24"),
+          lineHeight: theme("lineHeight.32"),
+          fontWeight: theme("fontWeight.normal"),
         },
         // xl
-        '.typo-xl-semibold' : {
-          fontSize: theme('fontSize.20'),
-          lineHeight: theme('lineHeight.32'),
-          fontWeight: theme('fontWeight.semibold'),
+        ".typo-xl-semibold": {
+          fontSize: theme("fontSize.20"),
+          lineHeight: theme("lineHeight.32"),
+          fontWeight: theme("fontWeight.semibold"),
         },
-        '.typo-xl-medium' : {
-          fontSize: theme('fontSize.20'),
-          lineHeight: theme('lineHeight.32'),
-          fontWeight: theme('fontWeight.medium'),
+        ".typo-xl-medium": {
+          fontSize: theme("fontSize.20"),
+          lineHeight: theme("lineHeight.32"),
+          fontWeight: theme("fontWeight.medium"),
         },
-        '.typo-xl-regualr' : {
-          fontSize: theme('fontSize.20'),
-          lineHeight: theme('lineHeight.32'),
-          fontWeight: theme('fontWeight.normal'),
+        ".typo-xl-regualr": {
+          fontSize: theme("fontSize.20"),
+          lineHeight: theme("lineHeight.32"),
+          fontWeight: theme("fontWeight.normal"),
         },
         // lg
-        '.typo-lg-semibold' : {
-          fontSize: theme('fontSize.16'),
-          lineHeight: theme('lineHeight.26'),
-          fontWeight: theme('fontWeight.semibold'),
+        ".typo-lg-semibold": {
+          fontSize: theme("fontSize.16"),
+          lineHeight: theme("lineHeight.26"),
+          fontWeight: theme("fontWeight.semibold"),
         },
-        '.typo-lg-medium' : {
-          fontSize: theme('fontSize.16'),
-          lineHeight: theme('lineHeight.26'),
-          fontWeight: theme('fontWeight.medium'),
+        ".typo-lg-medium": {
+          fontSize: theme("fontSize.16"),
+          lineHeight: theme("lineHeight.26"),
+          fontWeight: theme("fontWeight.medium"),
         },
-        '.typo-lg-regualr' : {
-          fontSize: theme('fontSize.16'),
-          lineHeight: theme('lineHeight.26'),
-          fontWeight: theme('fontWeight.normal'),
+        ".typo-lg-regualr": {
+          fontSize: theme("fontSize.16"),
+          lineHeight: theme("lineHeight.26"),
+          fontWeight: theme("fontWeight.normal"),
         },
         // md
-        '.typo-md-bold' : {
-          fontSize: theme('fontSize.14'),
-          lineHeight: theme('lineHeight.24'),
-          fontWeight: theme('fontWeight.bold'),
+        ".typo-md-bold": {
+          fontSize: theme("fontSize.14"),
+          lineHeight: theme("lineHeight.24"),
+          fontWeight: theme("fontWeight.bold"),
         },
-        '.typo-md-semibold' : {
-          fontSize: theme('fontSize.14'),
-          lineHeight: theme('lineHeight.24'),
-          fontWeight: theme('fontWeight.semibold'),
+        ".typo-md-semibold": {
+          fontSize: theme("fontSize.14"),
+          lineHeight: theme("lineHeight.24"),
+          fontWeight: theme("fontWeight.semibold"),
         },
-        '.typo-md-medium' : {
-          fontSize: theme('fontSize.14'),
-          lineHeight: theme('lineHeight.24'),
-          fontWeight: theme('fontWeight.medium'),
+        ".typo-md-medium": {
+          fontSize: theme("fontSize.14"),
+          lineHeight: theme("lineHeight.24"),
+          fontWeight: theme("fontWeight.medium"),
         },
-        '.typo-md-regualr' : {
-          fontSize: theme('fontSize.14'),
-          lineHeight: theme('lineHeight.24'),
-          fontWeight: theme('fontWeight.normal'),
+        ".typo-md-regualr": {
+          fontSize: theme("fontSize.14"),
+          lineHeight: theme("lineHeight.24"),
+          fontWeight: theme("fontWeight.normal"),
         },
         // sm
-        '.typo-sm-medium' : {
-          fontSize: theme('fontSize.13'),
-          lineHeight: theme('lineHeight.22'),
-          fontWeight: theme('fontWeight.medium'),
+        ".typo-sm-medium": {
+          fontSize: theme("fontSize.13"),
+          lineHeight: theme("lineHeight.22"),
+          fontWeight: theme("fontWeight.medium"),
         },
         // xs
-        '.typo-xs-semibold' : {
-          fontSize: theme('fontSize.12'),
-          lineHeight: theme('lineHeight.20'),
-          fontWeight: theme('fontWeight.semibold'),
+        ".typo-xs-semibold": {
+          fontSize: theme("fontSize.12"),
+          lineHeight: theme("lineHeight.20"),
+          fontWeight: theme("fontWeight.semibold"),
         },
-        '.typo-xs-regualr' : {
-          fontSize: theme('fontSize.12'),
-          lineHeight: theme('lineHeight.18'),
-          fontWeight: theme('fontWeight.normal'),
+        ".typo-xs-regualr": {
+          fontSize: theme("fontSize.12"),
+          lineHeight: theme("lineHeight.18"),
+          fontWeight: theme("fontWeight.normal"),
         },
         // 이롭게 바탕체
-        '.iropke-4xl': {
-          fontFamily: theme('fontFamily.iropke'),
-          fontSize: theme('fontSize.40'),
-          lineHeight: theme('lineHeight.52'),
-          fontWeight: theme('fontWeight.medium')
+        ".iropke-4xl": {
+          fontFamily: theme("fontFamily.iropke"),
+          fontSize: theme("fontSize.40"),
+          lineHeight: theme("lineHeight.52"),
+          fontWeight: theme("fontWeight.medium"),
         },
-        '.iropke-3xl': {
-          fontFamily: theme('fontFamily.iropke'),
-          fontSize: theme('fontSize.32'),
-          lineHeight: theme('lineHeight.48'),
-          fontWeight: theme('fontWeight.medium')
+        ".iropke-3xl": {
+          fontFamily: theme("fontFamily.iropke"),
+          fontSize: theme("fontSize.32"),
+          lineHeight: theme("lineHeight.48"),
+          fontWeight: theme("fontWeight.medium"),
         },
-        '.iropke-2xl': {
-          fontFamily: theme('fontFamily.iropke'),
-          fontSize: theme('fontSize.24'),
-          lineHeight: theme('lineHeight.40'),
-          fontWeight: theme('fontWeight.medium')
+        ".iropke-2xl": {
+          fontFamily: theme("fontFamily.iropke"),
+          fontSize: theme("fontSize.24"),
+          lineHeight: theme("lineHeight.40"),
+          fontWeight: theme("fontWeight.medium"),
         },
-        '.iropke-xl': {
-          fontFamily: theme('fontFamily.iropke'),
-          fontSize: theme('fontSize.20'),
-          lineHeight: theme('lineHeight.28'),
-          fontWeight: theme('fontWeight.medium')
+        ".iropke-xl": {
+          fontFamily: theme("fontFamily.iropke"),
+          fontSize: theme("fontSize.20"),
+          lineHeight: theme("lineHeight.28"),
+          fontWeight: theme("fontWeight.medium"),
         },
-        '.iropke-lg': {
-          fontFamily: theme('fontFamily.iropke'),
-          fontSize: theme('fontSize.16'),
-          lineHeight: theme('lineHeight.26'),
-          fontWeight: theme('fontWeight.medium')
+        ".iropke-lg": {
+          fontFamily: theme("fontFamily.iropke"),
+          fontSize: theme("fontSize.16"),
+          lineHeight: theme("lineHeight.26"),
+          fontWeight: theme("fontWeight.medium"),
         },
-        '.iropke-md': {
-          fontFamily: theme('fontFamily.iropke'),
-          fontSize: theme('fontSize.14'),
-          lineHeight: theme('lineHeight.24'),
-          fontWeight: theme('fontWeight.medium')
+        ".iropke-md": {
+          fontFamily: theme("fontFamily.iropke"),
+          fontSize: theme("fontSize.14"),
+          lineHeight: theme("lineHeight.24"),
+          fontWeight: theme("fontWeight.medium"),
         },
-        '.iropke-xs': {
-          fontFamily: theme('fontFamily.iropke'),
-          fontSize: theme('fontSize.12'),
-          lineHeight: theme('lineHeight.18'),
-          fontWeight: theme('fontWeight.medium')
+        ".iropke-xs": {
+          fontFamily: theme("fontFamily.iropke"),
+          fontSize: theme("fontSize.12"),
+          lineHeight: theme("lineHeight.18"),
+          fontWeight: theme("fontWeight.medium"),
         },
-      })
-    })
-  ]
+      });
+    }),
+  ],
 };
 export default config;
