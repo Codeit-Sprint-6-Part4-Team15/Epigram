@@ -1,5 +1,4 @@
 module.exports = {
-  parser: "@typescript-eslint/parser",
   root: true,
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -9,7 +8,6 @@ module.exports = {
       jsx: true,
     },
     project: "./tsconfig.json",
-    project: './tsconfig.json',
     createDefaultProgram: true,
   },
   env: {
