@@ -1,5 +1,6 @@
 "use client";
 
+import Button from "@/src/components/commons/Button";
 import Dropdown from "@/src/components/commons/Dropdown";
 import ConfirmModal from "@/src/components/commons/Modal/ConfirmModal";
 import Modal from "@/src/components/commons/Modal/Modal";
@@ -22,6 +23,7 @@ export default function Page() {
             <Modal opened={isDeleteModalOpened}>
                 <ConfirmModal onClose={closeDeleteModal} onSubmit={handleDelete} />
             </Modal>
+            <Button type="button" size={{default:"md", md:"md", xl:"md-2"}} variant="main">버튼</Button>
         </div>
     )
   }
