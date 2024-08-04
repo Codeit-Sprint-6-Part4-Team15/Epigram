@@ -7,36 +7,58 @@ import { useState } from "react";
 import { useForm, SubmitHandler  } from "react-hook-form";
 
 let errorClass = "mt-[8px] text-state-error typo-sm-medium xl:typo-lg-regual text-right";
+let inputClass = `typo-lg-regualr xl:typo-xl-regualr focus:border-black-600 focus:outline-none border-[1px] border-blue-300 pl-[16px] w-[312px] md:w-[384px] xl:w-[640px] h-[44px] xl:h-[64px] text-black-950 rounded-[12px] mt-[8px] md:mt-[12px] xl:mt-[16px]`;
 
-
-interface FormValue  { // 입력받을 데이터 타입
+interface FormValue  {
   content: string;
   author: string;
   referenceTitle: string;
   referenceUrl: string;
-  tag:[];
+  tags: string[];
 }
 
 export default function Page() {
 
   const {
-    handleSubmit, // form onSubmit에 들어가는 함수 - 각 항목 마다 입력되면 submit 이벤트 처리 
-    register, // onChange 등의 이벤트 객체 생성 - 어떤 항목 입력받을지
+    handleSubmit, 
+    register,
     setValue,
-    watch, // register를 통해 받은 모든 값 확인
-    formState: { errors }, // errors: register의 에러 메세지 자동 출력
+    formState: { errors }, 
   } = useForm<FormValue>({mode:"onBlur"})
+  const [tags, setTags] = useState<string[]>([]);
+  const [tagInput, setTagInput] = useState<string>("");
   
-let borderColor = errors.author ? "border-red-500" : "border-blue-300";
-let inputClass = `typo-lg-regualr xl:typo-xl-regualr focus:border-black-600 focus:outline-none border-[1px] border-blue-300 pl-[16px] w-[312px] md:w-[384px] xl:w-[640px] h-[44px] xl:h-[64px] text-black-950 rounded-[12px] mt-[8px] md:mt-[12px] xl:mt-[16px]`;
-
+  let borderColor = errors.author ? "border-red-500" : "border-blue-300";
 
   const [selectedAuthor, setSelectedAuthor] = useState<string>("직접 입력"); //Radio Button
-  const handleChange = (value: string) => {
+  const handleAuthorChange = (value: string) => {
     setSelectedAuthor(value);
+    if (value === "unknown") {
+      setValue("author", "알 수 없음");
+    } else if (value === "myself") {
+      setValue("author", "본인");
+    } else {
+      setValue("author", ""); // "직접 입력"일 경우 빈 문자열로 설정
+    }
   };
 
-  const onSubmitHandler: SubmitHandler<FormValue> =(data)=>{ // 항목이 전부 입력되면 처리할 로직
+  const handleTagInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTagInput(e.target.value);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => { 
+    if (e.key === "Enter" && tagInput.length > 0 && tagInput.length <= 10 && tags.length < 3) {
+      setTags([...tags, tagInput]);
+      setTagInput("");
+    }
+  };
+
+  const handleTagClick = (index: number) => {
+    setTags(tags.filter((_, i) => i !== index));
+  };
+
+  const onSubmitHandler: SubmitHandler<FormValue> =(data)=>{ 
+    data.tags = tags;
     console.log(data)
       //TODO: API 연결
     //   const saveEpigram = async () => {
@@ -80,9 +102,13 @@ let inputClass = `typo-lg-regualr xl:typo-xl-regualr focus:border-black-600 focu
                 className="ml-[4px]"
                 />
             </label>
-            <RadioGroup name="fruit" size="sm" content={{ directInput: "직접 입력", unknown: "알 수 없음", myself: "본인" }} selectedValue={selectedAuthor} onChange={handleChange} />
-            <input {...register("author",{required:true})} placeholder="저자 이름 입력"
-             className={`typo-lg-regualr xl:typo-xl-regualr focus:border-black-600 focus:outline-none border-[1px] ${borderColor} pl-[16px] w-[312px] md:w-[384px] xl:w-[640px] h-[44px] xl:h-[64px] text-black-950 rounded-[12px] mt-[8px] md:mt-[12px] xl:mt-[16px]`}/>
+            <RadioGroup name="authorRadio" size="sm" 
+            content={[{ value: "directInput", label: "직접 입력"}, {value: "unknown", label: "알 수 없음"}, {value:"myself", label: "본인" }]}
+            selectedValue={selectedAuthor} onChange={handleAuthorChange} />
+           {selectedAuthor === "directInput" && (
+            <input {...register("author", { required: true })} placeholder="저자 이름 입력"
+              className={`typo-lg-regualr xl:typo-xl-regualr focus:border-black-600 focus:outline-none border-[1px] ${borderColor} pl-[16px] w-[312px] md:w-[384px] xl:w-[640px] h-[44px] xl:h-[64px] text-black-950 rounded-[12px] mt-[8px] md:mt-[12px] xl:mt-[16px]`} />
+          )}
             {errors.author && errors.author.type === "required" && (
         		<div className={errorClass}>저자를 입력해주세요.</div>
         	)}
@@ -94,7 +120,14 @@ let inputClass = `typo-lg-regualr xl:typo-xl-regualr focus:border-black-600 focu
             <label className="flex flex-col typo-md-semibold md:typo-lg-semibold xl:typo-xl-semibold mt-[40px] xl:mb-[24px] xl:mt-[54px]">
                 태그
             </label>
-            <input name="tag" className={`${inputClass}`} placeholder="입력하여 태그 작성 (최대 10자)"/>
+            <input name="tag" value={tagInput} onChange={handleTagInputChange} onKeyPress={handleKeyDown} className={`${inputClass}`} placeholder="입력하여 태그 작성 (최대 10자)"/>
+            <div className="mt-[8px]">
+            {tags.map((tag, index) => (
+              <span key={index} onClick={() => handleTagClick(index)} className="inline-block bg-blue-200 text-blue-800 px-[8px] py-[4px] rounded-[8px] mr-[4px] mt-[4px] transition transform hover:scale-105">
+                {tag}
+              </span>
+            ))}
+          </div>
             <Button type="button" variant="main" size={{ default: "sm", md: "md", xl: "md" }} className="mt-[24px] xl:mt-[40px]" onClick={handleSubmit(onSubmitHandler)} >
                 작성 완료 
                 </Button>
