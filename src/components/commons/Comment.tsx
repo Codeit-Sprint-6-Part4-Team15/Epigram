@@ -46,7 +46,7 @@ export default function Comment({ comment, onEdit, onDelete}: CommentsProps) {
     closeDeleteModal();
   }
   return (
-    <div key={comment.id} className="py-4 px-6 bg-bg-100 rounded shadow">
+    <div key={comment.id} className="py-4 px-6 bg-bg-100 rounded border-t border-line-200">
       <div className="flex items-start space-x-4">
         <img src={comment.writer.image} alt="프로필" className="w-12 h-12 rounded-full" />
         { isEdit ? 

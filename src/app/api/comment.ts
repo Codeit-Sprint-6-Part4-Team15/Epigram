@@ -1,16 +1,31 @@
 import instance from "./axios";
 
-export async function getRecentComments() {
+export async function getMyComments( id: number, limit: number ) {
   let comments;
   try {
-    const res = await instance.get("comments", {
+    const res = await instance.get(`users/${id}/comments`, {
       params: {
-        limit : 4
+        limit
       }
     });
     comments = await res.data.list;
   } catch (error) {
-    throw new Error("댓글을 수정하는데 실패했습니다.")
+    throw new Error("내 댓글 목록을 불러오는데 실패했습니다.")
+  }
+  return comments;
+}
+
+export async function getRecentComments( limit: number ) {
+  let comments;
+  try {
+    const res = await instance.get("comments", {
+      params: {
+        limit
+      }
+    });
+    comments = await res.data.list;
+  } catch (error) {
+    throw new Error("최신 댓글을 불러오는데 실패했습니다.")
   }
   return comments;
 }
@@ -30,6 +45,6 @@ export async function handleCommentDelete (id:number) {
   try {
     const res = await instance.delete(`comments/${id}`);
   } catch (error) {
-    throw new Error("댓글을 수정하는데 실패했습니다.")
+    throw new Error("댓글을 삭제하는데 실패했습니다.")
   }
 }
