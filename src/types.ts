@@ -6,7 +6,7 @@ export interface Writer {
     id: number;
 }
 
-export interface Comment {
+export interface CommentType {
     epigramId: number;
     writer: Writer;
     updatedAt: string;
