@@ -4,11 +4,12 @@ import { CommentType } from "@/src/types";
 import { ChangeEvent, useState } from "react";
 import Toggle from "./Toggle";
 import Button from "./Button";
-import { useRouter } from "next/router";
 import useModal from "@/src/hooks/useModal";
 import Modal from "./Modal/Modal";
 import ConfirmModal from "./Modal/ConfirmModal";
-
+import Image from "next/image";
+import IcoUser from "@/public/assets/ic_user.svg";
+import { userId } from "../CommentContainer";
 
 interface CommentsProps {
   comment: CommentType;
@@ -48,7 +49,7 @@ export default function Comment({ comment, onEdit, onDelete}: CommentsProps) {
   return (
     <div key={comment.id} className="w-full py-4 px-6 bg-bg-100 rounded border-t border-line-200">
       <div className="flex items-start space-x-4">
-        <img src={comment.writer.image} alt="프로필" className="w-12 h-12 rounded-full" />
+        <Image src={comment.writer.image ?? IcoUser} width={48} height={48} alt="프로필" className="rounded-full bg-white" />
         { isEdit ? 
         <div className="w-full">
           <textarea value={content} onChange={handleChange} className="w-full border px-[16px] py-[10px] rounded-[12px] border-blue-300 text-black-950 placeholder:text-blue-400 placeholder:typo-lg-regular xl:placeholder:typo-xl-regular"/>
@@ -66,10 +67,12 @@ export default function Comment({ comment, onEdit, onDelete}: CommentsProps) {
               <div>{comment.writer.nickname}</div>
               <div>{formatTimeAgo(comment.updatedAt)}</div>
             </div>
+            { userId === comment.writer.id &&
             <div className="flex space-x-2 text-black-600 typo-xs-regular mb-2">
               <button onClick={changeMode} className="hover:underline">수정</button>
               <button onClick={openDeleteModal} className="hover:underline text-state-error">삭제</button>
             </div>
+            }
           </div>
           <p>{comment.content}</p>
         </div>

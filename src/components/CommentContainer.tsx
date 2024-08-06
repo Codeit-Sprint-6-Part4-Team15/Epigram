@@ -6,7 +6,8 @@ import Comment from "./commons/Comment";
 import { getMyComments, getRecentComments, handleCommentDelete, handleCommentEdit } from "../app/api/comment";
 import Image from "next/image";
 
-const userId = 136;
+// FIX : userId 전역값으로 변경해야함
+export const userId = 136;
 
 export default function CommentsContainer({ type }: { type: "recent" | "my" }) {
   const [comments, setComments] = useState<CommentType[]>([]);
@@ -43,9 +44,11 @@ export default function CommentsContainer({ type }: { type: "recent" | "my" }) {
 
   return (
     <div className="flex flex-col items-center gap-[40px] xl:gap-[72px]">
-      {comments.map(comment => (
-        <Comment key={comment.id} comment={comment} onEdit={handleCommentEdit} onDelete={handleCommentDelete} />
-      ))}
+      <div className="w-full">
+        {comments.map(comment => (
+          <Comment key={comment.id} comment={comment} onEdit={handleCommentEdit} onDelete={handleCommentDelete} />
+        ))}
+      </div>
       <button type="button" onClick={handleMore} disabled={isLoading} className="py-[12px] px-[18px] xl:px-[40px] typo-md-medium xl:typo-xl-medium text-blue-500 flex items-center gap-[4px] rounded-[100px] border border-line-200">
         <Image src="/assets/ic_plus.svg" width={24} height={24} alt="아이콘"/>
         <span>최신 댓글 더보기</span>
