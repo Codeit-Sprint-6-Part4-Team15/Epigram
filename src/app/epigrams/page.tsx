@@ -1,5 +1,4 @@
 import CommentsContainer from '@/src/components/CommentContainer';
-import Loader from '@/src/components/commons/Loader';
 
 export default function EpigramsPage() {
   return (

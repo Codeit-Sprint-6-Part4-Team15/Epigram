@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { CommentType } from '@/src/types';
 import Image from 'next/image';
@@ -11,7 +11,9 @@ import {
   handleCommentDelete,
   handleCommentEdit,
 } from '../app/api/comment';
+import LoadingError from './LoadingError';
 import Comment from './commons/Comment';
+import Loader from './commons/Loader';
 
 // FIX : userId 전역값으로 변경해야함
 export const userId = 136;
@@ -20,46 +22,58 @@ export default function CommentsContainer({ type }: { type: 'recent' | 'my' }) {
   const [comments, setComments] = useState<CommentType[]>([]);
   const [limit, setLimit] = useState(4);
   const [isLoading, setIsLoading] = useState(false);
+  const [loadingError, setLoadingError] = useState<Error | null>(null);
 
-  const fetchComments = async () => {
-    setIsLoading(true);
-    try {
-      let fetchedComments: CommentType[] = [];
-      switch (type) {
-        case 'recent':
-          fetchedComments = await getRecentComments(limit);
-          break;
-        case 'my':
-          fetchedComments = await getMyComments(userId, limit);
-          break;
+  const fetchComments = useCallback(
+    async (limit: number) => {
+      setIsLoading(true);
+      try {
+        let fetchedComments: CommentType[] = [];
+        switch (type) {
+          case 'recent':
+            fetchedComments = await getRecentComments(limit);
+            break;
+          case 'my':
+            fetchedComments = await getMyComments(userId, limit);
+            break;
+        }
+        setComments(fetchedComments);
+      } catch (error: any) {
+        setLoadingError(error);
+        console.error('댓글을 가져오는 데 실패했습니다.', error);
+      } finally {
+        setIsLoading(false);
       }
-      setComments(fetchedComments);
-    } catch (error) {
-      console.error('댓글을 가져오는 데 실패했습니다.', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    },
+    [type, limit],
+  );
 
   const handleMore = () => {
     setLimit((prevLimit) => prevLimit + 4);
   };
 
   useEffect(() => {
-    fetchComments();
-  }, [type, limit]);
+    fetchComments(limit);
+  }, [type, limit, fetchComments]);
 
   return (
     <div className="flex flex-col items-center gap-[40px] xl:gap-[72px]">
       <div className="w-full">
-        {comments.map((comment) => (
-          <Comment
-            key={comment.id}
-            comment={comment}
-            onEdit={handleCommentEdit}
-            onDelete={handleCommentDelete}
-          />
-        ))}
+        {isLoading ? (
+          <Loader />
+        ) : (
+          comments.map((comment) => (
+            <Comment
+              key={comment.id}
+              comment={comment}
+              limit={limit}
+              onEdit={handleCommentEdit}
+              onDelete={handleCommentDelete}
+              onUpdate={fetchComments}
+            />
+          ))
+        )}
+        {loadingError && <LoadingError>{loadingError?.message}</LoadingError>}
       </div>
       <button
         type="button"
