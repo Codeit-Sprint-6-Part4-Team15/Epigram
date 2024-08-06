@@ -2,7 +2,12 @@
   border: none;
   border-radius: 8px;
   overflow: hidden;
-  font-family: 'Arial', sans-serif;
+  font-family: Pretendard;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 32px;
+  text-align: center;
+  color: #C4C4C4;
 }
 
 .react-calendar__tile {
@@ -12,15 +17,23 @@
   justify-content: center;
   height: 60px;
   border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.react-calendar__tile.emoji {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 16px;
+  text-align: center;
 }
 
 .react-calendar__tile--active {
   background-color: #f0f0f0;
 }
 
-.react-calendar__tile--today {
-  border: 2px solid red;
-  color: red;
+.react-calendar__tile--now {
+  border: 5px solid #E46E80 !important;
+  color: #E46E80 !important;
   background: none;
 }
 
@@ -62,39 +75,33 @@
 }
 
 .react-calendar__month-view__days__day--weekend {
-  color: initial;
+  color: #C4C4C4;
 }
 
-.emotion-happy-selected {
-  border: 2px solid green;
-  border-radius: 8px;
-  padding: 1px;
+.react-calendar__month-view__days__day--neighboringMonth {
+  color: #C4C4C4;
 }
 
-.emotion-love-selected {
-  border: 2px solid yellow;
-  border-radius: 8px;
-  padding: 1px;
+.emotion-happy-selected .emoji-container img {
+  box-shadow: inset 0 0 0 5px #48BB98;
 }
 
-.emotion-worry-selected {
-  border: 2px solid purple;
-  border-radius: 8px;
-  padding: 1px;
+.emotion-love-selected .emoji-container img {
+  box-shadow: inset 0 0 0 5px #FBC85B;
 }
 
-.emotion-sad-selected {
-  border: 2px solid blue;
-  border-radius: 8px;
-  padding: 1px;
+.emotion-worry-selected .emoji-container img {
+  box-shadow: inset 0 0 0 5px #8E80E3;
 }
 
-.emotion-angry-selected {
-  border: 2px solid red;
-  border-radius: 8px;
-  padding: 1px;
+.emotion-sad-selected .emoji-container img {
+  box-shadow: inset 0 0 0 5px #5195EE;
 }
 
-.selected-emotion {
-  border: 2px solid black;
+.emotion-angry-selected .emoji-container img {
+  box-shadow: inset 0 0 0 5px #E46E80;
+}
+
+.react-calendar__navigation button.react-calendar__navigation__label {
+  pointer-events: none;
 }
