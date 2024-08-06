@@ -1,5 +1,6 @@
 module.exports = {
-  parser: "@typescript-eslint/parser",
+  root: true,
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 2020,
     sourceType: "module",
@@ -7,6 +8,12 @@ module.exports = {
       jsx: true,
     },
     project: "./tsconfig.json",
+    createDefaultProgram: true,
+  },
+  env: {
+    browser: true,
+    node: true,
+    es6: true,
   },
   extends: [
     "eslint:recommended",
@@ -40,6 +47,14 @@ module.exports = {
     "react/prop-types": "off",
     "no-console": "error",
     "react/jsx-props-no-spreading": "off",
+    '@typescript-eslint/semi': 'off',
+    'react/jsx-filename-extension': ['warn', { extensions: ['.ts', '.tsx'] }],
+    'no-useless-catch': 'off',
+    '@typescript-eslint/no-unused-vars': 'warn',
+    'react/require-default-props': 'off',
+    'react/jsx-no-useless-fragment': 'warn',
+    'react-hooks/exhaustive-deps': 'off',
+    'import/prefer-default-export': 'off',
   },
   settings: {
     react: {
@@ -49,4 +64,13 @@ module.exports = {
       typescript: {},
     },
   },
+  overrides: [
+    {
+      files: ['*.tsx', '*.jsx'],
+      rules: {
+        '@typescript-eslint/no-use-before-define': 'off',
+      },
+    },
+  ],
+  ignorePatterns: ['next.config.mjs', 'postcss.config.mjs'],
 };
