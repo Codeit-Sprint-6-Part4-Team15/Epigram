@@ -1,43 +1,42 @@
-import { StaticImageData } from "next/image";
+import { StaticImageData } from 'next/image';
 
 export interface Writer {
-    image: string;
-    nickname: string;
-    id: number;
+  image: string;
+  nickname: string;
+  id: number;
 }
 
 export interface CommentType {
-    epigramId: number;
-    writer: Writer;
-    updatedAt: string;
-    createdAt: string;
-    isPrivate: boolean;
-    content: string;
-    id: number;
+  epigramId: number;
+  writer: Writer;
+  updatedAt: string;
+  createdAt: string;
+  isPrivate: boolean;
+  content: string;
+  id: number;
 }
 
 export interface CommentsResponse {
-    totalCount: number;
-    nextCursor: number;
-    list: Comment[];
+  totalCount: number;
+  nextCursor: number;
+  list: Comment[];
 }
 
-
 export interface EmotionData {
-    emotion: string;
-    rate: number;
-    image: StaticImageData;
-    label: string;
-    color: string;
+  emotion: string;
+  rate: number;
+  image: StaticImageData;
+  label: string;
+  color: string;
 }
 
 export interface EmotionChartData extends EmotionData {
-    deg: number;
+  deg: number;
 }
 
 export interface MonthlyEmotionResponse {
-    id: number,
-    userId: number,
-    emotion: string,
-    createdAt: Date,
+  id: number;
+  userId: number;
+  emotion: string;
+  createdAt: Date;
 }
