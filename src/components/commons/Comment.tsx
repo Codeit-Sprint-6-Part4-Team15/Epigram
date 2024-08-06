@@ -37,13 +37,30 @@ export default function Comment({
   const [isPrivate, setIsPrivate] = useState(comment.isPrivate);
   const [isEdit, setIsEdit] = useState(false);
 
-  const formatTimeAgo = (dateString: string) => {
+  const formatTimeAgo = (dateString: string): string => {
     const date = new Date(dateString);
     const now = new Date();
-    const diff = Math.floor(
-      (now.getTime() - date.getTime()) / (1000 * 60 * 60),
-    );
-    return `${diff}시간 전`;
+    const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+    const years = Math.floor(diffInSeconds / (60 * 60 * 24 * 365));
+    const months = Math.floor(diffInSeconds / (60 * 60 * 24 * 30));
+    const days = Math.floor(diffInSeconds / (60 * 60 * 24));
+    const hours = Math.floor(diffInSeconds / (60 * 60));
+    const minutes = Math.floor(diffInSeconds / 60);
+
+    if (years > 0) {
+      return `${years}년 전`;
+    } else if (months > 0) {
+      return `${months}달 전`;
+    } else if (days > 0) {
+      return `${days}일 전`;
+    } else if (hours > 0) {
+      return `${hours}시간 전`;
+    } else if (minutes > 0) {
+      return `${minutes}분 전`;
+    } else {
+      return `${diffInSeconds}초 전`;
+    }
   };
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
