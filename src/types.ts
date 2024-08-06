@@ -19,7 +19,7 @@ export interface CommentType {
 export interface CommentsResponse {
   totalCount: number;
   nextCursor: number;
-  list: Comment[];
+  list: CommentType[];
 }
 
 export interface EmotionData {
