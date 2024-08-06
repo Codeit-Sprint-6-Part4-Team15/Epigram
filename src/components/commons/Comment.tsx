@@ -40,13 +40,13 @@ export default function Comment({
   const formatTimeAgo = (dateString: string): string => {
     const date = new Date(dateString);
     const now = new Date();
-    const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+    const diffInSeconds = Math.round((now.getTime() - date.getTime()) / 1000);
 
-    const years = Math.floor(diffInSeconds / (60 * 60 * 24 * 365));
-    const months = Math.floor(diffInSeconds / (60 * 60 * 24 * 30));
-    const days = Math.floor(diffInSeconds / (60 * 60 * 24));
-    const hours = Math.floor(diffInSeconds / (60 * 60));
-    const minutes = Math.floor(diffInSeconds / 60);
+    const years = Math.round(diffInSeconds / (60 * 60 * 24 * 365));
+    const months = Math.round(diffInSeconds / (60 * 60 * 24 * 30));
+    const days = Math.round(diffInSeconds / (60 * 60 * 24));
+    const hours = Math.round(diffInSeconds / (60 * 60));
+    const minutes = Math.round(diffInSeconds / 60);
 
     if (years > 0) {
       return `${years}년 전`;
