@@ -16,11 +16,19 @@ import Toggle from './Toggle';
 
 interface CommentsProps {
   comment: CommentType;
-  onEdit: (id: number, content: string, isPublic: boolean) => void;
+  limit: number;
+  onEdit: (id: number, content: string, isPrivate: boolean) => void;
   onDelete: (id: number) => void;
+  onUpdate: (limit: number) => void;
 }
 
-export default function Comment({ comment, onEdit, onDelete }: CommentsProps) {
+export default function Comment({
+  comment,
+  limit,
+  onEdit,
+  onDelete,
+  onUpdate,
+}: CommentsProps) {
   const [
     isDeleteModalOpened,
     { open: openDeleteModal, close: closeDeleteModal },
@@ -45,15 +53,28 @@ export default function Comment({ comment, onEdit, onDelete }: CommentsProps) {
     setIsEdit(true);
   };
 
-  const handleEdit = () => {
-    onEdit(comment.id, content, isPrivate);
-    setIsEdit(false);
+  const handleEdit = async () => {
+    try {
+      await onEdit(comment.id, content, isPrivate);
+      setIsEdit(false);
+    } catch (error) {
+      console.error('댓글을 수정하는데 실패했습니다.');
+    } finally {
+      onUpdate(limit);
+    }
   };
 
-  const handleDelete = () => {
-    onDelete(comment.id);
-    closeDeleteModal();
+  const handleDelete = async () => {
+    try {
+      await onDelete(comment.id);
+      closeDeleteModal();
+    } catch (error) {
+      console.error('댓글을 삭제하는데 실패했습니다.');
+    } finally {
+      onUpdate(limit);
+    }
   };
+
   return (
     <div
       key={comment.id}
@@ -77,7 +98,7 @@ export default function Comment({ comment, onEdit, onDelete }: CommentsProps) {
             <div className="flex items-center justify-between">
               <Toggle
                 content={[{ value: 'isPrivate', label: '공개' }]}
-                checked={isPrivate}
+                checked={!isPrivate}
                 onChange={setIsPrivate}
               />
               <div className="w-[53px] xl:w-[60px]">
