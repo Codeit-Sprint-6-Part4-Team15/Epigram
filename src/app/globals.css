@@ -70,3 +70,30 @@ body::-webkit-scrollbar-thumb {
 body::-webkit-scrollbar-track {
     background: rgba(33, 122, 244, .1);  /*스크롤바 뒷 배경 색상*/
 }
+
+.input-field {
+  width: 100%;
+  border: 1px solid #6A82A9; /* 투명한 보더 */
+  border-radius: 9999px; /* rounded-full */
+  outline: none;
+  transition: box-shadow .3s;
+}
+.input-field::placeholder {
+  color: #CBD3E1; /* placeholder 컬러 */
+}
+.input-field:not(.input-focused):hover {
+  box-shadow: 0 0 11px rgba(33,33,33,.2); 
+}
+/* 포커스 상태 */
+.input-focused {
+  border-radius: 0;
+  border: 1px solid transparent; /* 투명한 보더 */
+  box-shadow: inset 0 -2px 0 0 #40516E; /* 포커스 상태에서 보더 두께 조정 - 아래쪽만 */
+}
+
+/* xl 화면 크기에서 포커스 상태 */
+@media (min-width: 1200px) {
+  .input-focused {
+    box-shadow: inset 0 -3px 0 0 #40516E; /* 포커스 상태에서 보더 두께 조정 - 아래쪽만 */
+  }
+}
