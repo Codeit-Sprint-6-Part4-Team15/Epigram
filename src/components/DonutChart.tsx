@@ -1,7 +1,7 @@
 "use client";
 import Image, { StaticImageData } from "next/image";
 import { useState } from "react";
-import { EmotionChartData, EmotionData } from "../types";
+import { EmotionChartData, EmotionData } from "../types/types";
 
 interface DonutChartProps {
   data: EmotionData[];

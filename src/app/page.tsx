@@ -6,7 +6,7 @@ import { motion, useAnimation, useInView } from "framer-motion"
 import { useEffect, useRef } from "react";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
 import Button from "../components/commons/Button";
-import { Router, useRouter } from "next/router";
+import { useRouter } from "next/router";
 
 interface ScrollWrapperProps {
   children: ReactNode;

@@ -3,18 +3,20 @@ import Button from "@/src/components/commons/Button";
 import RadioGroup from "@/src/components/commons/RadioGroup";
 import TextArea from "@/src/components/commons/TextArea";
 import Image from "next/image";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { useForm, SubmitHandler  } from "react-hook-form";
+import { getEpigrams, postEpigram } from "../api/epigram";
 
 let errorClass = "mt-[8px] text-state-error typo-sm-medium xl:typo-lg-regual text-right";
 let inputClass = `typo-lg-regualr xl:typo-xl-regualr focus:border-black-600 focus:outline-none border-[1px] border-blue-300 pl-[16px] w-[312px] md:w-[384px] xl:w-[640px] h-[44px] xl:h-[64px] text-black-950 rounded-[12px] mt-[8px] md:mt-[12px] xl:mt-[16px]`;
 
 interface FormValue  {
-  content: string;
-  author: string;
-  referenceTitle: string;
-  referenceUrl: string;
   tags: string[];
+  referenceUrl: string;
+  referenceTitle: string;
+  author: string;
+  content: string;
 }
 
 export default function Page() {
@@ -27,7 +29,11 @@ export default function Page() {
   } = useForm<FormValue>({mode:"onBlur"})
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState<string>("");
+  const [epigrams, setEpigrams] = useState<any[]>([]); // 에피그램 상태 관리 추가
   
+
+  //const router = useRouter(); // useRouter 훅을 페이지 컴포넌트 내에서 사용
+
   let borderColor = errors.author ? "border-red-500" : "border-blue-300";
 
   const [selectedAuthor, setSelectedAuthor] = useState<string>("직접 입력"); //Radio Button
@@ -46,10 +52,11 @@ export default function Page() {
     setTagInput(e.target.value);
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => { 
-    if (e.key === "Enter" && tagInput.length > 0 && tagInput.length <= 10 && tags.length < 3) {
-      setTags([...tags, tagInput]);
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && tagInput.trim().length > 0 && tagInput.length <= 10 && tags.length < 3) {
+      setTags([...tags, tagInput.trim()]);
       setTagInput("");
+      e.preventDefault(); // Enter 키로 폼 제출 방지
     }
   };
 
@@ -57,17 +64,29 @@ export default function Page() {
     setTags(tags.filter((_, i) => i !== index));
   };
 
-  const onSubmitHandler: SubmitHandler<FormValue> =(data)=>{ 
+  const fetchEpigrams = async () => {
+    try {
+      const data = await getEpigrams(10);
+      setEpigrams(data);
+    } catch (error) {
+      console.error("에피그램 목록을 불러오는데 실패했습니다:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchEpigrams();
+  }, []);
+
+  const onSubmitHandler: SubmitHandler<FormValue> = async (data) => {
     data.tags = tags;
-    console.log(data)
-      //TODO: API 연결
-    //   const saveEpigram = async () => {
-    //     await axios.post(`https://fe-project-epigram-api.vercel.app/15/epigrams`).then((res) => {
-    //       console.log('에피그램 등록 완료');
-    //       router.push(`/epigrams/${id}`)
-    //     });
-    //   };
-  }
+    try {
+      await postEpigram(data); // teamId와 함께 데이터를 전송
+      console.log("에피그램 등록 완료");
+      fetchEpigrams(); // 에피그램 등록 후 목록을 다시 불러옴
+    } catch (error) {
+      console.error("에피그램 등록 실패:", error);
+    }
+  };
 
     return (
   
@@ -116,23 +135,41 @@ export default function Page() {
                 출처
             </label>
             <input {...register("referenceTitle")} name="referenceTitle"  className={`${inputClass}`} placeholder="출처 제목 입력"/>
-            <input {...register("referenceUrl")} name="referenceUrl" className={`${inputClass}`} placeholder="URL (ex. https://www.website.com)" pattern="https?\:\/\/.+"/>
+            <input {...register("referenceUrl")} name="referenceUrl" className={`${inputClass}`} placeholder="URL (ex. https://www.website.com)"/>
             <label className="flex flex-col typo-md-semibold md:typo-lg-semibold xl:typo-xl-semibold mt-[40px] xl:mb-[24px] xl:mt-[54px]">
                 태그
             </label>
-            <input name="tag" value={tagInput} onChange={handleTagInputChange} onKeyPress={handleKeyDown} className={`${inputClass}`} placeholder="입력하여 태그 작성 (최대 10자)"/>
+            <input {...register("tags",{ required: false})} name="tag" value={tagInput} onChange={handleTagInputChange} onKeyPress={handleKeyDown} className={`${inputClass}`} placeholder="입력하여 태그 작성 (최대 10자)"/>
             <div className="mt-[8px]">
             {tags.map((tag, index) => (
               <span key={index} onClick={() => handleTagClick(index)} className="inline-block bg-blue-200 text-blue-800 px-[8px] py-[4px] rounded-[8px] mr-[4px] mt-[4px] transition transform hover:scale-105">
-                {tag}
+                #{tag}
               </span>
             ))}
           </div>
-            <Button type="button" variant="main" size={{ default: "sm", md: "md", xl: "md" }} className="mt-[24px] xl:mt-[40px]" onClick={handleSubmit(onSubmitHandler)} >
+            <Button type="button" onClick={handleSubmit(onSubmitHandler)} variant="main" size={{ default: "sm", md: "md", xl: "md" }} className="mt-[24px] xl:mt-[40px]">
                 작성 완료 
                 </Button>
         </form>
+          {/* 작성된 에피그램 목록 표시 */}
+          <div className="mt-[24px]">
+          <h2 className="typo-lg-semibold">작성된 에피그램</h2>
+          {epigrams.length > 0 ? (
+            <ul>
+              {epigrams.map((epigram) => (
+                <li key={epigram.id} className="mt-[12px] p-[12px] border rounded">
+                  <p><strong>내용:</strong> {epigram.content}</p>
+                  <p><strong>저자:</strong> {epigram.author}</p>
+                  <p><strong>출처:</strong> {epigram.referenceTitle} (<a href={epigram.referenceUrl}>{epigram.referenceUrl}</a>)</p>
+                  <p><strong>태그:</strong> {epigram.tags.join(', ')}</p>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>작성된 에피그램이 없습니다.</p>
+          )}
         </div>
+      </div>
         </div>
     )
   }
