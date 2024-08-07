@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useRef } from 'react';
-import axios from '@/src/app/api/axios';
-import { mockData, Epigram } from '@/mockData';
+import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react';
+import { Epigram } from '@/src/types/epigrams';
+import { getEpigrams } from '../../api/epigram';
 
 interface SearchEpigramProps {
   searchWord: string;
@@ -8,60 +8,59 @@ interface SearchEpigramProps {
 
 const SearchEpigram: React.FC<SearchEpigramProps> = ({ searchWord }) => {
   const [epigrams, setEpigrams] = useState<Epigram[]>([]);
+  const [allEpigrams, setAllEpigrams] = useState<Epigram[]>([]);
   const [filteredEpigrams, setFilteredEpigrams] = useState<Epigram[]>([]);
   const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
-  
+  const [cursor, setCursor] = useState<number | null>(null);
+
   const isFirstRender = useRef(true); // 개발 모드 strictmode 에러 해결 때문에 사용
 
   const LIMIT = 5;
 
-  const fetchEpigrams = async (pageNum: number) => {
+  const fetchEpigrams = useCallback(async () => {
     try {
       setLoading(true);
-      // const response = await axios.get(`/epigrams?limit=${LIMIT}`);
-      // const newEpigrams = response.data.list;
+      const response = await getEpigrams(LIMIT, cursor ?? undefined);
+      const allItemRes = await getEpigrams(9999, 0);
+      const epigramList = response.list;
+      const nextCursor = epigramList.length > 0 ? epigramList[epigramList.length - 1].id : null;
+      setAllEpigrams(allItemRes.list);
+      setCursor(nextCursor);
 
-      const start = (pageNum - 1) * LIMIT;
-      const end = start + LIMIT;
-      const newEpigrams = mockData.list.slice(start, end);
-
-      setEpigrams(prevEpigrams => [...prevEpigrams, ...newEpigrams]);
+      setEpigrams(prevEpigramList => [...prevEpigramList, ...epigramList]);
     } catch (err) {
       console.error(err);
     } finally {
       setLoading(false);
     }
-  };
+  }, [cursor]);
 
   useEffect(() => { // 첫 화면 렌더링 
     if (isFirstRender.current) {
       isFirstRender.current = false;
-      fetchEpigrams(page);
+      fetchEpigrams();
     }
-  }, []); 
+  }, [fetchEpigrams]); 
 
   useEffect(() => { // 무한 스크롤
     const handleScroll = () => {
-      if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight && !loading) {
-        setPage(prevPage => prevPage + 1);
+      if (
+        window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight &&
+        !loading &&
+        cursor !== null // 다음 커서가 존재하는 경우에만 fetchEpigrams 호출
+      ) {
+        fetchEpigrams();
       }
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [loading]); // loading 상태가 변경될 때마다 호출됩니다.
-
-  useEffect(() => {
-    if (page > 1) {
-      fetchEpigrams(page);
-    }
-  }, [page]);
+  }, [loading, cursor, fetchEpigrams]); // loading 상태와 cursor가 변경될 때마다 호출됩니다.
 
   useEffect(() => { // 검색 기능
     if (searchWord) {
       setFilteredEpigrams(
-        mockData.list.filter(epigram => 
+        allEpigrams.filter(epigram => 
           epigram.content.toLowerCase().includes(searchWord.toLowerCase()) ||
           epigram.author.toLowerCase().includes(searchWord.toLowerCase()) ||
           epigram.tags.some(tag => tag.name.toLowerCase().includes(searchWord.toLowerCase()))
@@ -70,9 +69,9 @@ const SearchEpigram: React.FC<SearchEpigramProps> = ({ searchWord }) => {
     } else {
       setFilteredEpigrams(epigrams);
     }
-  }, [searchWord, epigrams]);
+  }, [searchWord, allEpigrams]);
 
-  const highlightText = (text: string, highlight: string) => { // 검색어 하이라이팅 기능
+  const highlightText = useCallback((text: string, highlight: string) => {
     if (!highlight) return text;
 
     const regex = new RegExp(`(${highlight})`, 'gi');
@@ -87,7 +86,7 @@ const SearchEpigram: React.FC<SearchEpigramProps> = ({ searchWord }) => {
         part
       )
     );
-  };
+  }, []);
 
   return (
     <div className='w-[360px] md:w-[384px] xl:w-[640px] xl:text-[20px]'>

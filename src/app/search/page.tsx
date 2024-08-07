@@ -109,7 +109,7 @@ function SearchPage() {
               onClick={handleInputClick}
               placeholder={'검색어를 입력해 주세요.'}
             />
-            <Link className='flex items-center' href='/'>
+            <Link className='flex items-center' href='/search'>
               <Image className='absolute cursor-pointer left-[12px] md:left-[12px] xl:left-[16px] xl:w-[42px] xl:h-[42px]' src={smallLogo} alt='smallLogo' />
             </Link>
             <Image
