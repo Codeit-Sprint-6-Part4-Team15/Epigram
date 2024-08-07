@@ -1,4 +1,6 @@
-<svg width="48" height="51" viewBox="0 0 48 51" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M31 17C31 20.866 27.866 24 24 24C20.134 24 17 20.866 17 17C17 13.134 20.134 10 24 10C27.866 10 31 13.134 31 17Z" fill="#ECEFF4"/>
-<path d="M10 35C10 30.5817 13.5817 27 18 27H30C34.4183 27 38 30.5817 38 35V37C38 39.2091 36.2091 41 34 41H14C11.7909 41 10 39.2091 10 37V35Z" fill="#ECEFF4"/>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M20 21.5V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21.5" stroke="#DEDEDE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M20 21.5V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21.5" fill="#DEDEDE"/>
+<path d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z" stroke="#DEDEDE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="12" cy="7" r="4" fill="#DEDEDE"/>
 </svg>
