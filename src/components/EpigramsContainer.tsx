@@ -1,22 +1,14 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-
-import { CommentType, CommentsResponse } from '@/src/types';
 import Image from 'next/image';
 
-import {
-  getMyComments,
-  getRecentComments,
-  handleCommentDelete,
-  handleCommentEdit,
-} from '../app/api/comment';
 import LoadingError from './LoadingError';
-import Comment from './commons/Comment';
 import Loader from './commons/Loader';
 import { Epigram, EpigramsResponse } from '../types/epigrams';
 import { getMyEpigrams, getRecentEpigrams } from '../app/api/epigram';
 import TextCard from './commons/TextCard';
+import Link from 'next/link';
 
 // FIX : userId 전역값으로 변경해야함
 export const userId = 136;
@@ -54,6 +46,7 @@ export default function EpigramsContainer({ type }: { type: 'recent' | 'my' }) {
   );
 
   const handleMore = async () => {
+    if (cursor === null) return;
     setLimit((prevLimit) => prevLimit + 5);
     setIsLoading(true);
     try {
@@ -79,19 +72,21 @@ export default function EpigramsContainer({ type }: { type: 'recent' | 'my' }) {
 
   useEffect(() => {
     fetchEpigrams(limit);
-  }, [, fetchEpigrams]);
+  }, [fetchEpigrams]);
 
   return (
     <div className="flex flex-col items-center gap-[40px] xl:gap-[72px]">
       <div className="w-full flex flex-col gap-[16px]">
         {epigrams.map((epigram) => (
-          <TextCard
-            key={epigram.id}
-            id={epigram.id}
-            content={epigram.content}
-            author={epigram.author}
-            tags={epigram.tags}
-          />
+          <Link href={`epigrams/${epigram.id}`}>
+            <TextCard
+              key={epigram.id}
+              id={epigram.id}
+              content={epigram.content}
+              author={epigram.author}
+              tags={epigram.tags}
+            />
+          </Link>
         ))}
         {isLoading && <Loader />}
         {loadingError && <LoadingError>{loadingError?.message}</LoadingError>}
