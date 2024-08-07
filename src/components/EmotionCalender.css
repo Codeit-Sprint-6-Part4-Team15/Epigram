@@ -22,7 +22,7 @@
 
 .react-calendar__tile.emoji {
   font-weight: 700;
-  font-size: 16px;
+  font-size: 8px;
   line-height: 16px;
   text-align: center;
 }
@@ -43,6 +43,7 @@
   align-items: center;
   font-size: 16px;
   font-weight: 600;
+  color: #373737;
 }
 
 .react-calendar__navigation__label {
@@ -103,5 +104,5 @@
 }
 
 .react-calendar__navigation button.react-calendar__navigation__label {
-  pointer-events: none;
+  pointer-events: auto;
 }
