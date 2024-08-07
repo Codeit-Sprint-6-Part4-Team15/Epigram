@@ -7,6 +7,8 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useForm, SubmitHandler  } from "react-hook-form";
 import { getEpigrams, postEpigram } from "../api/epigram";
+import {toast } from 'react-toastify';
+
 
 let errorClass = "mt-[8px] text-state-error typo-sm-medium xl:typo-lg-regual text-right";
 let inputClass = `typo-lg-regualr xl:typo-xl-regualr focus:border-black-600 focus:outline-none border-[1px] border-blue-300 pl-[16px] w-[312px] md:w-[384px] xl:w-[640px] h-[44px] xl:h-[64px] text-black-950 rounded-[12px] mt-[8px] md:mt-[12px] xl:mt-[16px]`;
@@ -57,6 +59,8 @@ export default function Page() {
       setTags([...tags, tagInput.trim()]);
       setTagInput("");
       e.preventDefault(); // Enter 키로 폼 제출 방지
+    }else if(tags.length >= 3){
+      toast.info('태그는 3개까지 입력 가능합니다');
     }
   };
 
@@ -85,6 +89,14 @@ export default function Page() {
       fetchEpigrams(); // 에피그램 등록 후 목록을 다시 불러옴
     } catch (error) {
       console.error("에피그램 등록 실패:", error);
+    }
+  };
+  const onErrorHandler = () => {
+    if (errors.content) {
+      toast.error('내용을 입력해주세요.');
+    }
+    if (errors.author) {
+      toast.error('저자를 입력해주세요.');
     }
   };
 
@@ -147,29 +159,11 @@ export default function Page() {
               </span>
             ))}
           </div>
-            <Button type="button" onClick={handleSubmit(onSubmitHandler)} variant="main" size={{ default: "sm", md: "md", xl: "md" }} className="mt-[24px] xl:mt-[40px]">
+            <Button type="button" onClick={handleSubmit(onSubmitHandler,onErrorHandler)} variant="main" size={{ default: "sm", md: "md", xl: "md" }} className="mt-[24px] xl:mt-[40px] mb-[100px]">
                 작성 완료 
                 </Button>
         </form>
-          {/* 작성된 에피그램 목록 표시 */}
-          <div className="mt-[24px]">
-          <h2 className="typo-lg-semibold">작성된 에피그램</h2>
-          {epigrams.length > 0 ? (
-            <ul>
-              {epigrams.map((epigram) => (
-                <li key={epigram.id} className="mt-[12px] p-[12px] border rounded">
-                  <p><strong>내용:</strong> {epigram.content}</p>
-                  <p><strong>저자:</strong> {epigram.author}</p>
-                  <p><strong>출처:</strong> {epigram.referenceTitle} (<a href={epigram.referenceUrl}>{epigram.referenceUrl}</a>)</p>
-                  <p><strong>태그:</strong> {epigram.tags.join(', ')}</p>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>작성된 에피그램이 없습니다.</p>
-          )}
         </div>
       </div>
-        </div>
     )
   }
