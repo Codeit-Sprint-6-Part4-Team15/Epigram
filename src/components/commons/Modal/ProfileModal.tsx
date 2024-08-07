@@ -1,7 +1,8 @@
-import { Writer } from "@/src/type";
+
 import Image from "next/image";
 import IcoClose from "@/public/assets/ic_close.svg";
 import IcoUser from "@/public/assets/ic_user.svg";
+import { Writer } from "@/src/types/comments";
 
 interface ProfileModalProps {
   writer: Writer;
