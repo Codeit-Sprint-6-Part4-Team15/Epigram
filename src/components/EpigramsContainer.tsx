@@ -46,21 +46,19 @@ export default function EpigramsContainer({ type }: { type: 'recent' | 'my' }) {
   );
 
   const handleMore = async () => {
-    if (cursor === null) return;
+    let fetchedEpigrams: EpigramsResponse;
     setLimit((prevLimit) => prevLimit + 5);
     setIsLoading(true);
     try {
-      let fetchedEpigrams: EpigramsResponse;
       switch (type) {
         case 'recent':
           fetchedEpigrams = await getRecentEpigrams(limit, cursor);
-          setCursor(fetchedEpigrams.nextCursor);
           break;
         case 'my':
           fetchedEpigrams = await getMyEpigrams(userId, limit, cursor);
-          setCursor(fetchedEpigrams.nextCursor);
           break;
       }
+      setCursor(fetchedEpigrams.nextCursor);
       setEpigrams((prevEpigrams) => [...prevEpigrams, ...fetchedEpigrams.list]);
     } catch (error: any) {
       setLoadingError(error);
