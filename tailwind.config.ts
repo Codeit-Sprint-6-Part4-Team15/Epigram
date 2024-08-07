@@ -2,7 +2,6 @@ import type { Config } from "tailwindcss";
 import plugin from "tailwindcss/plugin";
 
 const config: Config = {
-  mode: "jit",
   content: ["./src/pages/**/*.{js,ts,jsx,tsx,mdx}", "./src/components/**/*.{js,ts,jsx,tsx,mdx}", "./src/app/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
@@ -76,6 +75,7 @@ const config: Config = {
         state: {
           error: "#FF6577",
         },
+        dim: "rgba(0,0,0,0.6)",
       },
       fontSize: {
         "8": "0.5rem",
@@ -135,7 +135,7 @@ const config: Config = {
         },
         ".border-bottom-zigzag": {
           background: "#ccc",
-          borderImage: "url('../../public/assets/border_note.png') 40 / 15px 40px / 0 0 15px 0 round",
+          borderImage: "url('../../public/assets/border_note.svg') 40 / 14px 40px / 0 0 14px 0 round",
         },
         // main text -  pretendard
         // 3xl
@@ -160,7 +160,7 @@ const config: Config = {
           lineHeight: theme("lineHeight.32"),
           fontWeight: theme("fontWeight.medium"),
         },
-        ".typo-2xl-regualr": {
+        ".typo-2xl-regular": {
           fontSize: theme("fontSize.24"),
           lineHeight: theme("lineHeight.32"),
           fontWeight: theme("fontWeight.normal"),
@@ -176,9 +176,30 @@ const config: Config = {
           lineHeight: theme("lineHeight.32"),
           fontWeight: theme("fontWeight.medium"),
         },
-        ".typo-xl-regualr": {
+        ".typo-xl-regular": {
           fontSize: theme("fontSize.20"),
           lineHeight: theme("lineHeight.32"),
+          fontWeight: theme("fontWeight.normal"),
+        },
+        // 2lg
+        ".typo-2lg-bold": {
+          fontSize: theme("fontSize.18"),
+          lineHeight: theme("lineHeight.26"),
+          fontWeight: theme("fontWeight.bold"),
+        },
+        ".typo-2lg-semibold": {
+          fontSize: theme("fontSize.18"),
+          lineHeight: theme("lineHeight.26"),
+          fontWeight: theme("fontWeight.semibold"),
+        },
+        ".typo-2lg-medium": {
+          fontSize: theme("fontSize.18"),
+          lineHeight: theme("lineHeight.26"),
+          fontWeight: theme("fontWeight.medium"),
+        },
+        ".typo-2lg-regular": {
+          fontSize: theme("fontSize.18"),
+          lineHeight: theme("lineHeight.26"),
           fontWeight: theme("fontWeight.normal"),
         },
         // lg
@@ -192,7 +213,7 @@ const config: Config = {
           lineHeight: theme("lineHeight.26"),
           fontWeight: theme("fontWeight.medium"),
         },
-        ".typo-lg-regualr": {
+        ".typo-lg-regular": {
           fontSize: theme("fontSize.16"),
           lineHeight: theme("lineHeight.26"),
           fontWeight: theme("fontWeight.normal"),
@@ -213,7 +234,7 @@ const config: Config = {
           lineHeight: theme("lineHeight.24"),
           fontWeight: theme("fontWeight.medium"),
         },
-        ".typo-md-regualr": {
+        ".typo-md-regular": {
           fontSize: theme("fontSize.14"),
           lineHeight: theme("lineHeight.24"),
           fontWeight: theme("fontWeight.normal"),
@@ -230,7 +251,7 @@ const config: Config = {
           lineHeight: theme("lineHeight.20"),
           fontWeight: theme("fontWeight.semibold"),
         },
-        ".typo-xs-regualr": {
+        ".typo-xs-regular": {
           fontSize: theme("fontSize.12"),
           lineHeight: theme("lineHeight.18"),
           fontWeight: theme("fontWeight.normal"),
