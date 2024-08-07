@@ -84,7 +84,7 @@ function Header() {
   };
 
   return (
-    <nav>
+    <nav className='fixed z-10 w-full bg-white'>
       {renderNavBarContent()}
       {isSidebarOpen && (
         <div className="fixed inset-0 z-50 flex">
