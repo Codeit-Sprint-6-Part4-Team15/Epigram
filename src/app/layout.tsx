@@ -21,7 +21,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body ><ToastContainer autoClose={2000}/>{children}</body>
+      <body ><div><ToastContainer autoClose={2000}/>{children}</div>
+      <div id="modal-root"></div>
+      </body>
     </html>
   );
 }

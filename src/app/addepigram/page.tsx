@@ -31,14 +31,14 @@ export default function Page() {
   } = useForm<FormValue>({mode:"onBlur"})
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState<string>("");
-  const [epigrams, setEpigrams] = useState<any[]>([]); // 에피그램 상태 관리 추가
+  const [epigrams, setEpigrams] = useState<any[]>([]); 
   
 
-  //const router = useRouter(); // useRouter 훅을 페이지 컴포넌트 내에서 사용
+  //TODO: const router = useRouter();
 
   let borderColor = errors.author ? "border-red-500" : "border-blue-300";
 
-  const [selectedAuthor, setSelectedAuthor] = useState<string>("직접 입력"); //Radio Button
+  const [selectedAuthor, setSelectedAuthor] = useState<string>("직접 입력");
   const handleAuthorChange = (value: string) => {
     setSelectedAuthor(value);
     if (value === "unknown") {
@@ -68,10 +68,11 @@ export default function Page() {
     setTags(tags.filter((_, i) => i !== index));
   };
 
-  const fetchEpigrams = async () => {
+  const fetchEpigrams = async () => { // 데이터 확인용
     try {
       const data = await getEpigrams(10);
       setEpigrams(data);
+      //TODO:경로설정 
     } catch (error) {
       console.error("에피그램 목록을 불러오는데 실패했습니다:", error);
     }
@@ -84,9 +85,9 @@ export default function Page() {
   const onSubmitHandler: SubmitHandler<FormValue> = async (data) => {
     data.tags = tags;
     try {
-      await postEpigram(data); // teamId와 함께 데이터를 전송
+      await postEpigram(data); 
       console.log("에피그램 등록 완료");
-      fetchEpigrams(); // 에피그램 등록 후 목록을 다시 불러옴
+      fetchEpigrams(); 
     } catch (error) {
       console.error("에피그램 등록 실패:", error);
     }
