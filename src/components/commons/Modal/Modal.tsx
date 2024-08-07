@@ -1,5 +1,5 @@
-import { ReactNode, useEffect, useState } from "react";
-import { createPortal } from "react-dom";
+import { ReactNode, useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 interface ModalProps {
   opened: boolean;
@@ -21,14 +21,15 @@ export default function Modal({ opened, children }: ModalProps) {
   if (opened) {
     return (
       <>
-      { createPortal(
-      <div className="fixed z-10 top-0 flex h-lvh w-full items-center justify-center">
-        <div className="bg-dim h-full w-full"></div>
-        <dialog open className="absolute bg-transparent">
-          {children}
-        </dialog>
-      </div>
-      , modalRoot)}
+        {createPortal(
+          <div className="fixed top-0 z-10 flex h-lvh w-full items-center justify-center">
+            <div className="h-full w-full bg-dim"></div>
+            <dialog open className="absolute bg-transparent">
+              {children}
+            </dialog>
+          </div>,
+          modalRoot,
+        )}
       </>
     );
   }
