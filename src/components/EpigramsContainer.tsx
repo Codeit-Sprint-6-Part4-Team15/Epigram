@@ -23,7 +23,7 @@ export const userId = 136;
 
 export default function EpigramsContainer({ type }: { type: 'recent' | 'my' }) {
   const [epigrams, setEpigrams] = useState<Epigram[]>([]);
-  const [limit, setLimit] = useState(4);
+  const [limit, setLimit] = useState(3);
   const [cursor, setCursor] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingError, setLoadingError] = useState<Error | null>(null);
@@ -54,7 +54,7 @@ export default function EpigramsContainer({ type }: { type: 'recent' | 'my' }) {
   );
 
   const handleMore = async () => {
-    setLimit((prevLimit) => prevLimit + 4);
+    setLimit((prevLimit) => prevLimit + 5);
     setIsLoading(true);
     try {
       let fetchedEpigrams: EpigramsResponse;
@@ -83,7 +83,7 @@ export default function EpigramsContainer({ type }: { type: 'recent' | 'my' }) {
 
   return (
     <div className="flex flex-col items-center gap-[40px] xl:gap-[72px]">
-      <div className="w-full">
+      <div className="w-full flex flex-col gap-[16px]">
         {epigrams.map((epigram) => (
           <TextCard
             key={epigram.id}
