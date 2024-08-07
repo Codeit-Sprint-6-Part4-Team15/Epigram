@@ -21,3 +21,9 @@ export interface TextCardProps {
   tags: EpigramTag[];
   id: number;
 }
+
+export interface EpigramsResponse {
+  totalCount: number,
+  nextCursor: number,
+  list: Epigram[];
+}
