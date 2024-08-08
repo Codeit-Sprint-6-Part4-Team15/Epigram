@@ -1,7 +1,7 @@
 import DonutChart from "@/src/components/DonutChart";
 import { IMG_EMOTION } from "@/public/assets/emotionChart";
 import instance from "@/src/app/api/axios";
-import { EmotionData } from "@/src/types";
+import { EmotionData } from "@/src/types/emotion";
 
 interface ChartContainerProps {
   userId: number;
