@@ -12,7 +12,7 @@ async function getUser() {
     const res = await instance.get('users/me');
     userData = await res.data;
   } catch (error) {
-    throw new Error('사용자 정보를 불러오는데 실패했습니다.');
+    console.error('사용자 정보를 불러오는데 실패했습니다.');
   }
   return userData;
 }
@@ -24,10 +24,10 @@ export default async function MyPage() {
       <div className="shadow-1 flex w-full flex-col items-center rounded-[24px] bg-white">
         <div className="relative -mt-[40px] flex flex-col items-center gap-[8px] xl:-mt-[60px] xl:gap-[16px]">
           <figure className="relative h-[80px] w-[80px] rounded-full border-2 border-blue-200 bg-white xl:h-[120px] xl:w-[120px]">
-            <Image src={user.image ?? IcoUser} fill alt="유저 이미지" />
+            <Image src={user?.image ?? IcoUser} fill alt="유저 이미지" />
           </figure>
           <strong className="typo-lg-medium text-black-950 xl:typo-2xl-medium">
-            {user.nickname}
+            {user?.nickname}
           </strong>
           <button
             type="button"
