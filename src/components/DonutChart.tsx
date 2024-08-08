@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import Image, { StaticImageData } from 'next/image';
+import Image from 'next/image';
 
 import { EmotionChartData, EmotionData } from '../types';
 

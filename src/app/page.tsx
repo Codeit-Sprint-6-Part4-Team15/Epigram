@@ -6,7 +6,7 @@ import { useEffect, useRef } from 'react';
 import { motion, useAnimation, useInView } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Router, useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 
 import Button from '../components/commons/Button';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
