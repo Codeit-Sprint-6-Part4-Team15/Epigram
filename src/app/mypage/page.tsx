@@ -1,19 +1,33 @@
 import IcoUser from '@/public/assets/ic_user.svg';
 import Image from 'next/image';
 
+import instance from '@/src/app/api/axios';
+
 import ChartContainer from '@/src/components/ChartContainer';
 import MyContents from '@/src/components/MyContents';
 
+async function getUser() {
+  let userData;
+  try {
+    const res = await instance.get('users/me');
+    userData = await res.data;
+  } catch (error) {
+    throw new Error('사용자 정보를 불러오는데 실패했습니다.');
+  }
+  return userData;
+}
+
 export default async function MyPage() {
+  const user = await getUser();
   return (
     <div className="flex min-h-[100vh] flex-col items-center bg-bg-100 pt-[64px] xl:pt-[128px]">
       <div className="shadow-1 flex w-full flex-col items-center rounded-[24px] bg-white">
         <div className="relative -mt-[40px] flex flex-col items-center gap-[8px] xl:-mt-[60px] xl:gap-[16px]">
           <figure className="relative h-[80px] w-[80px] rounded-full border-2 border-blue-200 bg-white xl:h-[120px] xl:w-[120px]">
-            <Image src={IcoUser} fill alt="유저 이미지" />
+            <Image src={user.image ?? IcoUser} fill alt="유저 이미지" />
           </figure>
           <strong className="typo-lg-medium text-black-950 xl:typo-2xl-medium">
-            유저이름
+            {user.nickname}
           </strong>
           <button
             type="button"
