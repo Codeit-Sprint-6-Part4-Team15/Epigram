@@ -1,7 +1,9 @@
-"use client";
-import Image from "next/image";
-import { useState } from "react";
-import { EmotionChartData, EmotionData } from "@/src/types/emotion";
+'use client';
+
+import { useState } from 'react';
+
+import { EmotionChartData, EmotionData } from '@/src/types/emotion';
+import Image from 'next/image';
 
 interface DonutChartProps {
   data: EmotionData[];
@@ -12,7 +14,7 @@ const sortAndCalculateDeg = (data: EmotionData[]): EmotionChartData[] => {
 
   let cumulativeDeg = 0;
 
-  return sortedData.map(el => {
+  return sortedData.map((el) => {
     const deg = (el.rate * 360) / 100;
     const updatedEl = { ...el, deg: cumulativeDeg + deg };
     cumulativeDeg += deg;
@@ -26,8 +28,12 @@ const OUTLINE_WIDTH = 1.5;
 const SPACE_LENGTH = (OUTLINE_WIDTH * 2 * 360) / 100 / Math.PI;
 
 export default function DonutChart({ data }: DonutChartProps) {
-  const [sortedData, setSortedData] = useState<EmotionChartData[]>(sortAndCalculateDeg(data));
-  const [bestEmotion, setBestEmotion] = useState<EmotionChartData>(sortedData[0]);
+  const [sortedData, setSortedData] = useState<EmotionChartData[]>(
+    sortAndCalculateDeg(data),
+  );
+  const [bestEmotion, setBestEmotion] = useState<EmotionChartData>(
+    sortedData[0],
+  );
 
   const getCoordFromDegrees = (angle: number, radius: number) => {
     const svgSize = 100;
@@ -107,7 +113,11 @@ export default function DonutChart({ data }: DonutChartProps) {
   return (
     <div className="flex items-center gap-[48px] md:gap-[76px] xl:gap-[120px]">
       <div className="relative h-[120px] w-[120px] xl:h-[180px] xl:w-[180px]">
-        <svg className="w-full" viewBox="0 0 100 100" transform="rotate(-90) scale(1 -1)">
+        <svg
+          className="w-full"
+          viewBox="0 0 100 100"
+          transform="rotate(-90) scale(1 -1)"
+        >
           {renderDonutChart()}
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-[8px]">
@@ -121,11 +131,16 @@ export default function DonutChart({ data }: DonutChartProps) {
         <ul className="flex flex-col gap-[8px] xl:gap-[14px]">
           {sortedData.map((el) => (
             <li key={el.emotion} className="group flex items-center gap-[8px]">
-              <i style={{ background: `${el.rate !== 0 ? el.color : "#ddd"}` }} className="block h-[8px] w-[8px] rounded-[2px]"></i>
+              <i
+                style={{ background: `${el.rate !== 0 ? el.color : '#ddd'}` }}
+                className="block h-[8px] w-[8px] rounded-[2px]"
+              ></i>
               <figure className="relative h-[18px] w-[18px] xl:h-[24px] xl:w-[24px]">
                 <Image src={el.image} fill alt={el.emotion} />
               </figure>
-              <span className="typo-sm-semibold text-gray-200 xl:typo-xl-semibold hover:text-black-600">{el.rate}%</span>
+              <span className="typo-sm-semibold text-gray-200 xl:typo-xl-semibold hover:text-black-600">
+                {el.rate}%
+              </span>
             </li>
           ))}
         </ul>

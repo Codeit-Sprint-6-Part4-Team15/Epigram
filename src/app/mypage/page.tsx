@@ -1,5 +1,5 @@
-import ChartContainer from "@/src/components/ChartContainer";
-import DonutChart from "@/src/components/DonutChart";
+import ChartContainer from '@/src/components/ChartContainer';
+import DonutChart from '@/src/components/DonutChart';
 
 export default async function MyPage() {
   return (
