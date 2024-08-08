@@ -140,6 +140,9 @@ const config: Config = {
           borderImage:
             "url('../../public/assets/border_note.svg') 40 / 14px 40px / 0 0 14px 0 round",
         },
+        '.shadow-1': {
+          boxShadow: '0 0 36px rgba(0,0,0,0.05)',
+        },
         // main text -  pretendard
         // 3xl
         '.typo-3xl-bold': {

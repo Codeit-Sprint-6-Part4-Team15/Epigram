@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import IcoUser from '@/public/assets/ic_user.svg';
 import { CommentType } from '@/src/types';
 import Image from 'next/image';
+import Link from 'next/link';
 
 import useModal from '@/src/hooks/useModal';
 
@@ -17,15 +18,13 @@ import Toggle from './Toggle';
 
 interface CommentsProps {
   comment: CommentType;
-  limit: number;
   onEdit: (id: number, content: string, isPrivate: boolean) => void;
   onDelete: (id: number) => void;
-  onUpdate: (limit: number) => void;
+  onUpdate: () => void;
 }
 
 export default function Comment({
   comment,
-  limit,
   onEdit,
   onDelete,
   onUpdate,
@@ -79,7 +78,7 @@ export default function Comment({
     } catch (error) {
       console.error('댓글을 수정하는데 실패했습니다.');
     } finally {
-      onUpdate(limit);
+      onUpdate();
     }
   };
 
@@ -91,7 +90,7 @@ export default function Comment({
     } catch (error) {
       console.error('댓글을 삭제하는데 실패했습니다.');
     } finally {
-      onUpdate(limit);
+      onUpdate();
     }
   };
 
@@ -153,7 +152,14 @@ export default function Comment({
                 </div>
               )}
             </div>
-            <p>{comment.content}</p>
+            <p className="typo-md-regular text-black-700 md:typo-lg-regular xl:typo-xl-regular">
+              <Link
+                href={`epigrams/${comment.epigramId}`}
+                className="hover:underline"
+              >
+                {comment.content}
+              </Link>
+            </p>
           </div>
         )}
       </div>
