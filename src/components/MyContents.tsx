@@ -40,16 +40,20 @@ export default function MyContents() {
         </button>
       </div>
       <div>
-        {activeTab === 1 && (
-          <div id="tabpanel-1" role="tabpanel">
-            <EpigramsContainer type="my" setCount={setEpigramsCount} />
-          </div>
-        )}
-        {activeTab === 2 && (
-          <div id="tabpanel-2" role="tabpanel">
-            <CommentsContainer type="my" setCount={setCommentsCount} />
-          </div>
-        )}
+        <div
+          id="tabpanel-1"
+          role="tabpanel"
+          className={`${activeTab !== 1 ? 'hidden' : ''}`}
+        >
+          <EpigramsContainer type="my" setCount={setEpigramsCount} />
+        </div>
+        <div
+          id="tabpanel-2"
+          role="tabpanel"
+          className={`${activeTab !== 2 ? 'hidden' : ''}`}
+        >
+          <CommentsContainer type="my" setCount={setCommentsCount} />
+        </div>
       </div>
     </div>
   );
