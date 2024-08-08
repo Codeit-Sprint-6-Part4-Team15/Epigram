@@ -1,7 +1,5 @@
-'use client';
-
 import IMG_EMOTION from '@/public/assets/emotionChart';
-import { EmotionData } from '@/src/types';
+import { EmotionData } from '@/src/types/emotion';
 
 import instance from '@/src/app/api/axios';
 

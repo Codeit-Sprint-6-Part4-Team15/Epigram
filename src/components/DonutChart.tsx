@@ -2,9 +2,8 @@
 
 import { useState } from 'react';
 
+import { EmotionChartData, EmotionData } from '@/src/types/emotion';
 import Image from 'next/image';
-
-import { EmotionChartData, EmotionData } from '../types';
 
 interface DonutChartProps {
   data: EmotionData[];
