@@ -1,7 +1,7 @@
 import { StaticImageData } from "next/image";
 
 export interface Writer {
-    image: string;
+    image: string | null;
     nickname: string;
     id: number;
 }
@@ -40,4 +40,26 @@ export interface MonthlyEmotionResponse {
     userId: number,
     emotion: string,
     createdAt: Date,
+}
+
+export type EmotionDataMap = Record<string, string>;
+
+export interface EmotionLog {
+  createdAt: string;
+  emotion: string;
+  userId: number;
+  id: number;
+}
+
+export interface Emotion {
+  emoji: string;
+  icon: string;
+  postName?: string;
+  name?: string;
+  className?: string;
+}
+
+export interface EmotionSelectorProps {
+  selectedDate: Date;
+  setEmotionData: (data: EmotionDataMap) => void;
 }

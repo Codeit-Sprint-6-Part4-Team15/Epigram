@@ -9,16 +9,17 @@ import Button from "../components/commons/Button";
 import { Router, useRouter } from "next/router";
 import EmotionCalendar from "../components/EmotionCalender";
 import Dropdown from "../components/commons/Dropdown";
+import Login from "./test/login";
 
 
 
 export default function Home() {
-  const [selectedValue, setSelectedValue] = useState<string>('필터: 없음');
+
 
   return (
     <>
-      <Dropdown selectedValue={selectedValue} setSelectedValue={setSelectedValue}/> 
-      <EmotionCalendar/>
+      <Login/>
+
     </>
   );
 }

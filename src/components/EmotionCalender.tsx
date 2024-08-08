@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useState } from 'react';
 import Calendar, { CalendarProps } from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
@@ -5,21 +6,33 @@ import '@/src/components/EmotionCalender.css';
 import Image from 'next/image';
 import Dropdown from './commons/Dropdown';
 import EmotionSelector, { emotions } from './EmotionSelector';
-
-interface Emotion {
-  emoji: string;
-  icon: string;
-}
+import { getMonthlyEmotions } from '../app/api/emotionLog';
+import { EmotionDataMap } from '../types';
 
 export default function EmotionCalendar() {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  const [emotionData, setEmotionData] = useState<Record<string, string>>({});
-  const [selectedEmotion, setSelectedEmotion] = useState<Emotion | null>(null);
+  const [emotionData, setEmotionData] = useState<EmotionDataMap>({});
   const [selectedValue, setSelectedValue] = useState<string>('필터: 없음');
 
   useEffect(() => {
-    setSelectedDate(new Date());
-  }, []);
+    const fetchMonthlyEmotions = async () => {
+      try {
+        const year = selectedDate.getFullYear();
+        const month = selectedDate.getMonth() + 1;
+        const data = await getMonthlyEmotions(766, year, month);
+        const emotionData: EmotionDataMap = {};
+        data.forEach((emotionLog) => {
+          const dateKey = new Date(emotionLog.createdAt).toISOString().split('T')[0];
+          emotionData[dateKey] = emotionLog.emotion;
+        });
+        setEmotionData(emotionData);
+      } catch (error) {
+        console.error("Error fetching monthly emotions:", error);
+      }
+    };
+
+    fetchMonthlyEmotions();
+  }, [selectedDate]);
 
   const formatDateToLocalString = (date: Date) => {
     const offset = date.getTimezoneOffset() * 60000;
@@ -29,10 +42,6 @@ export default function EmotionCalendar() {
 
   const handleDateClick = (date: Date) => {
     setSelectedDate(date);
-    const dateKey = formatDateToLocalString(date);
-    const icon = emotionData[dateKey];
-    const emoji = emotions.find(e => e.icon === icon)?.emoji || null;
-    setSelectedEmotion(icon ? { emoji: emoji ?? '', icon } : null);
   };
 
   const renderTileContent: CalendarProps['tileContent'] = ({ date, view }) => {
@@ -91,8 +100,7 @@ export default function EmotionCalendar() {
     <div>
       <EmotionSelector 
         selectedDate={selectedDate} 
-        selectedEmotion={selectedEmotion} 
-        setSelectedEmotion={setSelectedEmotion} 
+        setEmotionData={setEmotionData}
       />
       <Calendar
         onClickDay={handleDateClick}
