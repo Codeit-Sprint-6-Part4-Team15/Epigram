@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import IcoUser from '@/public/assets/ic_user.svg';
 import { CommentType } from '@/src/types';
 import Image from 'next/image';
+import Link from 'next/link';
 
 import useModal from '@/src/hooks/useModal';
 
@@ -152,7 +153,12 @@ export default function Comment({
               )}
             </div>
             <p className="typo-md-regular text-black-700 md:typo-lg-regular xl:typo-xl-regular">
-              {comment.content}
+              <Link
+                href={`epigrams/${comment.epigramId}`}
+                className="hover:underline"
+              >
+                {comment.content}
+              </Link>
             </p>
           </div>
         )}
