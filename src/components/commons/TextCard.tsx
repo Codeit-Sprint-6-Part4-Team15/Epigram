@@ -10,14 +10,22 @@ interface TextCardProps {
   content: string;
   author: string;
   tags: EpigramTag[];
+  id: number;
 }
 
-export default function TextCard({ content, author, tags }: TextCardProps) {
+export default function TextCard({ content, author, tags, id }: TextCardProps) {
   return (
     <div>
-      <div key={id} className="border border-line-100 rounded-[16px] p-[22px] note">
-        <p className="iropke-xs sm:iropke-md md:iropke-lg lg:iropke-xl xl:iropke-2xl 2xl:iropke-2xl mb-2">{content}</p>
-        <p className="text-right iropke-xs sm:iropke-md md:iropke-lg lg:iropke-xl xl:iropke-2xl 2xl:iropke-2xl text-blue-400">- {author} -</p>
+      <div
+        key={id}
+        className="note rounded-[16px] border border-line-100 p-[22px]"
+      >
+        <p className="iropke-xs mb-2 sm:iropke-md md:iropke-lg lg:iropke-xl xl:iropke-2xl 2xl:iropke-2xl">
+          {content}
+        </p>
+        <p className="iropke-xs text-right text-blue-400 sm:iropke-md md:iropke-lg lg:iropke-xl xl:iropke-2xl 2xl:iropke-2xl">
+          - {author} -
+        </p>
       </div>
       <div className="mt-2 overflow-hidden whitespace-nowrap text-right">
         <div className="flex justify-end">
