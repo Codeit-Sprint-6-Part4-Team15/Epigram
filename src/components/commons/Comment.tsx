@@ -1,6 +1,7 @@
 'use client';
 
 import { ChangeEvent, useState } from 'react';
+import { toast } from 'react-toastify';
 
 import IcoUser from '@/public/assets/ic_user.svg';
 import { CommentType } from '@/src/types';
@@ -74,6 +75,7 @@ export default function Comment({
     try {
       await onEdit(comment.id, content, isPrivate);
       setIsEdit(false);
+      toast.info('댓글이 수정되었습니다.');
     } catch (error) {
       console.error('댓글을 수정하는데 실패했습니다.');
     } finally {
@@ -85,6 +87,7 @@ export default function Comment({
     try {
       await onDelete(comment.id);
       closeDeleteModal();
+      toast.info('댓글이 삭제되었습니다.');
     } catch (error) {
       console.error('댓글을 삭제하는데 실패했습니다.');
     } finally {
