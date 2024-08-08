@@ -1,12 +1,27 @@
+import IcoUser from '@/public/assets/ic_user.svg';
+import Image from 'next/image';
+
 import ChartContainer from '@/src/components/ChartContainer';
-import CommentsContainer from '@/src/components/CommentContainer';
-import EpigramsContainer from '@/src/components/EpigramsContainer';
 import MyContents from '@/src/components/MyContents';
 
 export default async function MyPage() {
   return (
-    <div className="flex min-h-[100vh] flex-col items-center bg-bg-100">
-      <div className="flex w-full flex-col items-center rounded-[24px] bg-white">
+    <div className="flex min-h-[100vh] flex-col items-center bg-bg-100 pt-[64px] xl:pt-[128px]">
+      <div className="shadow-1 flex w-full flex-col items-center rounded-[24px] bg-white">
+        <div className="relative -mt-[40px] flex flex-col items-center gap-[8px] xl:-mt-[60px] xl:gap-[16px]">
+          <figure className="relative h-[80px] w-[80px] rounded-full border-2 border-blue-200 bg-white xl:h-[120px] xl:w-[120px]">
+            <Image src={IcoUser} fill alt="유저 이미지" />
+          </figure>
+          <strong className="typo-lg-medium text-black-950 xl:typo-2xl-medium">
+            유저이름
+          </strong>
+          <button
+            type="button"
+            className="typo-md-regular mt-[8px] rounded-[100px] bg-line-100 px-[14px] py-[6px] text-gray-300 xl:typo-xl-regular xl:px-[15px] xl:py-[8px]"
+          >
+            로그아웃
+          </button>
+        </div>
         <div className="w-[384px] py-[36px] xl:w-[640px] xl:py-[80px]">
           <h3 className="typo-lg-semibold mb-[16px] text-black-600 xl:typo-2xl-semibold xl:mb-[40px]">
             오늘의 감정
