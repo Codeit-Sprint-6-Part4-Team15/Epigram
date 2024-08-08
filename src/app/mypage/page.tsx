@@ -1,5 +1,7 @@
 import ChartContainer from '@/src/components/ChartContainer';
-import DonutChart from '@/src/components/DonutChart';
+import CommentsContainer from '@/src/components/CommentContainer';
+import EpigramsContainer from '@/src/components/EpigramsContainer';
+import MyContents from '@/src/components/MyContents';
 
 export default async function MyPage() {
   return (
@@ -22,29 +24,8 @@ export default async function MyPage() {
         </div>
       </div>
       <div className="w-[384px] py-[36px] xl:w-[640px] xl:py-[80px]">
-        <h3
-          className="typo-lg-semibold mb-[16px] text-black-600 xl:typo-2xl-semibold xl:mb-[40px]"
-          role="tablist"
-        >
-          <button
-            type="button"
-            id="tab-1"
-            role="tab"
-            aria-controls="tabpanel-1"
-          >
-            내 에피그램
-          </button>
-          <button
-            type="button"
-            id="tab-2"
-            role="tab"
-            aria-controls="tabpanel-2"
-          >
-            내 댓글
-          </button>
-          <div id="tabpanel-1" role="tabpanel"></div>
-          <div id="tabpanel-2" role="tabpanel"></div>
-        </h3>
+        <h3 className="hidden">내 컨텐츠</h3>
+        <MyContents />
       </div>
     </div>
   );

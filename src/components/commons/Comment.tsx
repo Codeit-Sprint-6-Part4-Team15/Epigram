@@ -17,15 +17,13 @@ import Toggle from './Toggle';
 
 interface CommentsProps {
   comment: CommentType;
-  limit: number;
   onEdit: (id: number, content: string, isPrivate: boolean) => void;
   onDelete: (id: number) => void;
-  onUpdate: (limit: number) => void;
+  onUpdate: () => void;
 }
 
 export default function Comment({
   comment,
-  limit,
   onEdit,
   onDelete,
   onUpdate,
@@ -79,7 +77,7 @@ export default function Comment({
     } catch (error) {
       console.error('댓글을 수정하는데 실패했습니다.');
     } finally {
-      onUpdate(limit);
+      onUpdate();
     }
   };
 
@@ -91,7 +89,7 @@ export default function Comment({
     } catch (error) {
       console.error('댓글을 삭제하는데 실패했습니다.');
     } finally {
-      onUpdate(limit);
+      onUpdate();
     }
   };
 
@@ -153,7 +151,9 @@ export default function Comment({
                 </div>
               )}
             </div>
-            <p>{comment.content}</p>
+            <p className="typo-md-regular text-black-700 md:typo-lg-regular xl:typo-xl-regular">
+              {comment.content}
+            </p>
           </div>
         )}
       </div>
