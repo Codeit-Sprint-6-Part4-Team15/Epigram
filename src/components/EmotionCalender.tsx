@@ -10,7 +10,7 @@ import { EmotionDataMap } from '../types/emotion';
 import { IMG_EMOTION } from '@/public/assets/emotionChart';
 
 export default function EmotionCalendar() {
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [selectedDate] = useState<Date>(new Date());
   const [emotionData, setEmotionData] = useState<EmotionDataMap>({});
   const [selectedValue, setSelectedValue] = useState<string>('필터: 없음');
 
@@ -58,10 +58,6 @@ export default function EmotionCalendar() {
     return localISOTime;
   };
 
-  const handleDateClick = (date: Date) => {
-    setSelectedDate(date);
-  };
-
   const renderTileContent: CalendarProps['tileContent'] = ({ date, view }) => {
     const dateKey = formatDateToLocalString(date);
     const emotion = emotionData[dateKey];
@@ -84,9 +80,7 @@ export default function EmotionCalendar() {
     if (view === 'month') {
       if (emotionData[dateKey]) {
         const emotion = emotions.find(e => e.icon === emotionData[dateKey]);
-        if (emotion && formatDateToLocalString(selectedDate) === dateKey) {
-          className += ` react-calendar__tile--${emotion.className} selected-emotion`;
-        } else if (emotion) {
+        if (emotion) {
           className += ` react-calendar__tile--${emotion.className}`;
         }
       }
@@ -94,7 +88,7 @@ export default function EmotionCalendar() {
         className += ' react-calendar__tile--now';
       }
     }
-    return className.trim();
+    return `${className.trim()} cursor-default no-hover`;;
   };
 
   const formatShortWeekday: CalendarProps['formatShortWeekday'] = (locale, date) => {
@@ -119,11 +113,8 @@ export default function EmotionCalendar() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <EmotionSelector 
-        selectedDate={selectedDate} 
-        setEmotionData={setEmotionData}
       />
       <Calendar
-        onClickDay={handleDateClick}
         tileContent={renderTileContent}
         tileClassName={renderTileClassName}
         className="rounded-lg shadow-lg"

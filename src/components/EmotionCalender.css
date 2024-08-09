@@ -55,26 +55,6 @@
   order: 2;
 }
 
-.react-calendar__tile--emotion-happy {
-  border: 2px solid green;
-}
-
-.react-calendar__tile--emotion-love {
-  border: 2px solid yellow;
-}
-
-.react-calendar__tile--emotion-worry {
-  border: 2px solid purple;
-}
-
-.react-calendar__tile--emotion-sad {
-  border: 2px solid blue;
-}
-
-.react-calendar__tile--emotion-angry {
-  border: 2px solid red;
-}
-
 .react-calendar__month-view__days__day--weekend {
   color: #C4C4C4;
 }
@@ -84,25 +64,80 @@
 }
 
 .emotion-happy-selected .emoji-container img {
-  box-shadow: inset 0 0 0 5px #48BB98;
+  box-shadow: inset 0 0 0 3px #48BB98;
 }
 
 .emotion-love-selected .emoji-container img {
-  box-shadow: inset 0 0 0 5px #FBC85B;
+  box-shadow: inset 0 0 0 3px #FBC85B;
 }
 
 .emotion-worry-selected .emoji-container img {
-  box-shadow: inset 0 0 0 5px #8E80E3;
+  box-shadow: inset 0 0 0 3px #8E80E3;
 }
 
 .emotion-sad-selected .emoji-container img {
-  box-shadow: inset 0 0 0 5px #5195EE;
+  box-shadow: inset 0 0 0 3px #5195EE;
 }
 
 .emotion-angry-selected .emoji-container img {
-  box-shadow: inset 0 0 0 5px #E46E80;
+  box-shadow: inset 0 0 0 3px #E46E80;
 }
+
+@media (min-width: 744px) {
+  .emotion-happy-selected .emoji-container img {
+    box-shadow: inset 0 0 0 4px #48BB98;
+  }
+
+  .emotion-love-selected .emoji-container img {
+    box-shadow: inset 0 0 0 4px #FBC85B;
+  }
+
+  .emotion-worry-selected .emoji-container img {
+    box-shadow: inset 0 0 0 4px #8E80E3;
+  }
+
+  .emotion-sad-selected .emoji-container img {
+    box-shadow: inset 0 0 0 4px #5195EE;
+  }
+
+  .emotion-angry-selected .emoji-container img {
+    box-shadow: inset 0 0 0 4px #E46E80;
+  }
+}
+
 
 .react-calendar__navigation button.react-calendar__navigation__label {
   pointer-events: auto;
+}
+
+
+.no-hover:hover {
+  background-color: inherit !important;
+  color: inherit !important;
+  cursor: default !important;
+}
+
+.react-calendar__tile {
+  pointer-events: none;
+}
+
+.react-calendar__tile:hover {
+  background-color: inherit;
+  color: inherit;
+  cursor: default;
+}
+
+.react-calendar__tile {
+  pointer-events: none;
+  user-select: none; 
+}
+
+.react-calendar__tile:hover {
+  background-color: inherit;
+  color: inherit;
+  cursor: default;
+}
+
+.react-calendar {
+  user-select: none;
 }

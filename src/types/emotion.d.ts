@@ -43,9 +43,5 @@ export interface Emotion {
   name?: string;
   unclickedIcon?: string;
   className?: string;
-}
-
-export interface EmotionSelectorProps {
-  selectedDate: Date;
-  setEmotionData: (data: EmotionDataMap) => void;
+  borderColor?: string;
 }
