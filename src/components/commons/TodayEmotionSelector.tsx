@@ -63,20 +63,9 @@ export const emotions: Emotion[] = [
   },
 ];
 
-export default function TodayEmotionSelector({
-  userId,
-  title = '오늘의 감정',
-  showDate = true,
-}: EmotionSelectorProps) {
+export default function TodayEmotionSelector({ userId }: EmotionSelectorProps) {
   const [selectedEmotion, setSelectedEmotion] = useState<Emotion | null>(null);
   const [isEmotionPosted, setIsEmotionPosted] = useState<boolean>(false);
-
-  const formatDateToString = (date: Date) => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}.${month}.${day}`;
-  };
 
   const getTodayDateInLocal = (): Date => {
     const now = new Date();
@@ -121,45 +110,35 @@ export default function TodayEmotionSelector({
   };
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="mb-[24px] flex w-full max-w-[312px] items-center justify-between md:max-w-[384px] xl:mb-[40px] xl:max-w-[640px]">
-        <div className="typo-lg-semibold xl:typo-2xl-semibold">{title}</div>
-        {showDate && (
-          <div className="typo-lg-regular text-blue-400 xl:typo-xl-semibold">
-            {formatDateToString(today)}
-          </div>
-        )}
-      </div>
-      <div className="flex items-center space-x-[8px] md:space-x-[16px]">
-        {emotions.map((emotion) => (
-          <div key={emotion.name} className="flex flex-col items-center">
-            <div
-              className={`flex cursor-pointer flex-col items-center ${selectedEmotion?.emoji === emotion.emoji ? `${emotion.className}-selected` : ''}`}
-              onClick={() => handleEmotionClick(emotion)}
-            >
-              <div className="emoji-container">
-                <img
-                  src={
-                    isEmotionPosted &&
-                    selectedEmotion?.postName !== emotion.postName
-                      ? emotion.unclickedIcon
-                      : emotion.emoji
-                  }
-                  alt={emotion.name ?? 'Emotion'}
-                  width={56}
-                  height={56}
-                  className="h-[56px] w-[56px] rounded-[16px] md:h-[64px] md:w-[64px] xl:h-[96px] xl:w-[96px]"
-                />
-              </div>
-            </div>
-            <div
-              className={`typo-xs-semibold md:typo-lg-semibold xl:typo-xl-semibold ${selectedEmotion?.emoji === emotion.emoji ? 'text-illust-sub-blue_1' : 'text-blue-400'}`}
-            >
-              {emotion.name}
+    <div className="flex items-center space-x-[8px] md:space-x-[16px]">
+      {emotions.map((emotion) => (
+        <div key={emotion.name} className="flex flex-col items-center">
+          <div
+            className={`flex cursor-pointer flex-col items-center ${selectedEmotion?.emoji === emotion.emoji ? `${emotion.className}-selected` : ''}`}
+            onClick={() => handleEmotionClick(emotion)}
+          >
+            <div className="emoji-container">
+              <img
+                src={
+                  isEmotionPosted &&
+                  selectedEmotion?.postName !== emotion.postName
+                    ? emotion.unclickedIcon
+                    : emotion.emoji
+                }
+                alt={emotion.name ?? 'Emotion'}
+                width={56}
+                height={56}
+                className="h-[56px] w-[56px] rounded-[16px] md:h-[64px] md:w-[64px] xl:h-[96px] xl:w-[96px]"
+              />
             </div>
           </div>
-        ))}
-      </div>
+          <div
+            className={`typo-xs-semibold md:typo-lg-semibold xl:typo-xl-semibold ${selectedEmotion?.emoji === emotion.emoji ? 'text-illust-sub-blue_1' : 'text-blue-400'}`}
+          >
+            {emotion.name}
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
