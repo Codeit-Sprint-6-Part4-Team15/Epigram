@@ -1,14 +1,17 @@
-"use client";
+'use client';
+
 import { useEffect, useState } from 'react';
 import Calendar, { CalendarProps } from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
+import IMG_EMOTION from '@/public/assets/emotionChart';
+
 import '@/src/components/EmotionCalender.css';
-import Dropdown from './commons/Dropdown';
-import { emotions } from './commons/TodayEmotionSelector';
+
 import { getMonthlyEmotions } from '../app/api/emotionLog';
 import { EmotionDataMap } from '../types/emotion';
-import { IMG_EMOTION } from '@/public/assets/emotionChart';
+import Dropdown from './commons/Dropdown';
+import { emotions } from './commons/TodayEmotionSelector';
 import TodayEmotionSelector from './commons/TodayEmotionSelector';
 
 export default function EmotionCalendar() {
@@ -25,12 +28,14 @@ export default function EmotionCalendar() {
         const data = await getMonthlyEmotions(userId, year, month);
         const emotionData: EmotionDataMap = {};
         data.forEach((emotionLog) => {
-          const dateKey = new Date(emotionLog.createdAt).toISOString().split('T')[0];
+          const dateKey = new Date(emotionLog.createdAt)
+            .toISOString()
+            .split('T')[0];
           emotionData[dateKey] = emotionLog.emotion;
         });
         setEmotionData(emotionData);
       } catch (error) {
-        console.error("Error fetching monthly emotions:", error);
+        console.error('Error fetching monthly emotions:', error);
       }
     };
 
@@ -56,7 +61,9 @@ export default function EmotionCalendar() {
 
   const formatDateToLocalString = (date: Date) => {
     const offset = date.getTimezoneOffset() * 60000;
-    const localISOTime = new Date(date.getTime() - offset).toISOString().split('T')[0];
+    const localISOTime = new Date(date.getTime() - offset)
+      .toISOString()
+      .split('T')[0];
     return localISOTime;
   };
 
@@ -71,7 +78,10 @@ export default function EmotionCalendar() {
     ) : null;
   };
 
-  const renderTileClassName: CalendarProps['tileClassName'] = ({ date, view }) => {
+  const renderTileClassName: CalendarProps['tileClassName'] = ({
+    date,
+    view,
+  }) => {
     const dateKey = formatDateToLocalString(date);
     let className = '';
 
@@ -81,7 +91,7 @@ export default function EmotionCalendar() {
 
     if (view === 'month') {
       if (emotionData[dateKey]) {
-        const emotion = emotions.find(e => e.icon === emotionData[dateKey]);
+        const emotion = emotions.find((e) => e.icon === emotionData[dateKey]);
         if (emotion) {
           className += ` react-calendar__tile--${emotion.className}`;
         }
@@ -90,7 +100,7 @@ export default function EmotionCalendar() {
         className += ' react-calendar__tile--now';
       }
     }
-    return `${className.trim()} cursor-default no-hover`;;
+    return `${className.trim()} cursor-default no-hover`;
   };
 
   const formatShortWeekday: CalendarProps['formatShortWeekday'] = (
@@ -106,21 +116,29 @@ export default function EmotionCalendar() {
     return date.getDate().toString();
   };
 
-  const navigationLabel: CalendarProps['navigationLabel'] = ({ date, view, label }) => {
+  const navigationLabel: CalendarProps['navigationLabel'] = ({
+    date,
+    view,
+    label,
+  }) => {
     return view === 'month' ? (
-      <div className="flex items-center justify-between w-full">
+      <div className="flex w-full items-center justify-between">
         <span className="cursor-pointer">{`${date.getFullYear()}년 ${label.split(' ')[1]}`}</span>
         <div className="flex items-center">
-          <Dropdown selectedValue={selectedValue} setSelectedValue={setSelectedValue} />
+          <Dropdown
+            selectedValue={selectedValue}
+            setSelectedValue={setSelectedValue}
+          />
         </div>
       </div>
-    ) : label;
+    ) : (
+      label
+    );
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <TodayEmotionSelector userId={766}
-      />
+    <div className="flex min-h-screen flex-col items-center justify-center">
+      <TodayEmotionSelector userId={766} />
       <Calendar
         tileContent={renderTileContent}
         tileClassName={renderTileClassName}
