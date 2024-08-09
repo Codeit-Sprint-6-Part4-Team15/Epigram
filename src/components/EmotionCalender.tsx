@@ -1,47 +1,80 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 import Calendar, { CalendarProps } from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
+import IMG_EMOTION from '@/public/assets/emotionChart';
+
 import '@/src/components/EmotionCalender.css';
 
-const emotions = [
-  { name: '감동', emoji: '🥰', className: 'emotion-love' },
-  { name: '기쁨', emoji: '😊', className: 'emotion-happy' },
-  { name: '고민', emoji: '😕', className: 'emotion-worry' },
-  { name: '슬픔', emoji: '😢', className: 'emotion-sad' },
-  { name: '분노', emoji: '😡', className: 'emotion-angry' },
-];
+import { getMonthlyEmotions } from '../app/api/emotionLog';
+import { EmotionDataMap } from '../types/emotion';
+import Dropdown from './commons/Dropdown';
+import { emotions } from './commons/TodayEmotionSelector';
+import TodayEmotionSelector from './commons/TodayEmotionSelector';
 
 export default function EmotionCalendar() {
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  const [emotionData, setEmotionData] = useState<Record<string, string>>({});
-  const [selectedEmotion, setSelectedEmotion] = useState<string | null>(null);
+  const [selectedDate] = useState<Date>(new Date());
+  const [emotionData, setEmotionData] = useState<EmotionDataMap>({});
+  const [selectedValue, setSelectedValue] = useState<string>('필터: 없음');
 
   useEffect(() => {
-    setSelectedDate(new Date());
-  }, []);
+    const fetchMonthlyEmotions = async () => {
+      try {
+        const year = selectedDate.getFullYear();
+        const month = selectedDate.getMonth() + 1;
+        const userId = 766; // 테스트
+        const data = await getMonthlyEmotions(userId, year, month);
+        const emotionData: EmotionDataMap = {};
+        data.forEach((emotionLog) => {
+          const dateKey = new Date(emotionLog.createdAt)
+            .toISOString()
+            .split('T')[0];
+          emotionData[dateKey] = emotionLog.emotion;
+        });
+        setEmotionData(emotionData);
+      } catch (error) {
+        console.error('Error fetching monthly emotions:', error);
+      }
+    };
 
-  const handleDateClick = (date: Date) => {
-    setSelectedDate(date);
-    const dateKey = date.toISOString().split('T')[0];
-    setSelectedEmotion(emotionData[dateKey] || null);
-  };
+    fetchMonthlyEmotions();
+  }, [selectedDate]);
 
-  const handleEmotionClick = (emoji: string, className: string) => {
-    setSelectedEmotion(emoji);
-    if (selectedDate) {
-      const dateKey = selectedDate.toISOString().split('T')[0];
-      setEmotionData({
-        ...emotionData,
-        [dateKey]: emoji,
-      });
+  const getEmotionIcon = (emotion: string) => {
+    switch (emotion) {
+      case 'HAPPY':
+        return IMG_EMOTION.HAPPY;
+      case 'MOVED':
+        return IMG_EMOTION.MOVED;
+      case 'WORRIED':
+        return IMG_EMOTION.WORRIED;
+      case 'SAD':
+        return IMG_EMOTION.SAD;
+      case 'ANGRY':
+        return IMG_EMOTION.ANGRY;
+      default:
+        return '';
     }
   };
 
+  const formatDateToLocalString = (date: Date) => {
+    const offset = date.getTimezoneOffset() * 60000;
+    const localISOTime = new Date(date.getTime() - offset)
+      .toISOString()
+      .split('T')[0];
+    return localISOTime;
+  };
+
   const renderTileContent: CalendarProps['tileContent'] = ({ date, view }) => {
-    const dateKey = date.toISOString().split('T')[0];
+    const dateKey = formatDateToLocalString(date);
+    const emotion = emotionData[dateKey];
+    const emotionIcon = getEmotionIcon(emotion);
     return view === 'month' && emotionData[dateKey] ? (
-      <div className="emoji">{emotionData[dateKey]}</div>
+      <div className="emoji">
+        <img src={emotionIcon} alt={emotion} width={24} height={24} />
+      </div>
     ) : null;
   };
 
@@ -49,20 +82,25 @@ export default function EmotionCalendar() {
     date,
     view,
   }) => {
-    const dateKey = date.toISOString().split('T')[0];
+    const dateKey = formatDateToLocalString(date);
+    let className = '';
+
+    if (view === 'month' && emotionData[dateKey]) {
+      className += ' emoji';
+    }
+
     if (view === 'month') {
       if (emotionData[dateKey]) {
-        const emotion = emotions.find((e) => e.emoji === emotionData[dateKey]);
-        if (emotion && selectedDate.toISOString().split('T')[0] === dateKey) {
-          return `react-calendar__tile--${emotion.className} selected-emotion`;
+        const emotion = emotions.find((e) => e.icon === emotionData[dateKey]);
+        if (emotion) {
+          className += ` react-calendar__tile--${emotion.className}`;
         }
-        return emotion ? `react-calendar__tile--${emotion.className}` : '';
       }
       if (date.toDateString() === new Date().toDateString()) {
-        return 'react-calendar__tile--today';
+        className += ' react-calendar__tile--now';
       }
     }
-    return '';
+    return `${className.trim()} cursor-default no-hover`;
   };
 
   const formatShortWeekday: CalendarProps['formatShortWeekday'] = (
@@ -83,34 +121,25 @@ export default function EmotionCalendar() {
     view,
     label,
   }) => {
-    return view === 'month'
-      ? `${date.getFullYear()}년 ${label.split(' ')[1]}`
-      : label;
+    return view === 'month' ? (
+      <div className="flex w-full items-center justify-between">
+        <span className="cursor-pointer">{`${date.getFullYear()}년 ${label.split(' ')[1]}`}</span>
+        <div className="flex items-center">
+          <Dropdown
+            selectedValue={selectedValue}
+            setSelectedValue={setSelectedValue}
+          />
+        </div>
+      </div>
+    ) : (
+      label
+    );
   };
 
   return (
-    <div>
-      <div className="mb-4">
-        <h2 className="mb-2 text-xl">
-          오늘의 감정 ({selectedDate.toDateString()})
-        </h2>
-        <div className="flex space-x-4">
-          {emotions.map((emotion) => (
-            <div
-              key={emotion.name}
-              className={`flex cursor-pointer flex-col items-center ${selectedEmotion === emotion.emoji ? `${emotion.className}-selected` : ''}`}
-              onClick={() =>
-                handleEmotionClick(emotion.emoji, emotion.className)
-              }
-            >
-              <div className="text-2xl">{emotion.emoji}</div>
-              <div>{emotion.name}</div>
-            </div>
-          ))}
-        </div>
-      </div>
+    <div className="flex min-h-screen flex-col items-center justify-center">
+      <TodayEmotionSelector userId={766} />
       <Calendar
-        onClickDay={handleDateClick}
         tileContent={renderTileContent}
         tileClassName={renderTileClassName}
         className="rounded-lg shadow-lg"
