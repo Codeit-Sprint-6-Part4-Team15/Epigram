@@ -8,8 +8,13 @@ async function getTodayEpigram() {
   let todayEpigramData;
   try {
     //TODO : const res = await instance.get('epigrams/today');
-    const res = await instance.get('epigrams/222');
+    let res = await instance.get('epigrams/today');
     todayEpigramData = await res.data;
+
+    if (!todayEpigramData) {
+      res = await instance.get('epigrams/222');
+      todayEpigramData = await res.data;
+    }
   } catch (error) {
     console.error('오늘의 에피그램 데이터를 불러오는데 실패했습니다.');
   }
