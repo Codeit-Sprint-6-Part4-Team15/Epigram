@@ -1,23 +1,15 @@
-export const IMG_EMOTION = {
-  HAPPY: '/assets/emotionChart/ic_emoji-smile.svg',
-  MOVED: '/assets/emotionChart/ic_emoji-heart.svg',
-  WORRIED: '/assets/emotionChart/ic_emoji-worry.svg',
-  SAD: '/assets/emotionChart/ic_emoji-sad.svg',
-  ANGRY: '/assets/emotionChart/ic_emoji-mad.svg',
+import IcoMoved from './ic_emoji-heart.svg';
+import IcoAngry from './ic_emoji-mad.svg';
+import IcoSad from './ic_emoji-sad.svg';
+import IcoHappy from './ic_emoji-smile.svg';
+import IcoWorried from './ic_emoji-worry.svg';
+
+const IMG_EMOTION = {
+  HAPPY: IcoHappy,
+  MOVED: IcoMoved,
+  WORRIED: IcoWorried,
+  SAD: IcoSad,
+  ANGRY: IcoAngry,
 };
 
-export const BG_GRAY_EMOTION = {
-  HAPPY: '/assets/emotionChart/emoji-smile.svg',
-  MOVED: '/assets/emotionChart/emoji-heart.svg',
-  WORRIED: '/assets/emotionChart/emoji-worry.svg',
-  SAD: '/assets/emotionChart/emoji-sad.svg',
-  ANGRY: '/assets/emotionChart/emoji-mad.svg',
-};
-
-export const UNCLICKED_EMOTION = {
-  HAPPY: '/assets/emotionChart/ic-unclicked-happy.svg',
-  MOVED: '/assets/emotionChart/ic-unclicked-love.svg',
-  WORRIED: '/assets/emotionChart/ic-unclicked-worry.svg',
-  SAD: '/assets/emotionChart/ic-unclicked-sad.svg',
-  ANGRY: '/assets/emotionChart/ic-unclicked-mad.svg',
-};
+export default IMG_EMOTION;

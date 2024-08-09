@@ -1,9 +1,10 @@
 "use client";
 import { useEffect, useState } from 'react';
-import { IMG_EMOTION, BG_GRAY_EMOTION, UNCLICKED_EMOTION } from '@/public/assets/emotionChart';
+import IMG_EMOTION from '@/public/assets/emotionChart';
 import { postTodayEmotion, getTodayEmotion } from '../../app/api/emotionLog';
 import { Emotion } from '../../types/emotion';
 import '@/src/components/EmotionCalender.css';
+import { BG_GRAY_EMOTION, UNCLICKED_EMOTION } from '@/public/assets/emotionChart/emotion';
 
 // const userId = 766; // 테스트
 interface EmotionSelectorProps {
