@@ -3,11 +3,11 @@ import { useEffect, useState } from 'react';
 import Calendar, { CalendarProps } from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import '@/src/components/EmotionCalender.css';
-import Image from 'next/image';
 import Dropdown from './commons/Dropdown';
 import EmotionSelector, { emotions } from './EmotionSelector';
 import { getMonthlyEmotions } from '../app/api/emotionLog';
-import { EmotionDataMap } from '../types';
+import { EmotionDataMap } from '../types/emotion';
+import { IMG_EMOTION } from '@/public/assets/emotionChart';
 
 export default function EmotionCalendar() {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
@@ -19,7 +19,8 @@ export default function EmotionCalendar() {
       try {
         const year = selectedDate.getFullYear();
         const month = selectedDate.getMonth() + 1;
-        const data = await getMonthlyEmotions(766, year, month);
+        const userId = 766; // 테스트
+        const data = await getMonthlyEmotions(userId, year, month);
         const emotionData: EmotionDataMap = {};
         data.forEach((emotionLog) => {
           const dateKey = new Date(emotionLog.createdAt).toISOString().split('T')[0];
@@ -34,6 +35,23 @@ export default function EmotionCalendar() {
     fetchMonthlyEmotions();
   }, [selectedDate]);
 
+  const getEmotionIcon = (emotion: string) => {
+    switch (emotion) {
+      case 'HAPPY':
+        return IMG_EMOTION.HAPPY;
+      case 'MOVED':
+        return IMG_EMOTION.MOVED;
+      case 'WORRIED':
+        return IMG_EMOTION.WORRIED;
+      case 'SAD':
+        return IMG_EMOTION.SAD;
+      case 'ANGRY':
+        return IMG_EMOTION.ANGRY;
+      default:
+        return '';
+    }
+  };
+
   const formatDateToLocalString = (date: Date) => {
     const offset = date.getTimezoneOffset() * 60000;
     const localISOTime = new Date(date.getTime() - offset).toISOString().split('T')[0];
@@ -46,9 +64,11 @@ export default function EmotionCalendar() {
 
   const renderTileContent: CalendarProps['tileContent'] = ({ date, view }) => {
     const dateKey = formatDateToLocalString(date);
+    const emotion = emotionData[dateKey];
+    const emotionIcon = getEmotionIcon(emotion);
     return view === 'month' && emotionData[dateKey] ? (
       <div className="emoji">
-        <Image src={emotionData[dateKey]} alt="emotion" width={24} height={24} />
+        <img src={emotionIcon} alt={emotion} width={24} height={24} />
       </div>
     ) : null;
   };
@@ -97,7 +117,7 @@ export default function EmotionCalendar() {
   };
 
   return (
-    <div>
+    <div className="flex flex-col items-center justify-center min-h-screen">
       <EmotionSelector 
         selectedDate={selectedDate} 
         setEmotionData={setEmotionData}

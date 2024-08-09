@@ -1,4 +1,4 @@
-import { EmotionLog } from '@/src/types';
+import { EmotionLog } from '@/src/types/emotion';
 import instance from './axios';
 import axios from 'axios';
 
@@ -20,7 +20,7 @@ export const postTodayEmotion = async (postName: string): Promise<EmotionLog> =>
   }
 };
 
-export const getUserEmotions = async (userId: number): Promise<EmotionLog | null> => {
+export const getTodayEmotion = async (userId: number): Promise<EmotionLog | null> => {
   try {
     const response = await instance.get<EmotionLog>(`/emotionLogs/today`, {
       params: { userId }

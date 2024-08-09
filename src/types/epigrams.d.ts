@@ -36,4 +36,4 @@ export interface epigramsParams {
     referenceTitle?: string;
     author?: string;
     content?: string;
-  }
+}
