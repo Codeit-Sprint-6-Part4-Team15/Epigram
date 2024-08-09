@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import Calendar, { CalendarProps } from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+
 import '@/src/components/EmotionCalender.css';
 import Dropdown from './commons/Dropdown';
 import EmotionSelector, { emotions } from './EmotionSelector';
@@ -91,8 +92,13 @@ export default function EmotionCalendar() {
     return `${className.trim()} cursor-default no-hover`;;
   };
 
-  const formatShortWeekday: CalendarProps['formatShortWeekday'] = (locale, date) => {
-    return date.toLocaleDateString(locale ?? 'ko-KR', { weekday: 'short' }).charAt(0);
+  const formatShortWeekday: CalendarProps['formatShortWeekday'] = (
+    locale,
+    date,
+  ) => {
+    return date
+      .toLocaleDateString(locale ?? 'ko-KR', { weekday: 'short' })
+      .charAt(0);
   };
 
   const formatDay: CalendarProps['formatDay'] = (locale, date) => {

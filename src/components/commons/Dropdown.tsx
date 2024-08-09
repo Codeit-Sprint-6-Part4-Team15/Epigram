@@ -1,8 +1,10 @@
-"use client";
+'use client';
 
-import useDetectClose from "@/src/hooks/useDetectClose";
-import Image from "next/image";
-import { useRef } from "react";
+import { useRef } from 'react';
+
+import Image from 'next/image';
+
+import useDetectClose from '@/src/hooks/useDetectClose';
 
 interface DropdownProps {
   selectedValue: string;
@@ -30,7 +32,7 @@ const Dropdown: React.FC<DropdownProps> = ({ selectedValue, setSelectedValue }) 
           alt="드롭다운 펼치기"
           width={36}
           height={36}
-          className="w-[16px] h-[16px] xl:w-[36px] xl:h-[36px] ml-[2px]"
+          className="ml-[2px] h-[16px] w-[16px] xl:h-[36px] xl:w-[36px]"
         />
       </div>
       {isOpen && (

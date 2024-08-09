@@ -23,12 +23,12 @@ export interface TextCardProps {
 }
 
 export interface epigramsParams {
-    id?: number;
-    limit?: number;
-    cursor?: number;
-    keyword?: string;
-    writerId?: number;
-  }
+  id?: number;
+  limit?: number;
+  cursor?: number;
+  keyword?: string;
+  writerId?: number;
+}
 
   export interface PostEpigramData {
     tags?: string[];
