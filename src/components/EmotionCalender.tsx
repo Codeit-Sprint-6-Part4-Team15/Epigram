@@ -5,10 +5,11 @@ import 'react-calendar/dist/Calendar.css';
 
 import '@/src/components/EmotionCalender.css';
 import Dropdown from './commons/Dropdown';
-import EmotionSelector, { emotions } from './EmotionSelector';
+import { emotions } from './commons/TodayEmotionSelector';
 import { getMonthlyEmotions } from '../app/api/emotionLog';
 import { EmotionDataMap } from '../types/emotion';
 import { IMG_EMOTION } from '@/public/assets/emotionChart';
+import TodayEmotionSelector from './commons/TodayEmotionSelector';
 
 export default function EmotionCalendar() {
   const [selectedDate] = useState<Date>(new Date());
@@ -118,7 +119,7 @@ export default function EmotionCalendar() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
-      <EmotionSelector 
+      <TodayEmotionSelector userId={766}
       />
       <Calendar
         tileContent={renderTileContent}

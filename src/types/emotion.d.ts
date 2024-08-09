@@ -3,7 +3,7 @@ import { StaticImageData } from "next/image";
 export interface EmotionData {
   emotion: string;
   rate: number;
-  image: StaticImageData;
+  image: String;
   label: string;
   color: string;
 }

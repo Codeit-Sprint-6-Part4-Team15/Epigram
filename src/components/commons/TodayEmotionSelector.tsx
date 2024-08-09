@@ -1,11 +1,16 @@
 "use client";
 import { useEffect, useState } from 'react';
 import { IMG_EMOTION, BG_GRAY_EMOTION, UNCLICKED_EMOTION } from '@/public/assets/emotionChart';
-import { postTodayEmotion, getTodayEmotion } from '../app/api/emotionLog';
-import { Emotion } from '../types/emotion';
+import { postTodayEmotion, getTodayEmotion } from '../../app/api/emotionLog';
+import { Emotion } from '../../types/emotion';
 import '@/src/components/EmotionCalender.css';
 
-const userId = 766; // 테스트
+// const userId = 766; // 테스트
+interface EmotionSelectorProps {
+  userId: number;
+  title?: string;
+  showDate?: boolean;
+}
 
 export const emotions: Emotion[] = [
   { name: '감동', postName: 'MOVED', emoji: BG_GRAY_EMOTION.MOVED, icon: IMG_EMOTION.MOVED, unclickedIcon: UNCLICKED_EMOTION.MOVED, className: 'emotion-love' },
@@ -14,7 +19,7 @@ export const emotions: Emotion[] = [
   { name: '슬픔', postName: 'SAD', emoji: BG_GRAY_EMOTION.SAD, icon: IMG_EMOTION.SAD, unclickedIcon: UNCLICKED_EMOTION.SAD, className: 'emotion-sad' },
   { name: '분노', postName: 'ANGRY', emoji: BG_GRAY_EMOTION.ANGRY, icon: IMG_EMOTION.ANGRY, unclickedIcon: UNCLICKED_EMOTION.ANGRY, className: 'emotion-angry' },];
 
-export default function EmotionSelector({ title = "오늘의 감정", showDate = true }) {
+export default function TodayEmotionSelector({ userId, title = "오늘의 감정", showDate = true }:EmotionSelectorProps) {
   const [selectedEmotion, setSelectedEmotion] = useState<Emotion | null>(null);
   const [isEmotionPosted, setIsEmotionPosted] = useState<boolean>(false);
 
