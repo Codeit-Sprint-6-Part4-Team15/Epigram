@@ -8,7 +8,7 @@ const API_URL = process.env.NEXT_PUBLIC_API;
 
 //TODO: access token 수정 필요
 const ACCESS_TOKKEN =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTM2LCJ0ZWFtSWQiOiI2LTE1Iiwic2NvcGUiOiJhY2Nlc3MiLCJpYXQiOjE3MjMxMTkzMDksImV4cCI6MTcyMzEyMTEwOSwiaXNzIjoic3AtZXBpZ3JhbSJ9.Jq7Fxxu8MRWqKpwao2LMwcaP5dVqkqp3FKDmGjt42JE';
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTM2LCJ0ZWFtSWQiOiI2LTE1Iiwic2NvcGUiOiJhY2Nlc3MiLCJpYXQiOjE3MjMyNzA5NjcsImV4cCI6MTcyMzI3Mjc2NywiaXNzIjoic3AtZXBpZ3JhbSJ9.NWZPPh1Z-fynb_H5mtxucluxR33oWjgrsGsu0R-zNdQ';
 const instance = axios.create({
   baseURL: API_URL,
   timeout: 5000,

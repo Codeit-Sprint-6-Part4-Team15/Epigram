@@ -16,7 +16,7 @@ export const userId = 136;
 
 interface EpigramsContainerProps {
   type: 'recent' | 'my';
-  setCount: (count: number) => void;
+  setCount?: (count: number) => void;
 }
 
 export default function EpigramsContainer({
@@ -38,7 +38,7 @@ export default function EpigramsContainer({
           break;
         case 'my':
           fetchedEpigrams = await getMyEpigrams(userId, 3, 0);
-          setCount(fetchedEpigrams?.totalCount);
+          if (setCount) setCount(fetchedEpigrams?.totalCount);
           break;
       }
       setEpigrams(fetchedEpigrams?.list);
