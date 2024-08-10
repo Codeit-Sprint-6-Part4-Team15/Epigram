@@ -1,61 +1,66 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import Image from 'next/image';
 
+import Image from 'next/image';
+import Link from 'next/link';
+
+import { getMyEpigrams, getRecentEpigrams } from '../app/api/epigram';
+import { Epigram, EpigramsResponse } from '../types/epigrams';
 import LoadingError from './LoadingError';
 import Loader from './commons/Loader';
-import { Epigram, EpigramsResponse } from '../types/epigrams';
-import { getMyEpigrams, getRecentEpigrams } from '../app/api/epigram';
 import TextCard from './commons/TextCard';
-import Link from 'next/link';
 
 // FIX : userId 전역값으로 변경해야함
 export const userId = 136;
 
-export default function EpigramsContainer({ type }: { type: 'recent' | 'my' }) {
+interface EpigramsContainerProps {
+  type: 'recent' | 'my';
+  setCount: (count: number) => void;
+}
+
+export default function EpigramsContainer({
+  type,
+  setCount,
+}: EpigramsContainerProps) {
   const [epigrams, setEpigrams] = useState<Epigram[]>([]);
-  const [limit, setLimit] = useState(3);
   const [cursor, setCursor] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingError, setLoadingError] = useState<Error | null>(null);
 
-  const fetchEpigrams = useCallback(
-    async (limit: number) => {
-      setIsLoading(true);
-      try {
-        let fetchedEpigrams: EpigramsResponse;
-        switch (type) {
-          case 'recent':
-            fetchedEpigrams = await getRecentEpigrams(limit, 0);
-            break;
-          case 'my':
-            fetchedEpigrams = await getMyEpigrams(userId, limit, 0);
-            break;
-        }
-        setEpigrams(fetchedEpigrams?.list);
-        setCursor(fetchedEpigrams?.nextCursor);
-      } catch (error: any) {
-        setLoadingError(error);
-        console.error('댓글을 가져오는 데 실패했습니다.', error);
-      } finally {
-        setIsLoading(false);
+  const fetchEpigrams = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      let fetchedEpigrams: EpigramsResponse;
+      switch (type) {
+        case 'recent':
+          fetchedEpigrams = await getRecentEpigrams(3, 0);
+          break;
+        case 'my':
+          fetchedEpigrams = await getMyEpigrams(userId, 3, 0);
+          setCount(fetchedEpigrams?.totalCount);
+          break;
       }
-    },
-    [type, limit],
-  );
+      setEpigrams(fetchedEpigrams?.list);
+      setCursor(fetchedEpigrams?.nextCursor);
+    } catch (error: any) {
+      setLoadingError(error);
+      console.error('댓글을 가져오는 데 실패했습니다.', error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [type]);
 
   const handleMore = async () => {
     let fetchedEpigrams: EpigramsResponse;
-    setLimit((prevLimit) => prevLimit + 5);
     setIsLoading(true);
     try {
       switch (type) {
         case 'recent':
-          fetchedEpigrams = await getRecentEpigrams(limit, cursor);
+          fetchedEpigrams = await getRecentEpigrams(5, cursor);
           break;
         case 'my':
-          fetchedEpigrams = await getMyEpigrams(userId, limit, cursor);
+          fetchedEpigrams = await getMyEpigrams(userId, 5, cursor);
           break;
       }
       setCursor(fetchedEpigrams.nextCursor);
@@ -69,12 +74,12 @@ export default function EpigramsContainer({ type }: { type: 'recent' | 'my' }) {
   };
 
   useEffect(() => {
-    fetchEpigrams(limit);
+    fetchEpigrams();
   }, [fetchEpigrams]);
 
   return (
     <div className="flex flex-col items-center gap-[40px] xl:gap-[72px]">
-      <div className="w-full flex flex-col gap-[16px]">
+      <div className="flex w-full flex-col gap-[16px]">
         {epigrams.map((epigram) => (
           <Link href={`epigrams/${epigram.id}`}>
             <TextCard
