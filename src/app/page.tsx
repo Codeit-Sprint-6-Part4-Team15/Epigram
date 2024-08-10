@@ -311,7 +311,7 @@ export default function Home() {
               height={388}
               className="mt-[495px]" />
           </div>
-          <Button type="button" variant="main" size={{ default: "sm", md: "sm", xl: "lg" }} onClick={handleClick} className="mt-[24px] xl:mt-[48px] mb-[200px] xl:mb-[400px]">
+          <Button type="button" variant="main"  size={{ default: "sm", md: "sm", xl: "lg" }} onClick={handleClick} className="mt-[24px] xl:mt-[48px] mb-[200px] xl:mb-[400px]">
             시작하기
           </Button>
         </div>
