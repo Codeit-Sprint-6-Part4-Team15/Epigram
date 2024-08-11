@@ -39,7 +39,7 @@ export default async function EpigramsPage() {
         <h3 className="typo-lg-semibold mb-[16px] text-black-600 xl:typo-2xl-semibold xl:mb-[40px]">
           오늘의 감정은 어떤가요?
         </h3>
-        <div>
+        <div className="flex justify-center">
           <TodayEmotionSelector userId={136} />
         </div>
       </div>

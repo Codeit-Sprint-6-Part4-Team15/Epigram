@@ -42,7 +42,7 @@ export default async function MyPage() {
           <h3 className="typo-lg-semibold mb-[16px] text-black-600 xl:typo-2xl-semibold xl:mb-[40px]">
             오늘의 감정
           </h3>
-          <div>
+          <div className="mb-[56px] flex justify-center lg:mb-[60px] xl:mb-[164px]">
             <TodayEmotionSelector userId={136} />
           </div>
           <div>
