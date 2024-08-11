@@ -69,7 +69,8 @@
 }
 
 .react-calendar__tile--active {
-  background-color: #f0f0f0;
+  background-color: transparent !important;
+  color: inherit !important;
 }
 
 .react-calendar__tile--now {
