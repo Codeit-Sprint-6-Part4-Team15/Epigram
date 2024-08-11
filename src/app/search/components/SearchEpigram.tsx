@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import { Epigram } from '@/src/types/epigrams';
 import { getEpigrams } from '../../api/epigram';
 
@@ -6,48 +7,81 @@ interface SearchEpigramProps {
   searchWord: string;
 }
 
+const LIMIT = 7;
+
 const SearchEpigram: React.FC<SearchEpigramProps> = ({ searchWord }) => {
   const [epigrams, setEpigrams] = useState<Epigram[]>([]);
-  const [allEpigrams, setAllEpigrams] = useState<Epigram[]>([]);
-  const [filteredEpigrams, setFilteredEpigrams] = useState<Epigram[]>([]);
   const [loading, setLoading] = useState(false);
   const [cursor, setCursor] = useState<number | null>(null);
 
-  const isFirstRender = useRef(true); // 개발 모드 strictmode 에러 해결 때문에 사용
+  const isFirstRender = useRef(true);
+  const router = useRouter();
 
-  const LIMIT = 5;
-
-  const fetchEpigrams = useCallback(async () => {
+  const fetchEpigrams = useCallback(async (reset: boolean = false) => {
     try {
       setLoading(true);
-      const response = await getEpigrams(LIMIT, cursor ?? undefined);
-      const allItemRes = await getEpigrams(9999, 0);
+      const response = await getEpigrams(LIMIT, reset ? undefined : cursor ?? undefined, searchWord ?? '');
       const epigramList = response.list;
       const nextCursor = epigramList.length > 0 ? epigramList[epigramList.length - 1].id : null;
-      setAllEpigrams(allItemRes.list);
       setCursor(nextCursor);
 
-      setEpigrams(prevEpigramList => [...prevEpigramList, ...epigramList]);
+      if (reset) {
+        setEpigrams(epigramList);
+      } else {
+        setEpigrams(prevEpigramList => [...prevEpigramList, ...epigramList]);
+      }
+
+      // 로컬 스토리지에 검색 결과 저장
+      localStorage.setItem('epigrams', JSON.stringify(epigramList));
+      localStorage.setItem('cursor', nextCursor ? nextCursor.toString() : 'null');
     } catch (err) {
       console.error(err);
     } finally {
       setLoading(false);
     }
-  }, [cursor]);
+  }, [cursor, searchWord]);
 
-  useEffect(() => { // 첫 화면 렌더링 
+  const loadEpigramsFromLocalStorage = () => {
+    const storedEpigrams = localStorage.getItem('epigrams');
+    const storedCursor = localStorage.getItem('cursor');
+
+    if (storedEpigrams) {
+      setEpigrams(JSON.parse(storedEpigrams));
+    }
+    
+    if (storedCursor) {
+      setCursor(storedCursor === 'null' ? null : Number(storedCursor));
+    }
+  };
+
+  useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
+      loadEpigramsFromLocalStorage();  // 로컬 스토리지에서 데이터 로드
       fetchEpigrams();
     }
-  }, [fetchEpigrams]); 
+  }, []);
 
-  useEffect(() => { // 무한 스크롤
+  useEffect(() => {
+    const fetchOnSearchWordChange = async () => {
+      setCursor(null);
+      setEpigrams([]);
+      await fetchEpigrams(true);
+    };
+
+    fetchOnSearchWordChange();
+  }, [searchWord]);
+
+  useEffect(() => {
     const handleScroll = () => {
+      const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+      const clientHeight = document.documentElement.clientHeight || window.innerHeight;
+
       if (
-        window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight &&
+        scrollTop + clientHeight >= scrollHeight - 1 &&
         !loading &&
-        cursor !== null // 다음 커서가 존재하는 경우에만 fetchEpigrams 호출
+        cursor !== null
       ) {
         fetchEpigrams();
       }
@@ -55,21 +89,7 @@ const SearchEpigram: React.FC<SearchEpigramProps> = ({ searchWord }) => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [loading, cursor, fetchEpigrams]); // loading 상태와 cursor가 변경될 때마다 호출됩니다.
-
-  useEffect(() => { // 검색 기능
-    if (searchWord) {
-      setFilteredEpigrams(
-        allEpigrams.filter(epigram => 
-          epigram.content.toLowerCase().includes(searchWord.toLowerCase()) ||
-          epigram.author.toLowerCase().includes(searchWord.toLowerCase()) ||
-          epigram.tags.some(tag => tag.name.toLowerCase().includes(searchWord.toLowerCase()))
-        )
-      );
-    } else {
-      setFilteredEpigrams(epigrams);
-    }
-  }, [searchWord, allEpigrams]);
+  }, [loading, cursor, fetchEpigrams]);
 
   const highlightText = useCallback((text: string, highlight: string) => {
     if (!highlight) return text;
@@ -88,18 +108,26 @@ const SearchEpigram: React.FC<SearchEpigramProps> = ({ searchWord }) => {
     );
   }, []);
 
+  const handleItemClick = (id: number) => {
+    router.push(`/epigrams/${id}`);
+  };
+
   return (
     <div className='w-[360px] md:w-[384px] xl:w-[640px] xl:text-[20px]'>
       <div>
-        {filteredEpigrams.map(epigram => (
-          <div className='flex border-b border-gray-100 flex-col gap-[8px] py-[16px] px-[24px] xl:py-[24px] xl:gap-[16px]' key={epigram.id}>
-            <div className='flex flex-col gap-[4px] md:gap-[8px] xl:gap-[24px]'>
+        {epigrams.map((epigram, index) => (
+          <div
+            className='flex border-b border-gray-100 flex-col gap-[8px] py-[16px] px-[24px] xl:py-[24px] xl:gap-[16px] cursor-pointer'
+            key={`${epigram.id}-${index}`}
+            onClick={() => handleItemClick(epigram.id)}
+          >
+            <div className='flex flex-col font-iropke gap-[4px] md:gap-[8px] xl:gap-[24px]'>
               <div className='text-black-600'>{highlightText(epigram.content, searchWord)}</div>
               <div className='text-blue-400'>- {highlightText(epigram.author, searchWord)} -</div>
             </div>
             <div className='flex gap-[12px] justify-end'>
               {epigram.tags.map(tag => (
-                <div className='text-blue-400' key={tag.name}>
+                <div className='text-blue-400 font-pretendard font-normal' key={`${tag.name}-${index}`}>
                   #{highlightText(tag.name, searchWord)}
                 </div>
               ))}
@@ -114,6 +142,6 @@ const SearchEpigram: React.FC<SearchEpigramProps> = ({ searchWord }) => {
       )}
     </div>
   );
-}
+};
 
 export default SearchEpigram;

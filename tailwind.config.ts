@@ -122,6 +122,11 @@ const config: Config = {
         "48": "3rem",
         "52": "3.25rem",
       },
+      boxShadow: {
+        'custom-hover': '0 0 11px rgba(33,33,33,.2)',
+        'custom-focus': 'inset 0 -2px 0 0 #40516E',
+        'custom-focus-xl': 'inset 0 -3px 0 0 #40516E',
+      },
     },
   },
   plugins: [

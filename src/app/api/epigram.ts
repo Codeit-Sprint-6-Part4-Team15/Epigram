@@ -3,10 +3,10 @@ import { PostEpigramData } from '../../types/epigrams'
 
 
 //에피그램 목록 조회
-export async function getEpigrams(limit = 5, cursor = 0){
+export async function getEpigrams(limit = 5, cursor = 0, keyword = ''){
   let epigrams;
   try {
-    const res = await instance.get(`/epigrams?limit=${limit}&cursor=${cursor}`);
+    const res = await instance.get(`/epigrams?limit=${limit}&cursor=${cursor}&keyword=${keyword}`);
     epigrams = res.data;
   } catch (error) {
     throw new Error('에피그램 목록을 불러오는데 실패했습니다.');

@@ -9,7 +9,7 @@ import SearchEpigram from './components/SearchEpigram';
 
 function SearchPage() {
   const [searchWord, setSearchWord] = useState('');
-  const [finalSearchWord, setFinalSearchWord] = useState('');
+  const [currentSearchWord, setCurrentSearchWord] = useState('');
   const [searchWords, setSearchWords] = useState<string[]>([]);
   const [isFocused, setIsFocused] = useState(false);
   const searchHistoryRef = useRef<HTMLDivElement>(null);
@@ -18,10 +18,18 @@ function SearchPage() {
     setSearchWord(e.target.value);
   };
 
+  const handleIsFocusedClose = () => {
+    setIsFocused(false);
+  }
+
   const saveToLocalStorage = (word: string) => {
     if (word.trim()) {
-      const updatedSearchWords = searchWords.filter(w => w !== word); 
-      updatedSearchWords.unshift(word); //
+      let updatedSearchWords = searchWords.filter(w => w !== word); 
+      updatedSearchWords.unshift(word); 
+
+      if (updatedSearchWords.length > 8) {
+        updatedSearchWords = updatedSearchWords.slice(0, 8);
+      }
 
       localStorage.setItem('searchWords', JSON.stringify(updatedSearchWords));
       setSearchWords(updatedSearchWords);
@@ -35,7 +43,7 @@ function SearchPage() {
       return;
     }
     saveToLocalStorage(word);
-    setFinalSearchWord(word);
+    setCurrentSearchWord(word);
   };
 
   const removeSearchWord = (word: string) => {
@@ -101,16 +109,16 @@ function SearchPage() {
         <div className='flex justify-center relative'>
           <div className='flex items-center mt-[8px] relative w-[312px] h-[52px] md:mt-[16px] md:w-[384px] md:h-[60px] xl:mt-[24px] xl:w-[640px] xl:h-[80px]'>
             <input
-              className={`input-field h-[52px] pl-[52px] pr-[32px] md:h-[60px] md:text-[20px] xl:pr-[42px] xl:pl-[74px] xl:h-[80px] xl:text-[24px] ${isFocused ? 'input-focused' : ''}`}
+              className={`w-full border border-blue-600 rounded-full outline-none transition-shadow duration-300 placeholder-blue-300 h-[52px] pl-[52px] pr-[32px] md:h-[60px] md:text-[20px] xl:pr-[42px] xl:pl-[74px] xl:h-[80px] xl:text-[24px] ${isFocused ? 'rounded-none border-transparent shadow-custom-focus xl:shadow-custom-focus-xl' : 'hover:shadow-custom-hover'}`}
               type="text"
               value={searchWord}
               onChange={handleInputChange}
               onKeyDown={handleKeyPress}
               onClick={handleInputClick}
-              placeholder={'검색어를 입력해 주세요.'}
+              placeholder="검색어를 입력해 주세요."
             />
             <Link className='flex items-center' href='/search'>
-              <Image className='absolute cursor-pointer left-[12px] md:left-[12px] xl:left-[16px] xl:w-[42px] xl:h-[42px]' src={smallLogo} alt='smallLogo' />
+              <Image className='absolute cursor-pointer left-[12px] md:left-[12px] xl:left-[16px] xl:w-[42px] xl:h-[42px]' priority src={smallLogo} alt='smallLogo' />
             </Link>
             <Image
               className='w-[20px] h-[20px] cursor-pointer absolute right-[10px] bottom-[17px] md:bottom-[22px] xl:w-[36px] xl:h-[36px] xl:bottom-[23px]'
@@ -120,13 +128,13 @@ function SearchPage() {
             />
           </div>
           {isFocused && (
-            <div className='absolute top-full w-[312px] mt-[4px] bg-white border border-t-0 border-black rounded-b-lg shadow-lg md:left-0 md:w-[384px] md:px-0 xl:w-[640px]' ref={searchHistoryRef}>
-              <SearchHistory searchWords={searchWords} onSearchWordClick={handleSearchWordClick} clearSearchHistory={clearSearchHistory} removeSearchWord={removeSearchWord} />
+            <div className='absolute top-full w-[312px] mt-[4px] bg-white rounded-b-lg shadow-lg md:left-0 md:w-[384px] md:px-0 xl:w-[640px]' ref={searchHistoryRef}>
+              <SearchHistory searchWords={searchWords} handleIsFocusedClose={handleIsFocusedClose} onSearchWordClick={handleSearchWordClick} clearSearchHistory={clearSearchHistory} removeSearchWord={removeSearchWord} />
             </div>
           )}
         </div>
         <div>
-          <SearchEpigram searchWord={finalSearchWord} />
+          <SearchEpigram searchWord={currentSearchWord} />
         </div>
       </div>
     </div>
