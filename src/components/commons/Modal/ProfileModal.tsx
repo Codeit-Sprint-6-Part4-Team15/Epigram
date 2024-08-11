@@ -1,7 +1,7 @@
-import { Writer } from "@/src/type";
-import Image from "next/image";
-import IcoClose from "@/public/assets/ic_close.svg";
-import IcoUser from "@/public/assets/ic_user.svg";
+import IcoClose from '@/public/assets/ic_close.svg';
+import IcoUser from '@/public/assets/ic_user.svg';
+import { Writer } from '@/src/types/comments';
+import Image from 'next/image';
 
 interface ProfileModalProps {
   writer: Writer;
@@ -20,7 +20,9 @@ export default function ProfileModal({ writer, onClose }: ProfileModalProps) {
         <figure className="relative h-[48px] w-[48px] overflow-hidden rounded-full border border-blue-300 bg-white">
           <Image src={writer.image ?? IcoUser} fill alt="프로필" />
         </figure>
-        <strong className="typo-lg-semibold text-black-400 xl:typo-xl-semibold">{writer.nickname}</strong>
+        <strong className="typo-lg-semibold text-black-400 xl:typo-xl-semibold">
+          {writer.nickname}
+        </strong>
       </div>
     </div>
   );
