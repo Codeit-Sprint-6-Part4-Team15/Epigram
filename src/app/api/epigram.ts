@@ -1,6 +1,5 @@
-import instance from "../api/axios";
-import { PostEpigramData } from '../../types/epigrams'
-
+import { PostEpigramData } from '../../types/epigrams';
+import instance from './axios';
 
 //에피그램 목록 조회
 export async function getEpigrams(limit = 5, cursor = 0, keyword = ''){
@@ -45,7 +44,7 @@ export async function getEpigramById(id: number) {
 }
 
 //에피그램 수정
-export async function updateEpigram( id: number, data: PostEpigramData) {
+export async function updateEpigram(id: number, data: PostEpigramData) {
   try {
     const response = await instance.patch(`/epigrams/${id}`, data);
     return response.data;
@@ -55,11 +54,44 @@ export async function updateEpigram( id: number, data: PostEpigramData) {
 }
 
 //에피그램 삭제
-export async function deleteEpigram( id: number) {
+export async function deleteEpigram(id: number) {
   try {
     const response = await instance.delete(`/epigrams/${id}`);
     return response.data;
   } catch (error) {
     throw new Error(`${id}번 에피그램을 삭제하는데 실패했습니다.`);
   }
+}
+
+export async function getMyEpigrams(id: number, limit: number, cursor: number) {
+  let comments;
+  try {
+    const res = await instance.get(`/epigrams`, {
+      params: {
+        limit,
+        cursor,
+        writerId: id,
+      },
+    });
+    comments = await res.data;
+  } catch (error) {
+    throw new Error('내 에피그램 목록을 불러오는데 실패했습니다.');
+  }
+  return comments;
+}
+
+export async function getRecentEpigrams(limit: number, cursor: number) {
+  let comments;
+  try {
+    const res = await instance.get('/epigrams', {
+      params: {
+        limit,
+        cursor,
+      },
+    });
+    comments = await res.data;
+  } catch (error) {
+    throw new Error('최신 에피그램을 불러오는데 실패했습니다.');
+  }
+  return comments;
 }
