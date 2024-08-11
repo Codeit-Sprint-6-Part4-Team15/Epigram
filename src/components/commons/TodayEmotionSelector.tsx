@@ -16,8 +16,6 @@ import { Emotion } from '../../types/emotion';
 // const userId = 766; // 테스트
 interface EmotionSelectorProps {
   userId: number;
-  title?: string;
-  showDate?: boolean;
 }
 
 export const emotions: Emotion[] = [

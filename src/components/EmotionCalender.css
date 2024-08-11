@@ -1,13 +1,22 @@
 .react-calendar {
-  border: none;
-  border-radius: 8px;
+  width: 100% !important;
+  border: 1px solid #c4c4c4;
+  border-radius: 0;
   overflow: hidden;
   font-family: Pretendard;
-  font-size: 24px;
+  font-size: 16px;
   font-weight: 600;
-  line-height: 32px;
+  line-height: 26px;
   text-align: center;
-  color: #C4C4C4;
+  color: #c4c4c4;
+  user-select: none;
+}
+
+@media (min-width: 1200px) {
+  .react-calendar {
+    font-size: 24px;
+    line-height: 32px;
+  }
 }
 
 .react-calendar__tile {
@@ -15,9 +24,29 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 60px;
-  border-radius: 4px;
+  height: 44px;
+  width: 44px;
+  border-top: 1px solid #c4c4c4 !important;
+  border-radius: 0;
   box-sizing: border-box;
+  position: relative;
+  pointer-events: none;
+  user-select: none;
+  color: inherit !important;
+}
+
+@media (min-width: 744px) {
+  .react-calendar__tile {
+    height: 54px;
+    width: 54px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .react-calendar__tile {
+    height: 91px;
+    width: 91px;
+  }
 }
 
 .react-calendar__tile.emoji {
@@ -27,14 +56,32 @@
   text-align: center;
 }
 
+@media (min-width: 744px) {
+  .react-calendar__tile.emoji {
+    font-size: 10px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .react-calendar__tile.emoji {
+    font-size: 16px;
+  }
+}
+
 .react-calendar__tile--active {
   background-color: #f0f0f0;
 }
 
 .react-calendar__tile--now {
-  border: 5px solid #E46E80 !important;
-  color: #E46E80 !important;
-  background: none;
+  border: 3px solid #e46e80 !important;
+  color: #e46e80 !important;
+  background-color: transparent !important;
+}
+
+@media (min-width: 744px) {
+  .react-calendar__tile--now {
+    border: 4px solid #e46e80 !important;
+  }
 }
 
 .react-calendar__navigation {
@@ -43,101 +90,120 @@
   align-items: center;
   font-size: 16px;
   font-weight: 600;
+  line-height: 26px;
   color: #373737;
+}
+
+@media (min-width: 1200px) {
+  .react-calendar__navigation {
+    font-size: 24px;
+    line-height: 32px;
+  }
 }
 
 .react-calendar__navigation__label {
   flex: 1;
   text-align: left;
-}
-
-.react-calendar__navigation__arrow {
-  order: 2;
-}
-
-.react-calendar__month-view__days__day--weekend {
-  color: #C4C4C4;
-}
-
-.react-calendar__month-view__days__day--neighboringMonth {
-  color: #C4C4C4;
-}
-
-.emotion-happy-selected .emoji-container img {
-  box-shadow: inset 0 0 0 3px #48BB98;
-}
-
-.emotion-love-selected .emoji-container img {
-  box-shadow: inset 0 0 0 3px #FBC85B;
-}
-
-.emotion-worry-selected .emoji-container img {
-  box-shadow: inset 0 0 0 3px #8E80E3;
-}
-
-.emotion-sad-selected .emoji-container img {
-  box-shadow: inset 0 0 0 3px #5195EE;
-}
-
-.emotion-angry-selected .emoji-container img {
-  box-shadow: inset 0 0 0 3px #E46E80;
-}
-
-@media (min-width: 744px) {
-  .emotion-happy-selected .emoji-container img {
-    box-shadow: inset 0 0 0 4px #48BB98;
-  }
-
-  .emotion-love-selected .emoji-container img {
-    box-shadow: inset 0 0 0 4px #FBC85B;
-  }
-
-  .emotion-worry-selected .emoji-container img {
-    box-shadow: inset 0 0 0 4px #8E80E3;
-  }
-
-  .emotion-sad-selected .emoji-container img {
-    box-shadow: inset 0 0 0 4px #5195EE;
-  }
-
-  .emotion-angry-selected .emoji-container img {
-    box-shadow: inset 0 0 0 4px #E46E80;
-  }
-}
-
-
-.react-calendar__navigation button.react-calendar__navigation__label {
   pointer-events: auto;
 }
 
+.react-calendar__month-view__days__day--weekend,
+.react-calendar__month-view__days__day--neighboringMonth,
+.react-calendar__month-view__weekdays__weekday {
+  color: inherit !important;
+}
+
+.react-calendar__month-view__weekdays {
+  border-top: 1px solid #c4c4c4;
+}
+
+.react-calendar__month-view__weekdays__weekday {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+@media (min-width: 744px) {
+  .react-calendar__month-view__weekdays {
+    height: 54px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .react-calendar__month-view__weekdays {
+    height: 91px;
+  }
+}
+
+.react-calendar__month-view__weekdays abbr {
+  text-decoration: none;
+}
+
+.custom-navigation-label {
+  pointer-events: none;
+  cursor: default;
+}
+
+.react-calendar__tile--no-emotion {
+  font-size: 16px !important;
+  line-height: 26px !important;
+}
+
+@media (min-width: 744px) {
+  .react-calendar__tile--no-emotion {
+    font-size: 20px !important;
+    line-height: 28px !important;
+  }
+}
+
+@media (min-width: 1200px) {
+  .react-calendar__tile--no-emotion {
+    font-size: 24px !important;
+    line-height: 32px !important;
+  }
+}
+
+.emotion-happy-selected .emoji-container img,
+.emotion-love-selected .emoji-container img,
+.emotion-worry-selected .emoji-container img,
+.emotion-sad-selected .emoji-container img,
+.emotion-angry-selected .emoji-container img {
+  box-shadow: inset 0 0 0 3px;
+}
+
+@media (min-width: 1200px) {
+  .emotion-happy-selected .emoji-container img,
+  .emotion-love-selected .emoji-container img,
+  .emotion-worry-selected .emoji-container img,
+  .emotion-sad-selected .emoji-container img,
+  .emotion-angry-selected .emoji-container img {
+    box-shadow: inset 0 0 0 4px;
+  }
+}
+
+.emotion-happy-selected .emoji-container img {
+  box-shadow: #48bb98;
+}
+
+.emotion-love-selected .emoji-container img {
+  box-shadow: #fbc85b;
+}
+
+.emotion-worry-selected .emoji-container img {
+  box-shadow: #8e80e3;
+}
+
+.emotion-sad-selected .emoji-container img {
+  box-shadow: #5195ee;
+}
+
+.emotion-angry-selected .emoji-container img {
+  box-shadow: #e46e80;
+}
 
 .no-hover:hover {
   background-color: inherit !important;
   color: inherit !important;
   cursor: default !important;
-}
-
-.react-calendar__tile {
-  pointer-events: none;
-}
-
-.react-calendar__tile:hover {
-  background-color: inherit;
-  color: inherit;
-  cursor: default;
-}
-
-.react-calendar__tile {
-  pointer-events: none;
-  user-select: none; 
-}
-
-.react-calendar__tile:hover {
-  background-color: inherit;
-  color: inherit;
-  cursor: default;
-}
-
-.react-calendar {
-  user-select: none;
 }
