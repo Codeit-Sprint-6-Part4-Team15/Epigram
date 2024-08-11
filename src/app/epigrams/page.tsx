@@ -3,6 +3,7 @@ import instance from '@/src/app/api/axios';
 import CommentsContainer from '@/src/components/CommentContainer';
 import EpigramsContainer from '@/src/components/EpigramsContainer';
 import TextCard from '@/src/components/commons/TextCard';
+import TodayEmotionSelector from '@/src/components/commons/TodayEmotionSelector';
 
 async function getTodayEpigram() {
   let todayEpigramData;
@@ -38,7 +39,9 @@ export default async function EpigramsPage() {
         <h3 className="typo-lg-semibold mb-[16px] text-black-600 xl:typo-2xl-semibold xl:mb-[40px]">
           오늘의 감정은 어떤가요?
         </h3>
-        <div>컴포넌트</div>
+        <div>
+          <TodayEmotionSelector userId={136} />
+        </div>
       </div>
       <div className="w-[384px] py-[36px] xl:w-[640px] xl:py-[80px]">
         <h3 className="typo-lg-semibold mb-[16px] text-black-600 xl:typo-2xl-semibold xl:mb-[40px]">

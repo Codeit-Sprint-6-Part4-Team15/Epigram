@@ -4,7 +4,9 @@ import Image from 'next/image';
 import instance from '@/src/app/api/axios';
 
 import ChartContainer from '@/src/components/ChartContainer';
+import EmotionCalendar from '@/src/components/EmotionCalender';
 import MyContents from '@/src/components/MyContents';
+import TodayEmotionSelector from '@/src/components/commons/TodayEmotionSelector';
 
 async function getUser() {
   let userData;
@@ -40,8 +42,12 @@ export default async function MyPage() {
           <h3 className="typo-lg-semibold mb-[16px] text-black-600 xl:typo-2xl-semibold xl:mb-[40px]">
             오늘의 감정
           </h3>
-          <div>컴포넌트 1</div>
-          <div>컴포넌트 2</div>
+          <div>
+            <TodayEmotionSelector userId={136} />
+          </div>
+          <div>
+            <EmotionCalendar userId={136} />
+          </div>
         </div>
         <div className="w-[384px] py-[36px] xl:w-[640px] xl:py-[80px]">
           <h3 className="typo-lg-semibold mb-[16px] text-black-600 xl:typo-2xl-semibold xl:mb-[40px]">
