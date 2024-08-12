@@ -1,4 +1,18 @@
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M8 14.25C6.74022 14.25 5.53204 14.7504 4.64124 15.6412C3.75044 16.532 3.25 17.7402 3.25 19V21.5C3.25 21.9142 3.58579 22.25 4 22.25H20C20.4142 22.25 20.75 21.9142 20.75 21.5V19C20.75 17.7402 20.2496 16.532 19.3588 15.6412C18.468 14.7504 17.2598 14.25 16 14.25H8Z" fill="#DEDEDE"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M12 2.25C9.37665 2.25 7.25 4.37665 7.25 7C7.25 9.62335 9.37665 11.75 12 11.75C14.6234 11.75 16.75 9.62335 16.75 7C16.75 4.37665 14.6234 2.25 12 2.25Z" fill="#DEDEDE"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 24 24">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #dedede;
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <!-- Generator: Adobe Illustrator 28.6.0, SVG Export Plug-In . SVG Version: 1.2.0 Build 709)  -->
+  <g>
+    <g id="_레이어_1" data-name="레이어_1">
+      <path class="cls-1" d="M8.9,13.8c-1,0-1.9.4-2.6,1.1-.7.7-1.1,1.6-1.1,2.6v1.9c0,.3.3.6.6.6h12.3c.3,0,.6-.3.6-.6v-1.9c0-1-.4-1.9-1.1-2.6-.7-.7-1.6-1.1-2.6-1.1h-6.1Z"/>
+      <path class="cls-1" d="M12,4.6c-2,0-3.6,1.6-3.6,3.6s1.6,3.6,3.6,3.6,3.6-1.6,3.6-3.6-1.6-3.6-3.6-3.6Z"/>
+    </g>
+  </g>
 </svg>

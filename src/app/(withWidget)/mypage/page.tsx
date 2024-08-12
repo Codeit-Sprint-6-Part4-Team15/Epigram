@@ -23,12 +23,8 @@ export default async function MyPage() {
     <div className="flex min-h-[100vh] flex-col items-center bg-bg-100 pt-[64px] xl:pt-[128px]">
       <div className="shadow-1 flex w-full flex-col items-center rounded-[24px] bg-white">
         <div className="relative -mt-[40px] flex flex-col items-center gap-[8px] xl:-mt-[60px] xl:gap-[16px]">
-          <figure className="flex h-[80px] w-[80px] items-center justify-center overflow-hidden rounded-full border-2 border-blue-200 bg-white xl:h-[120px] xl:w-[120px]">
-            <Image
-              src={user?.image ?? IcoUser}
-              style={{ width: '80%', height: '80%' }}
-              alt="유저 이미지"
-            />
+          <figure className="relative flex h-[80px] w-[80px] items-center justify-center overflow-hidden rounded-full border-2 border-blue-200 bg-white xl:h-[120px] xl:w-[120px]">
+            <Image src={user?.image ?? IcoUser} fill alt="유저 이미지" />
           </figure>
           <strong className="typo-lg-medium text-black-950 xl:typo-2xl-medium">
             {user?.nickname}
