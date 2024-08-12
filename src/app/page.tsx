@@ -10,7 +10,52 @@ import { useRouter } from 'next/router';
 
 import Button from '../components/commons/Button';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
-import Login from './test/login';
+
+interface ScrollWrapperProps {
+  children: ReactNode;
+  direction: string;
+}
+
+const imageVariantsLeft = {
+  hiddenState: { opacity: 0, x: -400 },
+  showState: { opacity: 1, x: 0, transition: { duration: 1 } },
+};
+
+const imageVariantsRight = {
+  hiddenState: { opacity: 0, x: 400 },
+  showState: { opacity: 1, x: 0, transition: { duration: 1 } },
+};
+
+const cardVariant = {
+  hiddenState: { opacity: 0, y: 60 },
+  showState: {
+    opacity: 1,
+    y: 0,
+    transition: { ease: 'easeInOut', duration: 1 },
+  },
+};
+
+// 커스텀 훅이 적용된 Wrapper 컴포넌트
+const ScrollWrapper = ({ children, direction }: ScrollWrapperProps) => {
+  const { ref, animation } = useScrollAnimation();
+  const directionVariant =
+    direction === 'left'
+      ? imageVariantsLeft
+      : direction === 'right'
+        ? imageVariantsRight
+        : cardVariant;
+
+  return (
+    <motion.div
+      ref={ref}
+      variants={directionVariant}
+      initial="hiddenState"
+      animate={animation}
+    >
+      {children}
+    </motion.div>
+  );
+};
 
 export default function Home() {
   const mainRef = useRef<HTMLDivElement>(null);
@@ -53,10 +98,4 @@ export default function Home() {
       animation.start('showState');
     }
   }, [typingCompleted, animation]);
-
-  return (
-    <>
-      <Login />
-    </>
-  );
 }
