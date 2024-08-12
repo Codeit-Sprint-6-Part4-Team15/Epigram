@@ -14,6 +14,7 @@ import { userId } from '../CommentContainer';
 import Button from './Button';
 import ConfirmModal from './Modal/ConfirmModal';
 import Modal from './Modal/Modal';
+import ProfileModal from './Modal/ProfileModal';
 import Toggle from './Toggle';
 
 interface CommentsProps {
@@ -32,6 +33,10 @@ export default function Comment({
   const [
     isDeleteModalOpened,
     { open: openDeleteModal, close: closeDeleteModal },
+  ] = useModal(false);
+  const [
+    isProfileModalOpened,
+    { open: openProfileModal, close: closeProfileModal },
   ] = useModal(false);
   const [content, setContent] = useState(comment.content);
   const [isPrivate, setIsPrivate] = useState(comment.isPrivate);
@@ -135,7 +140,15 @@ export default function Comment({
           <div className="flex-1">
             <div className="flex items-center justify-between">
               <div className="typo-xs-regular mb-2 flex items-center space-x-2 text-black-300">
-                <div>{comment.writer.nickname}</div>
+                <div>
+                  <button
+                    type="button"
+                    onClick={openProfileModal}
+                    className="hover:underline"
+                  >
+                    {comment.writer.nickname}
+                  </button>
+                </div>
                 <div>{formatTimeAgo(comment.updatedAt)}</div>
               </div>
               {userId === comment.writer.id && (
@@ -165,6 +178,9 @@ export default function Comment({
       </div>
       <Modal opened={isDeleteModalOpened}>
         <ConfirmModal onClose={closeDeleteModal} onSubmit={handleDelete} />
+      </Modal>
+      <Modal opened={isProfileModalOpened}>
+        <ProfileModal writer={comment.writer} onClose={closeProfileModal} />
       </Modal>
     </div>
   );

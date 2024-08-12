@@ -16,7 +16,7 @@ export const userId = 136;
 
 interface EpigramsContainerProps {
   type: 'recent' | 'my';
-  setCount: (count: number) => void;
+  setCount?: (count: number) => void;
 }
 
 export default function EpigramsContainer({
@@ -38,7 +38,7 @@ export default function EpigramsContainer({
           break;
         case 'my':
           fetchedEpigrams = await getMyEpigrams(userId, 3, 0);
-          setCount(fetchedEpigrams?.totalCount);
+          if (setCount) setCount(fetchedEpigrams?.totalCount);
           break;
       }
       setEpigrams(fetchedEpigrams?.list);
@@ -80,7 +80,7 @@ export default function EpigramsContainer({
   return (
     <div className="flex flex-col items-center gap-[40px] xl:gap-[72px]">
       <div className="flex w-full flex-col gap-[16px]">
-        {epigrams.map((epigram) => (
+        {epigrams?.map((epigram) => (
           <Link href={`epigrams/${epigram.id}`}>
             <TextCard
               key={epigram.id}

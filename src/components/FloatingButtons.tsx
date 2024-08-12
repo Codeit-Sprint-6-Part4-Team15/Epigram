@@ -1,17 +1,31 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+
 import IcoArrowUp from '@/public/assets/ic_arrow_up.svg';
 import IcoPencil from '@/public/assets/ic_pencil.svg';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export default function FloatingButtons() {
+  const [scrollY, setScrollY] = useState(0);
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: 'smooth',
     });
   };
+
+  useEffect(() => {
+    const setScroll = () => {
+      setScrollY(window.scrollY);
+    };
+    document.addEventListener('scroll', setScroll);
+
+    return () => {
+      document.removeEventListener('scroll', setScroll);
+    };
+  }, []);
   return (
     <div className="fixed bottom-[30px] right-[10px] flex flex-col items-end gap-[3px]">
       <Link
@@ -51,13 +65,15 @@ export default function FloatingButtons() {
           </span>
         </span>
       </Link>
-      <button
-        type="button"
-        className="flex h-[50px] w-[50px] items-center justify-center rounded-full bg-blue-900"
-        onClick={scrollToTop}
-      >
-        <Image src={IcoArrowUp} width={22} height={12} alt="위로" />
-      </button>
+      {scrollY !== 0 && (
+        <button
+          type="button"
+          className="flex h-[50px] w-[50px] items-center justify-center rounded-full bg-blue-900"
+          onClick={scrollToTop}
+        >
+          <Image src={IcoArrowUp} width={22} height={12} alt="위로" />
+        </button>
+      )}
     </div>
   );
 }
