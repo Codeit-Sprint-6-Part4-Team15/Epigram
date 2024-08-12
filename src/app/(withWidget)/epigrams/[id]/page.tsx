@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 export default function EpigramDetailPage({ params }: { params: { slug: string, id:number } }) {
-  const [selectedValue, setSelectedValue] = useState("");
   const [epigram, setEpigram] = useState<EpigramById | null>(null);  
   const id = params.id
 
@@ -36,10 +35,10 @@ export default function EpigramDetailPage({ params }: { params: { slug: string, 
 
   //TODO: 배경 이미지 변경
   return (<>
-  <div className="w-screen h-screen flex flex-col items-center">
+  <div className="w-screen h-screen flex flex-col items-center bg-bg-100">
   <div className="h-[288px] p-[22px] w-[380px] md:w-[500px] xl:w-[640px]">
   <div className="flex  justify-between  h-[36px] ">
-    <div className="flex items-center overflow-hidden whitespace-nowrap">
+    {epigram&&epigram.tags&&<div className="flex items-center overflow-hidden whitespace-nowrap">
         <div className="flex">
         {epigram?.tags.map((tag,index) => (
             <span key={index} className="text-blue-400 typo-lg-regular mr-[16px] xl:typo-xl-regular">
@@ -47,8 +46,8 @@ export default function EpigramDetailPage({ params }: { params: { slug: string, 
             </span>
           ))}
         </div>
-        </div>
-        <DropdownMenu selectedValue={selectedValue} setSelectedValue={setSelectedValue}/>
+        </div>}
+        <DropdownMenu/>
       </div>
         <p className="text-black-700 md:mt-[24px] iropke-2xl xl:mt-[32px] xl:iropke-3xl">
           {epigram?.content}
@@ -67,6 +66,7 @@ export default function EpigramDetailPage({ params }: { params: { slug: string, 
                 />
                 {epigram?.likeCount}
           </button>
+          {epigram&&epigram.referenceTitle&&
           <button  onClick={() => handleCopyClipBoard(epigram?.referenceUrl || '')}
           className="flex items-center justify-center bg-line-100 text-gray-300 typo-md-medium xl:typo-xl-medium gap-[6px] py-[6px] px-[14px] rounded-[100px]">
             {epigram?.referenceTitle}
@@ -77,7 +77,7 @@ export default function EpigramDetailPage({ params }: { params: { slug: string, 
                 height={36}
                 className="w-[20px] h-[20px] md:w-[24px] md:h-[24px] xl:w-[36px] xl:h-[36px]"
                 />
-          </button>
+          </button>}
         </div>
       </div>
   </div>
