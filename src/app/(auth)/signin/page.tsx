@@ -3,24 +3,31 @@
 import Button from '@/src/components/commons/Button';
 import Input from '@/src/components/commons/Input';
 import InputError from '@/src/components/commons/InputError';
+import { FormErrorResponse, SignInRequestBody, AuthResponse } from '@/src/types/auth';
 import Image from 'next/image';
 import Link from 'next/link';
 import { SubmitHandler, useForm } from 'react-hook-form';
-
-interface LoginValues {
-    username: string;
-    password: string;
-}
+import { postSignIn } from '../../api/auth';
 
 export default function Login() {
-    const { register, formState: { errors, isValid }, handleSubmit } = useForm<LoginValues>({
+    const { register, formState: { errors, isValid }, handleSubmit, setError } = useForm<SignInRequestBody>({
         shouldUseNativeValidation: true,
         mode: "onBlur",
     });
 
-    const onSubmit: SubmitHandler<LoginValues> = (data) => {
-        console.log(data);
-        /* API 관련 코드가 머지되는대로 해당 로직을 추가하겠습니다. */
+    const onSubmit: SubmitHandler<SignInRequestBody> = (data) => {
+        postSignIn(data)
+        .then((response: AuthResponse) => {
+            localStorage.setItem('access_token', response.accessToken);
+            localStorage.setItem('refresh_token', response.refreshToken);
+            localStorage.setItem('user', JSON.stringify(response.user));
+        }, (response: FormErrorResponse) => {
+            Object.entries(response.details).forEach((value) => {
+                let fieldName = value[0].replace('requestBody.', '') as 'email' | 'password';
+                let errorMessage = value[1].message;
+                setError(fieldName, {type: 'custom', message: errorMessage});
+            })
+        });
     }
 
     return (
@@ -28,7 +35,7 @@ export default function Login() {
             <form onSubmit={handleSubmit(onSubmit)} className="*:mb-[16px] last-child:mb-[24px]">
                 <label className="block">
                     <Input type="email" placeholder="이메일" {...register(
-                        "username",
+                        "email",
                         {
                             required: "이메일 주소를 입력해주세요",
                             pattern: {
@@ -38,13 +45,13 @@ export default function Login() {
                         }
                         )
                     } />
-                    { errors.username && <InputError>{errors.username?.message}</InputError>}
+                    { errors.email && <InputError>{errors.email?.message}</InputError>}
                 </label>
                 <label className="block">
                     <Input type="password" placeholder="비밀번호" {...register("password", { required: "비밀번호를 입력해주세요" })} />
                     { errors.password && <InputError>{errors.password?.message}</InputError>}
                 </label>
-                <Button variant="wide" disabled={!isValid} size={{ default: "xl", md: "2xl", xl: "3xl" }} type="button">로그인</Button>
+                <Button variant="wide" type="submit" disabled={!isValid} size={{ default: "xl", md: "2xl", xl: "3xl" }}>로그인</Button>
             </form>
             <div className="text-right lg:typo-xl-medium md:typo-lg-medium sm:typo-md-medium text-blue-400 mb-[40px]">
                 회원이 아니신가요?&nbsp;
