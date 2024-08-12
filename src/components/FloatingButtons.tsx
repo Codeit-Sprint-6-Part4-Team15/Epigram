@@ -16,7 +16,7 @@ export default function FloatingButtons() {
     <div className="fixed bottom-[30px] right-[10px] flex flex-col items-end gap-[3px]">
       <Link
         href="/addepigram"
-        className="group flex h-[50px] w-[50px] items-center justify-center rounded-[100px] bg-blue-900 text-white hover:w-auto"
+        className="group flex h-[50px] w-[50px] items-center justify-center rounded-[100px] bg-blue-900 text-white transition-[width] hover:w-[158px]"
       >
         <Image
           src={IcoPencil}
@@ -46,7 +46,9 @@ export default function FloatingButtons() {
               stroke-linecap="round"
             />
           </svg>
-          <span className="typo-lg-medium">에피그램 만들기</span>
+          <span className="typo-lg-medium whitespace-nowrap">
+            에피그램 만들기
+          </span>
         </span>
       </Link>
       <button
