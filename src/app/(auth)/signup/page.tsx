@@ -23,7 +23,7 @@ export default function SignUp() {
         })
         .catch((response: FormErrorResponse) => {
             Object.entries(response.details).forEach((value) => {
-                let fieldName = value[0].replace('requestBody.', '') as 'email' | 'password' | 'passwordConfirmation' | 'nickname';
+                let fieldName = value[0].replace('requestBody.', '') as keyof SignUpRequestBody;
                 let errorMessage = value[1].message;
                 setError(fieldName, {type: 'custom', message: errorMessage});
             });
@@ -59,6 +59,7 @@ export default function SignUp() {
                             }
                         })
                     } />
+                    { errors.password && <InputError>{errors.password?.message}</InputError>}
                     <div className="md:h-[16px] sm:h-[10px]"></div>
                     <Input type="password" placeholder="비밀번호확인" {...register(
                         "passwordConfirmation",

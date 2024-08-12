@@ -23,7 +23,7 @@ export default function Login() {
             localStorage.setItem('user', JSON.stringify(response.user));
         }, (response: FormErrorResponse) => {
             Object.entries(response.details).forEach((value) => {
-                let fieldName = value[0].replace('requestBody.', '') as 'email' | 'password';
+                let fieldName = value[0].replace('requestBody.', '') as keyof SignInRequestBody;
                 let errorMessage = value[1].message;
                 setError(fieldName, {type: 'custom', message: errorMessage});
             })
