@@ -8,12 +8,12 @@ import { toast } from "react-toastify";
 import { Epigram } from '../../types/epigrams';
 import Image from "next/image";
 
-
 export default function Feed() {
   const [epigrams, setEpigrams] = useState<Epigram[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingError, setLoadingError] = useState<Error | null>(null);
   const [cursor, setCursor] = useState<number>(0);
+  const [isGrid, setIsGrid] =useState(false);
 
   const fetchEpigrams = async (limit: number, cursor: number) => { 
     try {
@@ -33,11 +33,17 @@ export default function Feed() {
   };
 
   const handleMore = () => {
-    fetchEpigrams(6, cursor);
+    const limit = isGrid ? 6 : 3; // 대시보드 정렬일 경우 데이터를 3개씩 추가로 불러옴
+    fetchEpigrams(limit, cursor);
   };
 
+  const handleSort = () => {
+   setIsGrid(!isGrid);
+  };
+
+
   useEffect(() => {
-    fetchEpigrams(6, 0);  // 초기 로드 시 6개를 불러옴
+    fetchEpigrams(6, 0);  // 초기 로드 시 6개 로드
   }, []);
 
   return (
@@ -47,19 +53,22 @@ export default function Feed() {
             <h1 className="typo-lg-semibold mt-[32px] mb-[24px] xl:mb-[40px] xl:mt-[120px] md:typo-xl-semibold xl:typo-2xl-semibold">
               피드
             </h1>
-            <button className="lg:hidden">
-              <Image src="/assets/ic-sort-dashboard.svg"
+            <button onClick={handleSort} className="lg:hidden">
+              {isGrid&&<Image src="/assets/ic-sort-dashboard.svg"
                     alt="정렬 선택 그리드"
                     width={25}
-                    height={25} />
-              <Image src="/assets/ic-sort-grid.svg"
+                    height={25} />}
+              {!isGrid&&<Image src="/assets/ic-sort-grid.svg"
                     alt="정렬 선택 대시보드"
                     width={25}
-                    height={25} />
+                    height={25} />}
             </button>
           </div>
-          <div className="flex-grow grid grid-cols-1 md:grid-cols-2 gap-[16px] md:gap-[12px] xl:gap-[30px]">
-            {epigrams.map((epigram) => (
+          <div
+          className={`flex-grow grid gap-[16px] xl:gap-[30px] ${
+            isGrid ? 'grid-cols-2' : 'grid-cols-1'
+          } lg:grid-cols-2`}
+        > {epigrams.map((epigram) => (
               <Link href={`epigrams/${epigram.id}`} key={epigram.id}>
                 <div className="transition transform hover:scale-105 hover:duration-700">
                   <TextCard
