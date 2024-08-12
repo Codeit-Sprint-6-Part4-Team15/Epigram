@@ -11,6 +11,7 @@ import { useRouter } from 'next/router';
 import Button from '../components/commons/Button';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
+
 interface ScrollWrapperProps {
   children: ReactNode;
   direction: string;
