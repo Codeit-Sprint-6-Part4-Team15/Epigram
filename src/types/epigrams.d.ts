@@ -23,17 +23,22 @@ export interface TextCardProps {
 }
 
 export interface epigramsParams {
-    id?: number;
-    limit?: number;
-    cursor?: number;
-    keyword?: string;
-    writerId?: number;
-  }
+  id?: number;
+  limit?: number;
+  cursor?: number;
+  keyword?: string;
+  writerId?: number;
+}
 
-  export interface PostEpigramData {
-    tags?: string[];
-    referenceUrl?: string;
-    referenceTitle?: string;
-    author?: string;
-    content?: string;
-  }
+export interface PostEpigramData {
+  tags?: string[];
+  referenceUrl?: string;
+  referenceTitle?: string;
+  author?: string;
+  content?: string;
+}
+export interface EpigramsResponse {
+  totalCount: number;
+  nextCursor: number;
+  list: Epigram[];
+}
