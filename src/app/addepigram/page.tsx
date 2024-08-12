@@ -3,7 +3,6 @@ import Button from "@/src/components/commons/Button";
 import RadioGroup from "@/src/components/commons/RadioGroup";
 import TextArea from "@/src/components/commons/TextArea";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useForm, SubmitHandler  } from "react-hook-form";
 import { getEpigrams, postEpigram } from "../api/epigram";
@@ -162,7 +161,7 @@ export default function Page() {
           </div>
             <Button type="button" onClick={handleSubmit(onSubmitHandler,onErrorHandler)} variant="main" size={{ default: "sm", md: "md", xl: "md" }} className="mt-[24px] xl:mt-[40px] mb-[100px]">
                 작성 완료 
-                </Button>
+            </Button>
         </form>
         </div>
       </div>
