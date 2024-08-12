@@ -7,12 +7,14 @@ import Link from "next/link";
 import { toast } from "react-toastify";
 import { Epigram } from '../../types/epigrams';
 import Image from "next/image";
+import FloatingButtons from "@/src/components/FloatingButtons";
 
 export default function Feed() {
   const [epigrams, setEpigrams] = useState<Epigram[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingError, setLoadingError] = useState<Error | null>(null);
   const [cursor, setCursor] = useState<number>(0);
+  const [limit,setLimit]=useState<number>(0);
   const [isGrid, setIsGrid] =useState(false);
 
   const fetchEpigrams = async (limit: number, cursor: number) => { 
@@ -33,8 +35,7 @@ export default function Feed() {
   };
 
   const handleMore = () => {
-    const limit = isGrid ? 6 : 3; // 대시보드 정렬일 경우 데이터를 3개씩 추가로 불러옴
-    fetchEpigrams(limit, cursor);
+    fetchEpigrams(6, cursor);
   };
 
   const handleSort = () => {
@@ -48,6 +49,7 @@ export default function Feed() {
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-bg-100 bg-cover overflow-y-auto">
+      <FloatingButtons/>
         <div className="flex flex-col w-full max-w-[1200px] mx-[24px] min-h-screen px-[24px] lg:px-[72px]">
           <div className="flex justify-between">
             <h1 className="typo-lg-semibold mt-[32px] mb-[24px] xl:mb-[40px] xl:mt-[120px] md:typo-xl-semibold xl:typo-2xl-semibold">
