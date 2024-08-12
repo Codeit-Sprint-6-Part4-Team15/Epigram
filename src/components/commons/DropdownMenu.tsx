@@ -19,11 +19,10 @@ const DropdownMenu : React.FC<DropdownMenuProps> =({ selectedValue, setSelectedV
   };
 
   return (
-    <div className=" pt-[200px] pl-[500px]">
+    <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
         ref={dropDownRef}
-        className="relative"
       >
         <Image
             src="/assets/ic-more-vertical.svg"
@@ -34,7 +33,7 @@ const DropdownMenu : React.FC<DropdownMenuProps> =({ selectedValue, setSelectedV
         
         {isOpen && (
         <ul
-          className="flex flex-col items-center justify-center absolute top-[30px] xl:top-[40px] right-[10px] w-[97px] h-[80px] xl:w-[134px] xl:h-[112px] typo-md-regualr xl:typo-xl-regualr rounded-[16px] border-[1px] border-blue-300 bg-bg-100"      >
+          className="absolute right-[18px] flex flex-col items-center justify-center w-[97px] h-[80px] xl:w-[134px] xl:h-[112px] typo-md-regualr xl:typo-xl-regualr rounded-[16px] border-[1px] border-blue-300 bg-bg-100"      >
           <li className="my-[6px] xl:my-[8px] hover:text-black-100" onClick={() => handleSelect("수정하기")}>
             수정하기
           </li>
