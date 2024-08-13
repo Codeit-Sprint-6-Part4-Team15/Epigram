@@ -102,3 +102,32 @@ export async function getCommentsForEpigram(
     throw new Error('특정 에피그램의 댓글을 불러오는데 실패했습니다.');
   }
 }
+
+export async function getMyCommentsForEpigram(
+  epigramId: number,
+  userId: number,
+  limit: number,
+  cursor: number | null,
+) {
+  let comments;
+  try {
+    const res = await instance.get('/comments', {
+      params: { limit, cursor },
+    });
+
+    comments = res.data.list;
+
+    const filteredComments = comments.filter(
+      (comment: CommentType) =>
+        comment.epigramId === epigramId && comment.writer.id === userId,
+    );
+
+    return {
+      totalCount: filteredComments.length,
+      nextCursor: res.data.nextCursor,
+      list: filteredComments,
+    };
+  } catch (error) {
+    throw new Error('특정 에피그램의 내 댓글을 불러오는데 실패했습니다.');
+  }
+}

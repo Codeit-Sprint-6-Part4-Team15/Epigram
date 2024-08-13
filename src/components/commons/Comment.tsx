@@ -18,9 +18,9 @@ import Toggle from './Toggle';
 
 interface CommentsProps {
   comment: CommentType;
-  onEdit: (id: number, content: string, isPrivate: boolean) => void;
-  onDelete: (id: number) => void;
-  onUpdate: () => void;
+  onEdit?: (id: number, content: string, isPrivate: boolean) => void;
+  onDelete?: (id: number) => void;
+  onUpdate?: () => void;
 }
 
 export default function Comment({
@@ -71,26 +71,30 @@ export default function Comment({
   };
 
   const handleEdit = async () => {
-    try {
-      await onEdit(comment.id, content, isPrivate);
-      setIsEdit(false);
-      toast.info('댓글이 수정되었습니다.');
-    } catch (error) {
-      console.error('댓글을 수정하는데 실패했습니다.');
-    } finally {
-      onUpdate();
+    if (onEdit) {
+      try {
+        await onEdit(comment.id, content, isPrivate);
+        setIsEdit(false);
+        toast.info('댓글이 수정되었습니다.');
+      } catch (error) {
+        console.error('댓글을 수정하는데 실패했습니다.');
+      } finally {
+        if (onUpdate) onUpdate();
+      }
     }
   };
 
   const handleDelete = async () => {
-    try {
-      await onDelete(comment.id);
-      closeDeleteModal();
-      toast.info('댓글이 삭제되었습니다.');
-    } catch (error) {
-      console.error('댓글을 삭제하는데 실패했습니다.');
-    } finally {
-      onUpdate();
+    if (onDelete) {
+      try {
+        await onDelete(comment.id);
+        closeDeleteModal();
+        toast.info('댓글이 삭제되었습니다.');
+      } catch (error) {
+        console.error('댓글을 삭제하는데 실패했습니다.');
+      } finally {
+        if (onUpdate) onUpdate();
+      }
     }
   };
 
