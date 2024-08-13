@@ -3,7 +3,6 @@ import instance from "./axios";
 import axios from "axios";
 
 export async function postSignIn(signInPayload : SignInRequestBody): Promise<AuthResponse> {
-    console.log('called');
     try {
         const response = await instance.post<AuthResponse>('/auth/signIn', signInPayload);
         return Promise.resolve(response.data);
