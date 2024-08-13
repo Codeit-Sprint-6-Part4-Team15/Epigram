@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { Epigram } from '@/src/types/epigrams';
 import { getEpigrams } from '../../api/epigram';
@@ -14,13 +14,13 @@ const SearchEpigram: React.FC<SearchEpigramProps> = ({ searchWord }) => {
   const [loading, setLoading] = useState(false);
   const [cursor, setCursor] = useState<number | null>(null);
 
-  const isFirstRender = useRef(true);
   const router = useRouter();
+  
 
   const fetchEpigrams = useCallback(async (reset: boolean = false) => {
     try {
       setLoading(true);
-      const response = await getEpigrams(LIMIT, reset ? undefined : cursor ?? undefined, searchWord ?? '');
+      const response = await getEpigrams(LIMIT, reset ? 0 : cursor ?? 0, searchWord ?? '');
       const epigramList = response.list;
       const nextCursor = epigramList.length > 0 ? epigramList[epigramList.length - 1].id : null;
       setCursor(nextCursor);
@@ -33,7 +33,7 @@ const SearchEpigram: React.FC<SearchEpigramProps> = ({ searchWord }) => {
 
       // 로컬 스토리지에 검색 결과 저장
       localStorage.setItem('epigrams', JSON.stringify(epigramList));
-      localStorage.setItem('cursor', nextCursor ? nextCursor.toString() : 'null');
+      localStorage.setItem('cursor', nextCursor ? nextCursor : 'null');
     } catch (err) {
       console.error(err);
     } finally {
@@ -41,31 +41,35 @@ const SearchEpigram: React.FC<SearchEpigramProps> = ({ searchWord }) => {
     }
   }, [cursor, searchWord]);
 
-  const loadEpigramsFromLocalStorage = () => {
+  useEffect(() => {
+    if (searchWord) {
+      fetchEpigrams(true);
+      console.log(searchWord)
+    } else {
+      fetchEpigrams();
+    }
+  }, [searchWord]);
+
+  useEffect(() => {
     const storedEpigrams = localStorage.getItem('epigrams');
     const storedCursor = localStorage.getItem('cursor');
-
+  
     if (storedEpigrams) {
       setEpigrams(JSON.parse(storedEpigrams));
     }
-    
+  
     if (storedCursor) {
-      setCursor(storedCursor === 'null' ? null : Number(storedCursor));
+      setCursor(Number(storedCursor));
     }
-  };
-
-  useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      loadEpigramsFromLocalStorage();  // 로컬 스토리지에서 데이터 로드
-      fetchEpigrams();
+  
+    // searchWord가 있을 때만 fetchEpigrams 호출
+    if (searchWord) {
+      fetchEpigrams(true);
     }
-  }, []);
+  }, [searchWord]);
 
   useEffect(() => {
     const fetchOnSearchWordChange = async () => {
-      setCursor(null);
-      setEpigrams([]);
       await fetchEpigrams(true);
     };
 

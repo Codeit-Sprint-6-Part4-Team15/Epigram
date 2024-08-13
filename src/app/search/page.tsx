@@ -1,20 +1,47 @@
-
 "use client";
 import Image from 'next/image';
 import searchIcon from '@/public/assets/searchIcon.svg';
 import smallLogo from '@/public/assets/epigramSmallLogo.svg';
 import { useState, useEffect, useRef } from 'react';
 import SearchHistory from './components/SearchHistory';
-import Link from 'next/link';
 import SearchEpigram from './components/SearchEpigram';
+import { useRouter } from 'next/navigation';
+import FloatingButtons from '@/src/components/FloatingButtons';
 
 function SearchPage() {
+  const router = useRouter();
   const [searchWord, setSearchWord] = useState('');
   const [currentSearchWord, setCurrentSearchWord] = useState('');
   const [searchWords, setSearchWords] = useState<string[]>([]);
   const [isFocused, setIsFocused] = useState(false);
   const searchHistoryRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    const handleRouteChange = () => {
+      const query = new URLSearchParams(window.location.search).get('query');
+      if (query) {
+        setCurrentSearchWord(query);
+        setSearchWord(query); // input value도 업데이트
+      } else {
+        // 쿼리가 없을 때 전체 데이터를 보여주기 위한 로직 추가
+        setCurrentSearchWord(''); // 전체 데이터 경우에 사용할 검색어 초기화
+        setSearchWord(''); // input value도 초기화
+      }
+    };
+  
+    // 클라이언트에서만 실행되도록 체크
+    if (typeof window !== 'undefined') {
+      handleRouteChange();
+      window.addEventListener('popstate', handleRouteChange);
+    }
+  
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('popstate', handleRouteChange);
+      }
+    };
+  }, []);
+  
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchWord(e.target.value);
   };
@@ -45,6 +72,10 @@ function SearchPage() {
     }
     saveToLocalStorage(word);
     setCurrentSearchWord(word);
+    setSearchWord(word); // 현재 검색어를 입력란에 반영
+  
+    // URL에 검색어를 쿼리 파라미터로 추가
+    router.push(`/search?query=${encodeURIComponent(word)}`);
   };
 
   const removeSearchWord = (word: string) => {
@@ -118,9 +149,9 @@ function SearchPage() {
               onClick={handleInputClick}
               placeholder="검색어를 입력해 주세요."
             />
-            <Link className='flex items-center' href='/search'>
+            <a className='flex items-center' href='/search'>
               <Image className='absolute cursor-pointer left-[12px] md:left-[12px] xl:left-[16px] xl:w-[42px] xl:h-[42px]' priority src={smallLogo} alt='smallLogo' />
-            </Link>
+            </a>
             <Image
               className='w-[20px] h-[20px] cursor-pointer absolute right-[10px] bottom-[17px] md:bottom-[22px] xl:w-[36px] xl:h-[36px] xl:bottom-[23px]'
               src={searchIcon}
@@ -137,6 +168,7 @@ function SearchPage() {
         <div>
           <SearchEpigram searchWord={currentSearchWord} />
         </div>
+        <FloatingButtons />
       </div>
     </div>
   );
