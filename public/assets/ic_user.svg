@@ -1,4 +1,18 @@
-<svg width="48" height="51" viewBox="0 0 48 51" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M31 17C31 20.866 27.866 24 24 24C20.134 24 17 20.866 17 17C17 13.134 20.134 10 24 10C27.866 10 31 13.134 31 17Z" fill="#ECEFF4"/>
-<path d="M10 35C10 30.5817 13.5817 27 18 27H30C34.4183 27 38 30.5817 38 35V37C38 39.2091 36.2091 41 34 41H14C11.7909 41 10 39.2091 10 37V35Z" fill="#ECEFF4"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 24 24">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #dedede;
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <!-- Generator: Adobe Illustrator 28.6.0, SVG Export Plug-In . SVG Version: 1.2.0 Build 709)  -->
+  <g>
+    <g id="_레이어_1" data-name="레이어_1">
+      <path class="cls-1" d="M8.9,13.8c-1,0-1.9.4-2.6,1.1-.7.7-1.1,1.6-1.1,2.6v1.9c0,.3.3.6.6.6h12.3c.3,0,.6-.3.6-.6v-1.9c0-1-.4-1.9-1.1-2.6-.7-.7-1.6-1.1-2.6-1.1h-6.1Z"/>
+      <path class="cls-1" d="M12,4.6c-2,0-3.6,1.6-3.6,3.6s1.6,3.6,3.6,3.6,3.6-1.6,3.6-3.6-1.6-3.6-3.6-3.6Z"/>
+    </g>
+  </g>
 </svg>
