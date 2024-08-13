@@ -8,26 +8,37 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { postSignIn } from '../../api/auth';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function Login() {
+    const router = useRouter();
     const { register, formState: { errors, isValid }, handleSubmit, setError } = useForm<SignInRequestBody>({
         shouldUseNativeValidation: true,
         mode: "onBlur",
     });
 
+    useEffect(() => {
+        if(localStorage.getItem('access_token') !== '') router.push('/');
+    }, []);
+
+    const onAuthSucceeded = (response: AuthResponse) => {
+        localStorage.setItem('access_token', response.accessToken);
+        localStorage.setItem('refresh_token', response.refreshToken);
+        localStorage.setItem('user', JSON.stringify(response.user));
+        router.push('/');
+    }
+
+    const onAuthFailed = (response: FormErrorResponse) => {
+        Object.entries(response.details).forEach((value) => {
+            let fieldName = value[0].replace('requestBody.', '') as keyof SignInRequestBody;
+            let errorMessage = value[1].message;
+            setError(fieldName, {type: 'custom', message: errorMessage});
+        });
+    }
     const onSubmit: SubmitHandler<SignInRequestBody> = (data) => {
         postSignIn(data)
-        .then((response: AuthResponse) => {
-            localStorage.setItem('access_token', response.accessToken);
-            localStorage.setItem('refresh_token', response.refreshToken);
-            localStorage.setItem('user', JSON.stringify(response.user));
-        }, (response: FormErrorResponse) => {
-            Object.entries(response.details).forEach((value) => {
-                let fieldName = value[0].replace('requestBody.', '') as keyof SignInRequestBody;
-                let errorMessage = value[1].message;
-                setError(fieldName, {type: 'custom', message: errorMessage});
-            })
-        });
+        .then(onAuthSucceeded, onAuthFailed);
     }
 
     return (

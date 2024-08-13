@@ -7,8 +7,10 @@ import { SignUpRequestBody, AuthResponse, FormErrorResponse } from '@/src/types/
 import Image from 'next/image';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { postSignUp } from '../../api/auth';
+import { useRouter } from 'next/navigation';
 
 export default function SignUp() {
+    const router = useRouter();
     const { register, formState: { errors, isValid }, handleSubmit, setError } = useForm<SignUpRequestBody>({
         shouldUseNativeValidation: true,
         mode: "onBlur",
@@ -20,6 +22,7 @@ export default function SignUp() {
             localStorage.setItem('access_token', response.accessToken);
             localStorage.setItem('refresh_token', response.refreshToken);
             localStorage.setItem('user', JSON.stringify(response.user));
+            router.push('/');
         })
         .catch((response: FormErrorResponse) => {
             Object.entries(response.details).forEach((value) => {
