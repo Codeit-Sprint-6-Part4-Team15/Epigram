@@ -13,7 +13,7 @@ export async function getMyComments(id: number, limit: number, cursor: number) {
     });
     comments = await res.data;
   } catch (error) {
-    throw new Error('내 댓글 목록을 불러오는데 실패했습니다.');
+    console.error('내 댓글 목록을 불러오는데 실패했습니다.');
   }
   return comments;
 }
@@ -29,7 +29,7 @@ export async function getRecentComments(limit: number, cursor: number) {
     });
     comments = await res.data;
   } catch (error) {
-    throw new Error('최신 댓글을 불러오는데 실패했습니다.');
+    console.error('최신 댓글을 불러오는데 실패했습니다.');
   }
   return comments;
 }
@@ -45,7 +45,7 @@ export async function handleCommentEdit(
       isPrivate,
     });
   } catch (error) {
-    throw new Error('댓글을 수정하는데 실패했습니다.');
+    console.error('댓글을 수정하는데 실패했습니다.');
   }
 }
 
@@ -53,7 +53,7 @@ export async function handleCommentDelete(id: number) {
   try {
     const res = await instance.delete(`/comments/${id}`);
   } catch (error) {
-    throw new Error('댓글을 삭제하는데 실패했습니다.');
+    console.error('댓글을 삭제하는데 실패했습니다.');
   }
 }
 
