@@ -126,8 +126,8 @@ export default function Comment({
             <div className="flex items-center justify-between">
               <Toggle
                 content={[{ value: 'isPrivate', label: '공개' }]}
-                checked={!isPrivate}
-                onChange={setIsPrivate}
+                checked={isPrivate}
+                onChange={() => setIsPrivate(!isPrivate)}
               />
               <div className="w-[53px] xl:w-[60px]">
                 <Button
