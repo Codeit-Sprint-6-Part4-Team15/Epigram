@@ -8,6 +8,7 @@ import Image from 'next/image';
 import instance from '@/src/app/api/axios';
 
 import { User } from '../types/auth';
+import LoadingError from './LoadingError';
 import Loader from './commons/Loader';
 
 async function getUser() {
@@ -22,18 +23,26 @@ async function getUser() {
 }
 
 export default function UserInfo() {
+  const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     const fetchUser = async () => {
-      const userData = await getUser();
-      setUser(userData);
+      setIsLoading(true);
+      try {
+        const userData = await getUser();
+        setUser(userData);
+      } catch (error) {
+        console.error('유저 데이터를 불러오는데 실패했습니다.');
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     fetchUser();
   }, []);
 
-  if (!user) {
+  if (isLoading) {
     return <Loader />;
   }
 

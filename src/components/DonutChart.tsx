@@ -141,7 +141,7 @@ export default function DonutChart({ data }: DonutChartProps) {
                 <Image src={el.image} fill alt={el.emotion} />
               </figure>
               <span className="typo-sm-semibold text-gray-200 xl:typo-xl-semibold hover:text-black-600">
-                {el.rate}%
+                {Math.round(el.rate)}%
               </span>
             </li>
           ))}
