@@ -15,7 +15,7 @@ export interface Epigram {
   isLiked: boolean;
 }
 
-export interface EpigramResponse {
+export interface EpigramsResponse {
   list: Epigram[];
   totalCount: number;
   nextCursor?: number;
