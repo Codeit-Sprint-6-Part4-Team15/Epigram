@@ -17,7 +17,7 @@ export default function EpigramDetailPage({
 
   return (
     <div>
-      <EpigramDetailPageCommentsSection epigramId={epigramId} />
+      <EpigramDetailPageCommentsSection epigramId={epigramId} userId={136} />
     </div>
   );
 }
