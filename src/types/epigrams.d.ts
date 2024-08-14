@@ -30,15 +30,10 @@ export interface epigramsParams {
   writerId?: number;
 }
 
-export interface PostEpigramData {
-  tags?: string[];
-  referenceUrl?: string;
-  referenceTitle?: string;
-  author?: string;
-  content?: string;
-}
-export interface EpigramsResponse {
-  totalCount: number;
-  nextCursor: number;
-  list: Epigram[];
+  export interface PostEpigramData {
+    tags?: string[];
+    referenceUrl?: string;
+    referenceTitle?: string;
+    author?: string;
+    content?: string;
 }
