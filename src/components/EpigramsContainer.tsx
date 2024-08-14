@@ -81,7 +81,7 @@ export default function EpigramsContainer({
     <div className="flex flex-col items-center gap-[40px] xl:gap-[72px]">
       <div className="flex w-full flex-col gap-[16px]">
         {epigrams?.map((epigram) => (
-          <Link href={`epigrams/${epigram.id}`}>
+          <Link key={epigram.id} href={`epigrams/${epigram.id}`}>
             <TextCard
               key={epigram.id}
               id={epigram.id}

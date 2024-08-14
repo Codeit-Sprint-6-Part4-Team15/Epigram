@@ -86,7 +86,7 @@ async function getMonthlyData(id: number, year: number, month: number) {
   const updatedEmotionInfo = emotionInfo.map((info) => {
     const count = emotionCounts[info.emotion] || 0;
     const rate =
-      totalRecords > 0 ? Math.round((count / totalRecords) * 100) : 0;
+      totalRecords > 0 ? Number(((count / totalRecords) * 100).toFixed(2)) : 0;
     return { ...info, rate };
   });
 

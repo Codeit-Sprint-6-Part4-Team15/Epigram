@@ -55,6 +55,7 @@ export default function DonutChart({ data }: DonutChartProps) {
 
     return (
       <path
+        key={curDeg}
         fill={color}
         stroke={color}
         strokeWidth={STROKE_WIDTH}
@@ -69,6 +70,7 @@ export default function DonutChart({ data }: DonutChartProps) {
     if (sortedData.every((item) => item.rate === 0)) {
       return (
         <path
+          key={0}
           fill="#ddd"
           stroke="#ddd"
           strokeWidth={STROKE_WIDTH}
