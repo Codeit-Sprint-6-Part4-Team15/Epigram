@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { forwardRef, useState } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
