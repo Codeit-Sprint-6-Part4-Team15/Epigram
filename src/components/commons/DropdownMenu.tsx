@@ -1,29 +1,38 @@
-"use client";
+'use client';
 
 import useDetectClose from "@/src/hooks/useDetectClose";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import ConfirmModal from "./Modal/ConfirmModal";
+import { deleteEpigram } from "@/src/app/api/epigram";
+import { useParams, useRouter } from "next/navigation";
 
 export default function DropdownMenu(){
   const dropDownRef = useRef<HTMLButtonElement | null>(null);
   const [isOpen, setIsOpen] = useDetectClose(dropDownRef, false);
-  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 추가
+  const [isModalOpen, setIsModalOpen] = useState(false); 
+  const { id } = useParams();
+  const router=useRouter();
 
   const handleDelete = () => {
     setIsOpen(!isOpen); 
-    setIsModalOpen(true); // 모달 열기
+    setIsModalOpen(true); 
   };
 
   const handleCloseModal = () => {
-    setIsModalOpen(false); // 모달 닫기
+    setIsModalOpen(false);
   };
 
-  const handleConfirmDelete = () => {
-    setIsModalOpen(false);
-    // 여기서 삭제 작업을 수행
-    console.log("게시물이 삭제되었습니다.");
+  const handleConfirmDelete = () => { //게시물 삭제
+    try {
+      deleteEpigram(Number(id));
+      console.log("게시물이 삭제되었습니다."); 
+      //TODO: 삭제 시 메인페이지 피드로 이동하도록
+      router.push('/')
+    } catch (error) {
+      console.error("에피그램 삭제 중 오류가 발생했습니다:", error);    
+    }
   };
 
   const handleSelect = () => {
@@ -46,7 +55,7 @@ export default function DropdownMenu(){
         {isOpen && (
         <ul
           className="absolute right-[10px] flex flex-col items-center justify-center w-[97px] h-[80px] xl:w-[134px] xl:h-[112px] typo-md-regualr xl:typo-xl-regualr rounded-[16px] border-[1px] border-blue-300 bg-bg-100">
-           <Link href="/edit" >
+           <Link href={`${id}/edit`}>
           <li className="my-[6px] xl:my-[8px] typo-md-medium xl:typo-xl-medium hover:text-black-100" onClick={() => handleSelect()}>
             수정하기
           </li>

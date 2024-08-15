@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useForm, SubmitHandler  } from "react-hook-form";
 import { getEpigrams, postEpigram } from "../api/epigram";
 import {toast } from 'react-toastify';
+import { useRouter } from "next/navigation";
 
 
 let errorClass = "mt-[8px] text-state-error typo-sm-medium xl:typo-lg-regual text-right";
@@ -31,9 +32,7 @@ export default function Page() {
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState<string>("");
   const [epigrams, setEpigrams] = useState<any[]>([]); 
-  
-
-  //TODO: const router = useRouter();
+  const router = useRouter();
 
   let borderColor = errors.author ? "border-red-500" : "border-blue-300";
 
@@ -71,7 +70,6 @@ export default function Page() {
     try {
       const data = await getEpigrams(10);
       setEpigrams(data);
-      //TODO:경로설정 
     } catch (error) {
       console.error("에피그램 목록을 불러오는데 실패했습니다:", error);
     }
@@ -84,9 +82,9 @@ export default function Page() {
   const onSubmitHandler: SubmitHandler<FormValue> = async (data) => {
     data.tags = tags;
     try {
-      await postEpigram(data); 
-      console.log("에피그램 등록 완료");
-      fetchEpigrams(); 
+      const newData= await postEpigram(data); 
+      console.log(newData.id)
+      //router.push(`{/epigrams/${Number(newData.id)}}`) 
     } catch (error) {
       console.error("에피그램 등록 실패:", error);
     }

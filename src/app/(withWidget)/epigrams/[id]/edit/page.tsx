@@ -1,11 +1,12 @@
 "use client";
+
+import { getEpigrams, postEpigram } from "@/src/app/api/epigram";
 import Button from "@/src/components/commons/Button";
 import RadioGroup from "@/src/components/commons/RadioGroup";
 import TextArea from "@/src/components/commons/TextArea";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useForm, SubmitHandler  } from "react-hook-form";
-import { getEpigrams, postEpigram } from "../api/epigram";
 import {toast } from 'react-toastify';
 
 
@@ -20,7 +21,7 @@ interface FormValue  {
   content: string;
 }
 
-export default function Page() {
+export default function Edit({ params }: { params: { id:number }}) {
 
   const {
     handleSubmit, 

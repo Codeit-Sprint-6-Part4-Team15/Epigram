@@ -42,14 +42,3 @@ export interface EpigramsResponse {
   nextCursor: number;
   list: Epigram[];
 }
-
-export interface EpigramById {
-  likeCount: number;
-  id: number;
-  content: string;
-  author: string;
-  referenceTitle: string;
-  referenceUrl: string;
-  writerId: number;
-  tags: Tag[];
-}

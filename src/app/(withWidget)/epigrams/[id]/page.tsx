@@ -1,15 +1,16 @@
 "use client";
 
-import { getEpigramById } from "@/src/app/api/epigram";
+import { getEpigramById, likeEpigram, unlikeEpigram } from "@/src/app/api/epigram";
 import DropdownMenu from "@/src/components/commons/DropdownMenu";
-import { EpigramById } from "@/src/types/epigrams";
+import { Epigram } from "@/src/types/epigrams";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 export default function EpigramDetailPage({ params }: { params: { slug: string, id:number } }) {
-  const [epigram, setEpigram] = useState<EpigramById | null>(null);  
-  const id = params.id
+  const [epigram, setEpigram] = useState<Epigram | null>(null);  
+  const id = params.id;
+  const [isLiked,setIsLiked]=useState(false);
 
   const handleCopyClipBoard = async (text: string) => {
     try {
@@ -17,6 +18,22 @@ export default function EpigramDetailPage({ params }: { params: { slug: string, 
       toast.info("링크가 복사되었습니다.");
     } catch (err) {
       console.log(err);
+    }
+  };
+
+  const handleLike = async () => {
+    try {
+      if (epigram?.isLiked===false) {
+        const data = await likeEpigram(id);
+        setEpigram(data);
+        setIsLiked(!isLiked);
+      } else {
+        const data = await unlikeEpigram(id);
+        setEpigram(data);
+        setIsLiked(!isLiked);
+      }
+    } catch (error) {
+      console.error("좋아요 처리 중 오류가 발생했습니다:", error);
     }
   };
 
@@ -35,7 +52,8 @@ export default function EpigramDetailPage({ params }: { params: { slug: string, 
 
   //TODO: 배경 이미지 변경
   return (<>
-  <div className="w-screen h-screen flex flex-col items-center bg-bg-100">
+  <div className="w-screen h-screen bg-bg-100">
+    <div className="note-background w-screen pt-[40px] h-[288px] md:h-[366px] xl:h-[472px] flex flex-col items-center">
   <div className="h-[288px] p-[22px] w-[380px] md:w-[500px] xl:w-[640px]">
   <div className="flex  justify-between  h-[36px] ">
     {epigram&&epigram.tags&&<div className="flex items-center overflow-hidden whitespace-nowrap">
@@ -56,7 +74,7 @@ export default function EpigramDetailPage({ params }: { params: { slug: string, 
          -  {epigram?.author} - 
         </p>
         <div className="flex justify-center mt-[32px] xl:mt-[36px]">
-          <button className="flex items-center justify-center bg-black-600 text-blue-100 rounded-[100px] py-[6px] px-[14px] gap-[4px] typo-md-medium  xl:typo-xl-medium mr-[8px] xl:mr-[16px]">
+          <button onClick={handleLike} className="flex items-center justify-center bg-black-600 text-blue-100 rounded-[100px] py-[6px] px-[14px] gap-[4px] typo-md-medium  xl:typo-xl-medium mr-[8px] xl:mr-[16px]">
           <Image
                 src="/assets/ic-like.svg"
                 alt="에피그램 좋아요 버튼"
@@ -79,6 +97,7 @@ export default function EpigramDetailPage({ params }: { params: { slug: string, 
                 />
           </button>}
         </div>
+      </div>
       </div>
   </div>
   </>);

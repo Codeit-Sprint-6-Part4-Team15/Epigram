@@ -145,6 +145,11 @@ const config: Config = {
           border: '1px solid #f2f2f2',
           boxShadow: '0 3px 12px rgba(0,0,0,0.04)',
         },
+        '.note-background': {
+          background:
+            'linear-gradient(to bottom, #f2f2f2 1px, #fff 1px 19px) center -1px / auto 20px repeat-y',
+          boxShadow: '0 3px 12px rgba(0,0,0,0.04)',
+        },
         '.border-bottom-zigzag': {
           background: '#ccc',
           borderImage:
