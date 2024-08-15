@@ -4,7 +4,9 @@ import Image from 'next/image';
 import instance from '@/src/app/api/axios';
 
 import ChartContainer from '@/src/components/ChartContainer';
+import EmotionCalendar from '@/src/components/EmotionCalender';
 import MyContents from '@/src/components/MyContents';
+import TodayEmotionSelector from '@/src/components/commons/TodayEmotionSelector';
 
 async function getUser() {
   let userData;
@@ -23,7 +25,7 @@ export default async function MyPage() {
     <div className="flex min-h-[100vh] flex-col items-center bg-bg-100 pt-[64px] xl:pt-[128px]">
       <div className="shadow-1 flex w-full flex-col items-center rounded-[24px] bg-white">
         <div className="relative -mt-[40px] flex flex-col items-center gap-[8px] xl:-mt-[60px] xl:gap-[16px]">
-          <figure className="relative h-[80px] w-[80px] rounded-full border-2 border-blue-200 bg-white xl:h-[120px] xl:w-[120px]">
+          <figure className="relative flex h-[80px] w-[80px] items-center justify-center overflow-hidden rounded-full border-2 border-blue-200 bg-white xl:h-[120px] xl:w-[120px]">
             <Image src={user?.image ?? IcoUser} fill alt="유저 이미지" />
           </figure>
           <strong className="typo-lg-medium text-black-950 xl:typo-2xl-medium">
@@ -40,8 +42,12 @@ export default async function MyPage() {
           <h3 className="typo-lg-semibold mb-[16px] text-black-600 xl:typo-2xl-semibold xl:mb-[40px]">
             오늘의 감정
           </h3>
-          <div>컴포넌트 1</div>
-          <div>컴포넌트 2</div>
+          <div className="mb-[56px] flex justify-center lg:mb-[60px] xl:mb-[164px]">
+            <TodayEmotionSelector userId={136} />
+          </div>
+          <div>
+            <EmotionCalendar userId={136} />
+          </div>
         </div>
         <div className="w-[384px] py-[36px] xl:w-[640px] xl:py-[80px]">
           <h3 className="typo-lg-semibold mb-[16px] text-black-600 xl:typo-2xl-semibold xl:mb-[40px]">

@@ -52,16 +52,16 @@ const config: Config = {
           950: '#1A212D',
         },
         red: {
-          100: "#FF6577",
+          100: '#FF6577',
         },
         bg: {
-          100: "#F5F7FA",
-          200: "#AFBACD",
+          100: '#F5F7FA',
+          200: '#AFBACD',
         },
         line: {
-          100: "#F2F2F2",
-          200: "#CFDBEA",
-          300: "#D7D7D7",
+          100: '#F2F2F2',
+          200: '#CFDBEA',
+          300: '#D7D7D7',
         },
         illust: {
           yellow: '#FBC85B',

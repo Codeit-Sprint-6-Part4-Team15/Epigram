@@ -16,7 +16,7 @@ function SearchPage() {
   const [isFocused, setIsFocused] = useState(false);
   const searchHistoryRef = useRef<HTMLDivElement>(null);
 
-  //tag 수정한 부분 - 서연
+  //tag 수정한 부분
   const params=useSearchParams();
   const tag=params.get('tag')
 
@@ -99,7 +99,7 @@ function SearchPage() {
   }, []);
 
   useEffect(() => {
-      //tag 수정한 부분 - 서연
+      //tag 수정한 부분
     if (tag) {
       setSearchWord(tag); // 'tag' 값을 검색어로 설정
       handleSearch(tag); // 'tag'로 검색을 실행

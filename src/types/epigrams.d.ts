@@ -37,8 +37,9 @@ export interface PostEpigramData {
   author?: string;
   content?: string;
 }
+
 export interface EpigramsResponse {
-  totalCount: number;
-  nextCursor: number;
   list: Epigram[];
+  totalCount: number;
+  nextCursor?: number;
 }

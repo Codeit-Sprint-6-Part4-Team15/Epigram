@@ -25,7 +25,7 @@ export default function MyContents() {
           className="aria-selected:text-black-600"
           onClick={() => setActiveTab(1)}
         >
-          내 에피그램({epigramsCount})
+          내 에피그램({epigramsCount ?? 0})
         </button>
         <button
           type="button"
@@ -36,7 +36,7 @@ export default function MyContents() {
           className="aria-selected:text-black-600"
           onClick={() => setActiveTab(2)}
         >
-          내 댓글({commentsCount})
+          내 댓글({commentsCount ?? 0})
         </button>
       </div>
       <div>
