@@ -11,6 +11,14 @@ interface ChartContainerProps {
   month: number;
 }
 
+type Item = {
+  emotion: string;
+};
+
+type EmotionCounts = {
+  [key: string]: number;
+};
+
 const emotionInfo: EmotionData[] = [
   {
     emotion: 'HAPPY',
@@ -61,14 +69,16 @@ async function getMonthlyData(id: number, year: number, month: number) {
     });
     monthlyData = await res.data;
   } catch (error) {
-    throw new Error('사용자의 월 감정 데이터를 불러오는데 실패했습니다.');
+    console.error('사용자의 월 감정 데이터를 불러오는데 실패했습니다.');
   }
 
-  // 카운트
-  const emotionCounts = await monthlyData.reduce((acc, item) => {
-    acc[item.emotion] = (acc[item.emotion] || 0) + 1;
-    return acc;
-  }, {});
+  const emotionCounts: EmotionCounts = await monthlyData.reduce(
+    (acc: EmotionCounts, item: Item) => {
+      acc[item.emotion] = (acc[item.emotion] || 0) + 1;
+      return acc;
+    },
+    {},
+  );
 
   const totalRecords = monthlyData.length;
 
@@ -76,7 +86,7 @@ async function getMonthlyData(id: number, year: number, month: number) {
   const updatedEmotionInfo = emotionInfo.map((info) => {
     const count = emotionCounts[info.emotion] || 0;
     const rate =
-      totalRecords > 0 ? Math.round((count / totalRecords) * 100) : 0;
+      totalRecords > 0 ? Number(((count / totalRecords) * 100).toFixed(2)) : 0;
     return { ...info, rate };
   });
 

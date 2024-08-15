@@ -51,12 +51,17 @@ const config: Config = {
           900: '#2D394E',
           950: '#1A212D',
         },
+        red: {
+          100: '#FF6577',
+        },
         bg: {
           100: '#F5F7FA',
+          200: '#AFBACD',
         },
         line: {
           100: '#F2F2F2',
           200: '#CFDBEA',
+          300: '#D7D7D7',
         },
         illust: {
           yellow: '#FBC85B',
@@ -123,6 +128,11 @@ const config: Config = {
         '48': '3rem',
         '52': '3.25rem',
       },
+      boxShadow: {
+        'custom-hover': '0 0 11px rgba(33,33,33,.2)',
+        'custom-focus': 'inset 0 -2px 0 0 #40516E',
+        'custom-focus-xl': 'inset 0 -3px 0 0 #40516E',
+      },
     },
   },
   plugins: [
@@ -139,6 +149,9 @@ const config: Config = {
           background: '#ccc',
           borderImage:
             "url('../../public/assets/border_note.svg') 40 / 14px 40px / 0 0 14px 0 round",
+        },
+        '.shadow-1': {
+          boxShadow: '0 0 36px rgba(0,0,0,0.05)',
         },
         // main text -  pretendard
         // 3xl

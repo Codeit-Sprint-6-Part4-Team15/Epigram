@@ -18,53 +18,56 @@ import Loader from './commons/Loader';
 // FIX : userId 전역값으로 변경해야함
 export const userId = 136;
 
-export default function CommentsContainer({ type }: { type: 'recent' | 'my' }) {
+interface CommentsContainerProps {
+  type: 'recent' | 'my';
+  setCount?: (count: number) => void;
+}
+
+export default function CommentsContainer({
+  type,
+  setCount,
+}: CommentsContainerProps) {
   const [comments, setComments] = useState<CommentType[]>([]);
-  const [limit, setLimit] = useState(4);
   const [cursor, setCursor] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingError, setLoadingError] = useState<Error | null>(null);
 
-  const fetchComments = useCallback(
-    async (limit: number) => {
-      setIsLoading(true);
-      try {
-        let fetchedComments: CommentsResponse;
-        switch (type) {
-          case 'recent':
-            fetchedComments = await getRecentComments(limit, 0);
-            break;
-          case 'my':
-            fetchedComments = await getMyComments(userId, limit, 0);
-            break;
-        }
-        setComments(fetchedComments?.list);
-        setCursor(fetchedComments?.nextCursor);
-      } catch (error: any) {
-        setLoadingError(error);
-        console.error('댓글을 가져오는 데 실패했습니다.', error);
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [type, limit],
-  );
-
-  const handleMore = async () => {
-    setLimit((prevLimit) => prevLimit + 4);
+  const fetchComments = useCallback(async () => {
     setIsLoading(true);
     try {
       let fetchedComments: CommentsResponse;
       switch (type) {
         case 'recent':
-          fetchedComments = await getRecentComments(limit, cursor);
-          setCursor(fetchedComments.nextCursor);
+          fetchedComments = await getRecentComments(4, 0);
           break;
         case 'my':
-          fetchedComments = await getMyComments(userId, limit, cursor);
-          setCursor(fetchedComments.nextCursor);
+          fetchedComments = await getMyComments(userId, 4, 0);
+          if (setCount) setCount(fetchedComments?.totalCount);
           break;
       }
+      setComments(fetchedComments?.list);
+      setCursor(fetchedComments?.nextCursor);
+    } catch (error: any) {
+      setLoadingError(error);
+      console.error('댓글을 가져오는 데 실패했습니다.', error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [type]);
+
+  const handleMore = async () => {
+    setIsLoading(true);
+    try {
+      let fetchedComments: CommentsResponse;
+      switch (type) {
+        case 'recent':
+          fetchedComments = await getRecentComments(4, cursor);
+          break;
+        case 'my':
+          fetchedComments = await getMyComments(userId, 4, cursor);
+          break;
+      }
+      setCursor(fetchedComments.nextCursor);
       setComments((prevComments) => [...prevComments, ...fetchedComments.list]);
     } catch (error: any) {
       setLoadingError(error);
@@ -75,17 +78,16 @@ export default function CommentsContainer({ type }: { type: 'recent' | 'my' }) {
   };
 
   useEffect(() => {
-    fetchComments(limit);
-  }, [, fetchComments]);
+    fetchComments();
+  }, [fetchComments]);
 
   return (
     <div className="flex flex-col items-center gap-[40px] xl:gap-[72px]">
       <div className="w-full">
-        {comments.map((comment) => (
+        {comments?.map((comment) => (
           <Comment
             key={comment.id}
             comment={comment}
-            limit={limit}
             onEdit={handleCommentEdit}
             onDelete={handleCommentDelete}
             onUpdate={fetchComments}

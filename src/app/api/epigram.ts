@@ -2,10 +2,12 @@ import { PostEpigramData } from '../../types/epigrams';
 import instance from './axios';
 
 //에피그램 목록 조회
-export async function getEpigrams(limit = 5) {
+export async function getEpigrams(limit = 5, cursor = 0, keyword = '') {
   let epigrams;
   try {
-    const res = await instance.get(`/epigrams?limit=${limit}`);
+    const res = await instance.get(
+      `/epigrams?limit=${limit}&cursor=${cursor}&keyword=${keyword}`,
+    );
     epigrams = res.data;
   } catch (error) {
     throw new Error('에피그램 목록을 불러오는데 실패했습니다.');
@@ -75,7 +77,7 @@ export async function getMyEpigrams(id: number, limit: number, cursor: number) {
     });
     comments = await res.data;
   } catch (error) {
-    throw new Error('내 에피그램 목록을 불러오는데 실패했습니다.');
+    console.error('내 에피그램 목록을 불러오는데 실패했습니다.');
   }
   return comments;
 }
@@ -91,7 +93,7 @@ export async function getRecentEpigrams(limit: number, cursor: number) {
     });
     comments = await res.data;
   } catch (error) {
-    throw new Error('최신 에피그램을 불러오는데 실패했습니다.');
+    console.error('최신 에피그램을 불러오는데 실패했습니다.');
   }
   return comments;
 }
