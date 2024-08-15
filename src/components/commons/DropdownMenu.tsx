@@ -2,16 +2,17 @@
 
 import useDetectClose from "@/src/hooks/useDetectClose";
 import Image from "next/image";
-import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ConfirmModal from "./Modal/ConfirmModal";
 import { deleteEpigram } from "@/src/app/api/epigram";
 import { useParams, useRouter } from "next/navigation";
+import Loader from "./Loader";
 
 export default function DropdownMenu(){
   const dropDownRef = useRef<HTMLButtonElement | null>(null);
   const [isOpen, setIsOpen] = useDetectClose(dropDownRef, false);
   const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [isLoading,setIsLoading]=useState(false);
   const { id } = useParams();
   const router=useRouter();
 
@@ -35,8 +36,11 @@ export default function DropdownMenu(){
     }
   };
 
-  const handleSelect = () => {
+  const handleEdit = async () => {
     setIsOpen(!isOpen); 
+    setIsLoading(true); 
+    await router.push(`${id}/edit`); 
+    setIsLoading(false);
   };
 
   return (
@@ -55,11 +59,9 @@ export default function DropdownMenu(){
         {isOpen && (
         <ul
           className="absolute right-[10px] flex flex-col items-center justify-center w-[97px] h-[80px] xl:w-[134px] xl:h-[112px] typo-md-regualr xl:typo-xl-regualr rounded-[16px] border-[1px] border-blue-300 bg-bg-100">
-           <Link href={`${id}/edit`}>
-          <li className="my-[6px] xl:my-[8px] typo-md-medium xl:typo-xl-medium hover:text-black-100" onClick={() => handleSelect()}>
+          <li className="my-[6px] xl:my-[8px] typo-md-medium xl:typo-xl-medium hover:text-black-100" onClick={() => handleEdit()}>
             수정하기
           </li>
-          </Link> 
           <li className="my-[6px] xl:my-[8px] typo-md-medium xl:typo-xl-medium hover:text-black-100" onClick={() => handleDelete()}>
             삭제하기
           </li>
@@ -73,6 +75,8 @@ export default function DropdownMenu(){
           type="게시물"
         />
       )}
+      {isLoading && <Loader />} {/* 로딩 상태일 때 Loader 컴포넌트 렌더링 */}
+  
     </div>
   );
 };

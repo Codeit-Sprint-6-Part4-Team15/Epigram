@@ -4,13 +4,17 @@ import { getEpigramById, likeEpigram, unlikeEpigram } from "@/src/app/api/epigra
 import DropdownMenu from "@/src/components/commons/DropdownMenu";
 import { Epigram } from "@/src/types/epigrams";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
+//FIX: 전역 유저 아이디 필요 
+const USER_ID=767;
+
 export default function EpigramDetailPage({ params }: { params: { slug: string, id:number } }) {
   const [epigram, setEpigram] = useState<Epigram | null>(null);  
-  const id = params.id;
   const [isLiked,setIsLiked]=useState(false);
+  const id = params.id;
 
   const handleCopyClipBoard = async (text: string) => {
     try {
@@ -50,7 +54,6 @@ export default function EpigramDetailPage({ params }: { params: { slug: string, 
     fetchEpigram();
   }, []);
 
-  //TODO: 배경 이미지 변경
   return (<>
   <div className="w-screen h-screen bg-bg-100">
     <div className="note-background w-screen pt-[40px] h-[288px] md:h-[366px] xl:h-[472px] flex flex-col items-center">
@@ -59,13 +62,23 @@ export default function EpigramDetailPage({ params }: { params: { slug: string, 
     {epigram&&epigram.tags&&<div className="flex items-center overflow-hidden whitespace-nowrap">
         <div className="flex">
         {epigram?.tags.map((tag,index) => (
+          <Link href={
+            {
+              pathname:"/search",
+              query:{
+                tag:tag.name
+              }
+            }
+          }
+          >
             <span key={index} className="text-blue-400 typo-lg-regular mr-[16px] xl:typo-xl-regular">
               # {tag.name}
             </span>
+            </Link>
           ))}
         </div>
         </div>}
-        <DropdownMenu/>
+       {USER_ID===epigram?.writerId && <DropdownMenu/>} 
       </div>
         <p className="text-black-700 md:mt-[24px] iropke-2xl xl:mt-[32px] xl:iropke-3xl">
           {epigram?.content}
