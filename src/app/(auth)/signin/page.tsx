@@ -7,7 +7,7 @@ import { FormErrorResponse, SignInRequestBody, AuthResponse } from '@/src/types/
 import Image from 'next/image';
 import Link from 'next/link';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { postSignIn } from '../../api/auth';
+import { getGoogleOAuthUrlFor, getKakaoOauthUrlFor, postOAuthGoogle, postOAuthKakao, postSignIn } from '../../api/auth';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
@@ -19,7 +19,21 @@ export default function Login() {
     });
 
     useEffect(() => {
-        if(localStorage.getItem('access_token') !== '') router.push('/');
+        if(localStorage.getItem('access_token') !== null) router.push('/');
+        const searchParams = new URL(window.location.href).searchParams;
+        if(searchParams.get('access_token') !== null) {
+            if(searchParams.get('state') === 'google') {
+                postOAuthGoogle({
+                    redirectUri: 'https://epigram-one.vercel.app/signin',
+                    token: searchParams.get('access_token') ?? 'ERROR',
+                }).then(onAuthSucceeded);
+            } else if(searchParams.get('state') === 'kakao') {
+                postOAuthKakao({
+                    redirectUri: 'https://epigram-one.vercel.app/signin',
+                    token: searchParams.get('access_token') ?? 'ERROR',
+                }).then(onAuthSucceeded);
+            }
+        }
     }, []);
 
     const onAuthSucceeded = (response: AuthResponse) => {
@@ -72,8 +86,12 @@ export default function Login() {
                 SNS 계정으로 로그인하기
             </p>
             <div className="flex flex-row justify-center gap-x-[16px] *:w-[40px] *:h-[40px] lg:*:w-[60px] lg:*:h-[60px]">
-                <Image src="/assets/authPage/logo_google.svg" width="60" height="60" alt="구글로고" />
-                <Image src="/assets/authPage/logo_kakao.svg" width="60" height="60" alt="카카오로고" />
+                <Link href={getGoogleOAuthUrlFor('signin')}>
+                    <Image src="/assets/authPage/logo_google.svg" width="60" height="60" alt="구글로고" />
+                </Link>
+                <Link href={getKakaoOauthUrlFor('signin')}>
+                    <Image src="/assets/authPage/logo_kakao.svg" width="60" height="60" alt="카카오로고" />
+                </Link>
             </div>
         </div>
         
