@@ -94,10 +94,10 @@ export default function DonutChart({ data }: DonutChartProps) {
             strokeWidth={STROKE_WIDTH}
             strokeLinejoin="round"
             strokeLinecap="round"
-            d={`M ${getCoordFromDegrees(SPACE_LENGTH, 50 - STROKE_WIDTH / 2)}
+            d={`M ${getCoordFromDegrees(0, 50 - STROKE_WIDTH / 2)}
                 A ${50 - STROKE_WIDTH / 2} ${50 - STROKE_WIDTH / 2} 0 ${item.rate > 50 ? 1 : 0} 0 ${getCoordFromDegrees(item.deg - SPACE_LENGTH, 50 - STROKE_WIDTH / 2)}
                 L ${getCoordFromDegrees(item.deg - SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH / 2)}
-                A ${50 - FACE_WIDTH - STROKE_WIDTH / 2} ${50 - FACE_WIDTH - STROKE_WIDTH / 2} 0 ${item.rate > 50 ? 1 : 0} 1 ${getCoordFromDegrees(SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH / 2)}`}
+                A ${50 - FACE_WIDTH - STROKE_WIDTH / 2} ${50 - FACE_WIDTH - STROKE_WIDTH / 2} 0 ${item.rate > 50 ? 1 : 0} 1 ${getCoordFromDegrees(0, 50 - FACE_WIDTH - STROKE_WIDTH / 2)}`}
           />
         );
       }
