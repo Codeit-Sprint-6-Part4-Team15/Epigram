@@ -11,16 +11,23 @@ interface TextCardProps {
   author: string;
   tags: EpigramTag[];
   id: number;
+  heightClass?: string;
 }
 
-export default function TextCard({ content, author, tags, id }: TextCardProps) {
+export default function TextCard({
+  content,
+  author,
+  tags,
+  id,
+  heightClass = 'auto',
+}: TextCardProps) {
   return (
     <div>
       <div
         key={id}
-        className="note rounded-[16px] border border-line-100 p-[22px]"
+        className={`note rounded-[16px] border border-line-100 p-[22px] ${heightClass} overflow-hidden`}
       >
-        <p className="iropke-xs mb-2 sm:iropke-md md:iropke-lg lg:iropke-xl xl:iropke-2xl 2xl:iropke-2xl">
+        <p className="iropke-xs mb-2 line-clamp-3 sm:iropke-md md:iropke-lg lg:iropke-xl xl:iropke-2xl 2xl:iropke-2xl lg:line-clamp-4 xl:line-clamp-5">
           {content}
         </p>
         <p className="iropke-xs text-right text-blue-400 sm:iropke-md md:iropke-lg lg:iropke-xl xl:iropke-2xl 2xl:iropke-2xl">
