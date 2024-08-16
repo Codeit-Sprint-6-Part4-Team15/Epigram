@@ -1,3 +1,4 @@
+import { User } from '@/src/types/auth';
 import axios from 'axios';
 
 const API_URL = process.env.NEXT_PUBLIC_API;
