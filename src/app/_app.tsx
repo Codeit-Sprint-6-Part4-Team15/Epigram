@@ -5,7 +5,7 @@ import '../globals.css';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-function MyApp({ Component, pageProps }: AppProps) {
+export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <SWRConfig
       value={{
@@ -19,5 +19,3 @@ function MyApp({ Component, pageProps }: AppProps) {
     </SWRConfig>
   );
 }
-
-export default MyApp;
