@@ -1,14 +1,12 @@
 module.exports = {
-  parser: "@typescript-eslint/parser",
   root: true,
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 2020,
-    sourceType: "module",
+    sourceType: 'module',
     ecmaFeatures: {
       jsx: true,
     },
-    project: "./tsconfig.json",
     project: './tsconfig.json',
     createDefaultProgram: true,
   },
@@ -18,30 +16,37 @@ module.exports = {
     es6: true,
   },
   extends: [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:react-hooks/recommended",
-    "plugin:@typescript-eslint/recommended",
-    "airbnb",
-    "airbnb/hooks",
-    "airbnb-typescript",
-    "plugin:jsx-a11y/recommended",
-    "next/core-web-vitals",
-    "plugin:prettier/recommended",
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
+    'plugin:@typescript-eslint/recommended',
+    'airbnb',
+    'airbnb/hooks',
+    'airbnb-typescript',
+    'plugin:jsx-a11y/recommended',
+    'next/core-web-vitals',
+    'plugin:prettier/recommended',
   ],
-  plugins: ["react", "react-hooks", "@typescript-eslint", "jsx-a11y", "import", "prettier"],
+  plugins: [
+    'react',
+    'react-hooks',
+    '@typescript-eslint',
+    'jsx-a11y',
+    'import',
+    'prettier',
+  ],
   rules: {
-    "prettier/prettier": [
-      "error",
+    'prettier/prettier': [
+      'error',
       {
-        endOfLine: "auto",
+        endOfLine: 'auto',
       },
     ],
-    "jsx-a11y/label-has-associated-control": [
-      "error",
+    'jsx-a11y/label-has-associated-control': [
+      'error',
       {
         required: {
-          some: ["nesting", "id"],
+          some: ['nesting', 'id'],
         },
       },
     ],
@@ -60,9 +65,9 @@ module.exports = {
   },
   settings: {
     react: {
-      version: "detect",
+      version: 'detect',
     },
-    "import/resolver": {
+    'import/resolver': {
       typescript: {},
     },
   },
