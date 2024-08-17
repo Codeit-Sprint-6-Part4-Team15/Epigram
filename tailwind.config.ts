@@ -52,16 +52,16 @@ const config: Config = {
           950: '#1A212D',
         },
         red: {
-          100: "#FF6577",
+          100: '#FF6577',
         },
         bg: {
-          100: "#F5F7FA",
-          200: "#AFBACD",
+          100: '#F5F7FA',
+          200: '#AFBACD',
         },
         line: {
-          100: "#F2F2F2",
-          200: "#CFDBEA",
-          300: "#D7D7D7",
+          100: '#F2F2F2',
+          200: '#CFDBEA',
+          300: '#D7D7D7',
         },
         illust: {
           yellow: '#FBC85B',
@@ -143,6 +143,11 @@ const config: Config = {
             'linear-gradient(to bottom, #f2f2f2 1px, #fff 1px 19px) center -1px / auto 20px repeat-y',
           borderRadius: '16px',
           border: '1px solid #f2f2f2',
+          boxShadow: '0 3px 12px rgba(0,0,0,0.04)',
+        },
+        '.note-background': {
+          background:
+            'linear-gradient(to bottom, #f2f2f2 1px, #fff 1px 19px) center -1px / auto 20px repeat-y',
           boxShadow: '0 3px 12px rgba(0,0,0,0.04)',
         },
         '.border-bottom-zigzag': {

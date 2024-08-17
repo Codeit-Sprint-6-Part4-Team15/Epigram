@@ -20,7 +20,7 @@ export const userId = 136;
 
 interface CommentsContainerProps {
   type: 'recent' | 'my';
-  setCount: (count: number) => void;
+  setCount?: (count: number) => void;
 }
 
 export default function CommentsContainer({
@@ -42,7 +42,7 @@ export default function CommentsContainer({
           break;
         case 'my':
           fetchedComments = await getMyComments(userId, 4, 0);
-          setCount(fetchedComments?.totalCount);
+          if (setCount) setCount(fetchedComments?.totalCount);
           break;
       }
       setComments(fetchedComments?.list);
@@ -84,7 +84,7 @@ export default function CommentsContainer({
   return (
     <div className="flex flex-col items-center gap-[40px] xl:gap-[72px]">
       <div className="w-full">
-        {comments.map((comment) => (
+        {comments?.map((comment) => (
           <Comment
             key={comment.id}
             comment={comment}
