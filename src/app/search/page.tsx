@@ -5,8 +5,8 @@ import smallLogo from '@/public/assets/epigramSmallLogo.svg';
 import { useState, useEffect, useRef } from 'react';
 import SearchHistory from './components/SearchHistory';
 import SearchEpigram from './components/SearchEpigram';
-import { useRouter } from 'next/navigation';
 import FloatingButtons from '@/src/components/FloatingButtons';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 function SearchPage() {
   const router = useRouter();
@@ -42,6 +42,10 @@ function SearchPage() {
     };
   }, []);
   
+  //tag 수정한 부분
+  const params=useSearchParams();
+  const tag=params.get('tag')
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchWord(e.target.value);
   };
@@ -125,6 +129,11 @@ function SearchPage() {
   }, []);
 
   useEffect(() => {
+      //tag 수정한 부분
+    if (tag) {
+      setSearchWord(tag); // 'tag' 값을 검색어로 설정
+      handleSearch(tag); // 'tag'로 검색을 실행
+    }
     if (isFocused) {
       document.addEventListener('click', handleClickOutside);
     } else {
@@ -133,7 +142,8 @@ function SearchPage() {
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
-  }, [isFocused]);
+  }, [isFocused,tag]);
+
 
   return (
     <div className='flex justify-center'>
@@ -166,7 +176,7 @@ function SearchPage() {
           )}
         </div>
         <div>
-          <SearchEpigram searchWord={currentSearchWord} />
+          <SearchEpigram/>
         </div>
         <FloatingButtons />
       </div>

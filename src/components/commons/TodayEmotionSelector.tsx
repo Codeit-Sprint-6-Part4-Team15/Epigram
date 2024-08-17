@@ -13,7 +13,6 @@ import '@/src/components/EmotionCalender.css';
 import { getTodayEmotion, postTodayEmotion } from '../../app/api/emotionLog';
 import { Emotion } from '../../types/emotion';
 
-// const userId = 766; // 테스트
 interface EmotionSelectorProps {
   userId: number;
 }
@@ -78,12 +77,22 @@ export default function TodayEmotionSelector({ userId }: EmotionSelectorProps) {
       try {
         const todayEmotion = await getTodayEmotion(userId);
         if (todayEmotion) {
-          const emotion = emotions.find(
-            (e) => e.postName === todayEmotion.emotion,
-          );
-          if (emotion) {
-            setSelectedEmotion(emotion);
-            setIsEmotionPosted(true);
+          const emotionDate = new Date(todayEmotion.createdAt)
+            .toISOString()
+            .split('T')[0];
+          const currentDate = today.toISOString().split('T')[0];
+
+          if (emotionDate === currentDate) {
+            const emotion = emotions.find(
+              (e) => e.postName === todayEmotion.emotion,
+            );
+            if (emotion) {
+              setSelectedEmotion(emotion);
+              setIsEmotionPosted(true);
+            }
+          } else {
+            setSelectedEmotion(null);
+            setIsEmotionPosted(false);
           }
         }
       } catch (error) {

@@ -166,42 +166,46 @@
   }
 }
 
-.emotion-happy-selected .emoji-container img,
-.emotion-love-selected .emoji-container img,
-.emotion-worry-selected .emoji-container img,
-.emotion-sad-selected .emoji-container img,
-.emotion-angry-selected .emoji-container img {
-  box-shadow: inset 0 0 0 3px;
-}
-
-@media (min-width: 1200px) {
-  .emotion-happy-selected .emoji-container img,
-  .emotion-love-selected .emoji-container img,
-  .emotion-worry-selected .emoji-container img,
-  .emotion-sad-selected .emoji-container img,
-  .emotion-angry-selected .emoji-container img {
-    box-shadow: inset 0 0 0 4px;
-  }
-}
-
 .emotion-happy-selected .emoji-container img {
-  box-shadow: #48bb98;
+  box-shadow: inset 0 0 0 3px #48bb98;
 }
 
 .emotion-love-selected .emoji-container img {
-  box-shadow: #fbc85b;
+  box-shadow: inset 0 0 0 3px #fbc85b;
 }
 
 .emotion-worry-selected .emoji-container img {
-  box-shadow: #8e80e3;
+  box-shadow: inset 0 0 0 3px #8e80e3;
 }
 
 .emotion-sad-selected .emoji-container img {
-  box-shadow: #5195ee;
+  box-shadow: inset 0 0 0 3px #5195ee;
 }
 
 .emotion-angry-selected .emoji-container img {
-  box-shadow: #e46e80;
+  box-shadow: inset 0 0 0 3px #e46e80;
+}
+
+@media (min-width: 1200px) {
+  .emotion-happy-selected .emoji-container img {
+    box-shadow: inset 0 0 0 4px #48bb98;
+  }
+
+  .emotion-love-selected .emoji-container img {
+    box-shadow: inset 0 0 0 4px #fbc85b;
+  }
+
+  .emotion-worry-selected .emoji-container img {
+    box-shadow: inset 0 0 0 4px #8e80e3;
+  }
+
+  .emotion-sad-selected .emoji-container img {
+    box-shadow: inset 0 0 0 4px #5195ee;
+  }
+
+  .emotion-angry-selected .emoji-container img {
+    box-shadow: inset 0 0 0 4px #e46e80;
+  }
 }
 
 .no-hover:hover {

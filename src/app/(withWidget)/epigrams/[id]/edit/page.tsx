@@ -1,13 +1,14 @@
 "use client";
+
+import { getEpigramById, updateEpigram } from "@/src/app/api/epigram";
 import Button from "@/src/components/commons/Button";
 import RadioGroup from "@/src/components/commons/RadioGroup";
 import TextArea from "@/src/components/commons/TextArea";
+import { Epigram } from "@/src/types/epigrams";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useForm, SubmitHandler  } from "react-hook-form";
-import { getEpigrams, postEpigram } from "../api/epigram";
 import {toast } from 'react-toastify';
-import { useRouter } from "next/navigation";
 
 
 let errorClass = "mt-[8px] text-state-error typo-sm-medium xl:typo-lg-regual text-right";
@@ -21,8 +22,7 @@ interface FormValue  {
   content: string;
 }
 
-export default function Page() {
-
+export default function Edit({ params }: { params: { id:number }}) {
   const {
     handleSubmit, 
     register,
@@ -31,8 +31,8 @@ export default function Page() {
   } = useForm<FormValue>({mode:"onBlur"})
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState<string>("");
-  const [epigrams, setEpigrams] = useState<any[]>([]); 
-  const router = useRouter();
+  const [epigram, setEpigram] = useState<Epigram | null>(null); 
+  const id=params.id;
 
   let borderColor = errors.author ? "border-red-500" : "border-blue-300";
 
@@ -66,25 +66,26 @@ export default function Page() {
     setTags(tags.filter((_, i) => i !== index));
   };
 
-  const fetchEpigrams = async () => { // 데이터 확인용
+  const fetchEpigram = async () => {
     try {
-      const data = await getEpigrams(10);
-      setEpigrams(data);
+      const data = await getEpigramById(id);
+      setEpigram(data);
     } catch (error) {
-      console.error("에피그램 목록을 불러오는데 실패했습니다:", error);
+      console.error("에피그램을 불러오는데 실패했습니다:", error);
     }
   };
 
   useEffect(() => {
-    fetchEpigrams();
+    fetchEpigram();
   }, []);
+
 
   const onSubmitHandler: SubmitHandler<FormValue> = async (data) => {
     data.tags = tags;
     try {
-      const newData= await postEpigram(data); 
-      console.log(newData.id)
-      //router.push(`{/epigrams/${Number(newData.id)}}`) 
+      //TODO: 에피그램 수정으로 API 변경
+      // await updateEpigram(data); 
+      console.log("에피그램 등록 완료");
     } catch (error) {
       console.error("에피그램 등록 실패:", error);
     }
@@ -102,7 +103,7 @@ export default function Page() {
   
      <div className="flex justify-center h-screen">
         <div className="flex flex-col h-screen ml-[24px] mr-[24px] ">
-        <h1 className="typo-lg-semibold mt-[24px] md:typo-xl-semibold xl:typo-2xl-semibold">에피그램 만들기</h1>
+        <h1 className="typo-lg-semibold mt-[24px] md:typo-xl-semibold xl:typo-2xl-semibold">에피그램 수정</h1>
         <form onSubmit={handleSubmit(onSubmitHandler)} className="flex flex-col mt-[24px] ">
             <label className="flex typo-md-semibold md:typo-lg-semibold xl:typo-xl-semibold mb-[8px] xl:mb-[24px] xl:mt-[40px]">
                 내용
@@ -115,7 +116,7 @@ export default function Page() {
                 />
             </label>
             <TextArea 
-            variant="outlined" placeholder="500자 이내로 입력해주세요" register={register("content", { required: true, maxLength: 500 })}  error={!!errors.content} 
+            variant="outlined" placeholder={epigram?.content || "내용을 입력해 주세요"} register={register("content", { required: true, maxLength: 500 })}  error={!!errors.content} 
             maxLengthError={errors.content && errors.content.type === "maxLength"}
           />
             {errors.content && errors.content.type === "required" && (
