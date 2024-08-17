@@ -11,7 +11,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 function SearchPage() {
   const router = useRouter();
   const [searchWord, setSearchWord] = useState('');
-  const [currentSearchWord, setCurrentSearchWord] = useState('');
   const [searchWords, setSearchWords] = useState<string[]>([]);
   const [isFocused, setIsFocused] = useState(false);
   const searchHistoryRef = useRef<HTMLDivElement>(null);
@@ -20,11 +19,11 @@ function SearchPage() {
     const handleRouteChange = () => {
       const query = new URLSearchParams(window.location.search).get('query');
       if (query) {
-        setCurrentSearchWord(query);
+        
         setSearchWord(query); // input value도 업데이트
       } else {
         // 쿼리가 없을 때 전체 데이터를 보여주기 위한 로직 추가
-        setCurrentSearchWord(''); // 전체 데이터 경우에 사용할 검색어 초기화
+        
         setSearchWord(''); // input value도 초기화
       }
     };
@@ -75,7 +74,6 @@ function SearchPage() {
       return;
     }
     saveToLocalStorage(word);
-    setCurrentSearchWord(word);
     setSearchWord(word); // 현재 검색어를 입력란에 반영
   
     // URL에 검색어를 쿼리 파라미터로 추가
