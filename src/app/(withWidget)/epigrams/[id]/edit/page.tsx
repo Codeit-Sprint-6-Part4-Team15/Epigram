@@ -1,6 +1,6 @@
 "use client";
 
-import { getEpigrams, postEpigram } from "@/src/app/api/epigram";
+import { getEpigramById, getEpigrams, postEpigram } from "@/src/app/api/epigram";
 import Button from "@/src/components/commons/Button";
 import RadioGroup from "@/src/components/commons/RadioGroup";
 import TextArea from "@/src/components/commons/TextArea";
@@ -21,34 +21,37 @@ interface FormValue  {
   content: string;
 }
 
+
 export default function Edit({ params }: { params: { id:number }}) {
 
+  const [tags, setTags] = useState<string[]>([]);
+  const [tagInput, setTagInput] = useState<string>("");
+  const [epigram, setEpigram] = useState<FormValue[]>([]); 
+  const id=params.id;
   const {
     handleSubmit, 
     register,
     setValue,
     formState: { errors }, 
   } = useForm<FormValue>({mode:"onBlur"})
-  const [tags, setTags] = useState<string[]>([]);
-  const [tagInput, setTagInput] = useState<string>("");
-  const [epigrams, setEpigrams] = useState<any[]>([]); 
-  
-
-  //TODO: const router = useRouter();
 
   let borderColor = errors.author ? "border-red-500" : "border-blue-300";
 
   const [selectedAuthor, setSelectedAuthor] = useState<string>("직접 입력");
-  const handleAuthorChange = (value: string) => {
-    setSelectedAuthor(value);
-    if (value === "unknown") {
-      setValue("author", "알 수 없음");
-    } else if (value === "myself") {
-      setValue("author", "본인");
+  const setAuthor = (author: string) => {
+    if (author === "알 수 없음") {
+      return "unknown";
+    } else if (author === "본인") {
+      return "myself";
     } else {
-      setValue("author", ""); // "직접 입력"일 경우 빈 문자열로 설정
+      return "directInput";
     }
   };
+  const handleAuthorChange = (value: string) => {
+    setSelectedAuthor(value);
+    setValue("author",setAuthor(selectedAuthor));
+  };
+
 
   const handleTagInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTagInput(e.target.value);
@@ -70,11 +73,19 @@ export default function Edit({ params }: { params: { id:number }}) {
 
   const fetchEpigrams = async () => { // 데이터 확인용
     try {
-      const data = await getEpigrams(10);
-      setEpigrams(data);
-      //TODO:경로설정 
+      const data = await getEpigramById(id);
+      if (data) {
+        // setValue를 사용하여 폼 필드에 데이터 설정
+        setSelectedAuthor(setAuthor(data.author))
+        setValue("author",selectedAuthor );
+        setValue("content", data.content);
+        setValue("referenceTitle", data.referenceTitle);
+        setValue("referenceUrl", data.referenceUrl);
+        setValue("tags", data.tags);
+      }
+      setEpigram(data);
     } catch (error) {
-      console.error("에피그램 목록을 불러오는데 실패했습니다:", error);
+      console.error("에피그램을 불러오는데 실패했습니다:", error);
     }
   };
 
@@ -85,6 +96,7 @@ export default function Edit({ params }: { params: { id:number }}) {
   const onSubmitHandler: SubmitHandler<FormValue> = async (data) => {
     data.tags = tags;
     try {
+      //TODO: API 수정
       await postEpigram(data); 
       console.log("에피그램 등록 완료");
       fetchEpigrams(); 
