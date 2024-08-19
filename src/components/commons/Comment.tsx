@@ -181,7 +181,11 @@ export default function Comment({
         )}
       </div>
       <Modal opened={isDeleteModalOpened}>
-        <ConfirmModal onClose={closeDeleteModal} onSubmit={handleDelete} />
+        <ConfirmModal
+          onClose={closeDeleteModal}
+          onSubmit={handleDelete}
+          type="댓글"
+        />
       </Modal>
       <Modal opened={isProfileModalOpened}>
         <ProfileModal writer={comment.writer} onClose={closeProfileModal} />

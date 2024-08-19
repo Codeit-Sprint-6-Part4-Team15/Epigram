@@ -80,9 +80,10 @@ async function getMonthlyData(
         month: month,
       },
     });
-    monthlyData = res.data;
+    monthlyData = res.data || [];
   } catch (error) {
     console.error('사용자의 월 감정 데이터를 불러오는데 실패했습니다.');
+    return emotionInfo;
   }
 
   if (monthlyData.length > 0) {
