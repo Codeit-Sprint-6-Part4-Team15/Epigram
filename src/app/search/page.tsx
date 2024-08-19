@@ -6,7 +6,6 @@ import { useState, useEffect, useRef } from 'react';
 import SearchHistory from './components/SearchHistory';
 import SearchEpigram from './components/SearchEpigram';
 import FloatingButtons from '@/src/components/FloatingButtons';
-import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 function SearchPage() {
@@ -15,7 +14,8 @@ function SearchPage() {
   const [searchWords, setSearchWords] = useState<string[]>([]);
   const [isFocused, setIsFocused] = useState(false);
   const searchHistoryRef = useRef<HTMLDivElement>(null);
-
+  const params = useSearchParams();
+  
   useEffect(() => {
     const handleRouteChange = () => {
       const query = new URLSearchParams(window.location.search).get('query');
@@ -41,10 +41,6 @@ function SearchPage() {
       }
     };
   }, []);
-  
-  //tag 수정한 부분
-  const params=useSearchParams();
-  const tag=params.get('tag')
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchWord(e.target.value);
@@ -136,23 +132,26 @@ function SearchPage() {
   }, []);
 
   useEffect(() => {
-    //tag 수정한 부분
-    const params = useSearchParams();
-    const tag = params.get('tag');
-    //tag 수정한 부분
-    if (tag) {
-      setSearchWord(tag); // 'tag' 값을 검색어로 설정
-      handleSearch(tag); // 'tag'로 검색을 실행
+    // 클라이언트에서만 실행되도록 확인
+    if (typeof window !== 'undefined') {
+      const currentTag = params.get('tag');
+      
+      if (currentTag) {
+        setSearchWord(currentTag);
+        handleSearch(currentTag);
+      }
+
+      if (isFocused) {
+        document.addEventListener('click', handleClickOutside);
+      } else {
+        document.removeEventListener('click', handleClickOutside);
+      }
+
+      return () => {
+        document.removeEventListener('click', handleClickOutside);
+      };
     }
-    if (isFocused) {
-      document.addEventListener('click', handleClickOutside);
-    } else {
-      document.removeEventListener('click', handleClickOutside);
-    }
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-    };
-  }, [isFocused]);
+  }, [isFocused, params]);
 
   return (
     <div className="flex justify-center">
