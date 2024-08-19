@@ -1,5 +1,3 @@
-import { Suspense } from 'react';
-
 import { AppProps } from 'next/app';
 import { SWRConfig } from 'swr';
 
@@ -7,9 +5,7 @@ import '../globals.css';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-export default function MyApp({ Component, pageProps, router }: AppProps) {
-  const isSearchPage = router.pathname === '/search';
-
+export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <SWRConfig
       value={{
@@ -19,13 +15,7 @@ export default function MyApp({ Component, pageProps, router }: AppProps) {
         },
       }}
     >
-      {isSearchPage ? (
-        <Suspense fallback={<div>Loading...</div>}>
-          <Component {...pageProps} />
-        </Suspense>
-      ) : (
-        <Component {...pageProps} />
-      )}
+      <Component {...pageProps} />
     </SWRConfig>
   );
 }

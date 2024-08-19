@@ -18,10 +18,6 @@ function SearchPage() {
   const [isFocused, setIsFocused] = useState(false);
   const searchHistoryRef = useRef<HTMLDivElement>(null);
 
-  //tag 수정한 부분
-  const params = useSearchParams();
-  const tag = params.get('tag');
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchWord(e.target.value);
   };
@@ -110,6 +106,9 @@ function SearchPage() {
 
   useEffect(() => {
     //tag 수정한 부분
+    const params = useSearchParams();
+    const tag = params.get('tag');
+    //tag 수정한 부분
     if (tag) {
       setSearchWord(tag); // 'tag' 값을 검색어로 설정
       handleSearch(tag); // 'tag'로 검색을 실행
@@ -122,7 +121,7 @@ function SearchPage() {
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
-  }, [isFocused, tag]);
+  }, [isFocused]);
 
   return (
     <div className="flex justify-center">
