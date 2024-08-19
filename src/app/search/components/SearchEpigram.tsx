@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 import { Epigram, EpigramTag } from '@/src/types/epigrams';
 import { getEpigrams } from '../../api/epigram';
+import EmptyEpigram from './EmptyEpigram';
 
 const LIMIT = 7;
 
@@ -126,25 +127,29 @@ const SearchEpigram: React.FC = () => {
   return (
     <div className='w-[360px] md:w-[384px] xl:w-[640px] xl:text-[20px]'>
       <div>
-        {epigrams.map((epigram, index) => (
-          <div
-            className='flex border-b border-gray-100 flex-col gap-[8px] py-[16px] px-[24px] xl:py-[24px] xl:gap-[16px] cursor-pointer'
-            key={`${epigram.id}-${index}`}
-            onClick={() => handleItemClick(epigram.id)}
-          >
-            <div className='flex flex-col font-iropke gap-[4px] md:gap-[8px] xl:gap-[24px]'>
-              <div className='text-black-600'>{highlightText(epigram.content, searchWord)}</div>
-              <div className='text-blue-400'>- {highlightText(epigram.author, searchWord)} -</div>
+        {epigrams.length > 0 ? (
+          epigrams.map((epigram, index) => (
+            <div
+              className='flex border-b border-gray-100 flex-col gap-[8px] py-[16px] px-[24px] xl:py-[24px] xl:gap-[16px] cursor-pointer'
+              key={`${epigram.id}-${index}`}
+              onClick={() => handleItemClick(epigram.id)}
+            >
+              <div className='flex flex-col font-iropke gap-[4px] md:gap-[8px] xl:gap-[24px]'>
+                <div className='text-black-600'>{highlightText(epigram.content, searchWord)}</div>
+                <div className='text-blue-400'>- {highlightText(epigram.author, searchWord)} -</div>
+              </div>
+              <div className='flex gap-[12px] justify-end'>
+                {epigram.tags.map((tag, tagIndex) => (
+                  <div className='text-blue-400 font-pretendard font-normal' key={`${tag.name}-${tagIndex}`}>
+                    #{highlightText(tag.name, searchWord)}
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className='flex gap-[12px] justify-end'>
-              {epigram.tags.map((tag, tagIndex) => (
-                <div className='text-blue-400 font-pretendard font-normal' key={`${tag.name}-${tagIndex}`}>
-                  #{highlightText(tag.name, searchWord)}
-                </div>
-              ))}
-            </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <EmptyEpigram /> // 데이터가 없을 경우 EmptyEpigram 컴포넌트를 렌더링
+        )}
       </div>
       {loading && (
         <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pb-[100px]">
@@ -153,6 +158,5 @@ const SearchEpigram: React.FC = () => {
       )}
     </div>
   );
-};
-
+}
 export default SearchEpigram;
