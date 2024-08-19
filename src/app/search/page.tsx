@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import searchIcon from '@/public/assets/searchIcon.svg';
 import smallLogo from '@/public/assets/epigramSmallLogo.svg';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, Suspense } from 'react';
 import SearchHistory from './components/SearchHistory';
 import SearchEpigram from './components/SearchEpigram';
 import FloatingButtons from '@/src/components/FloatingButtons';
@@ -192,9 +192,9 @@ function SearchPage() {
             </div>
           )}
         </div>
-        <div>
-          <SearchEpigram/>
-        </div>
+        <Suspense fallback={<div>Loading Epigram...</div>}>
+          <SearchEpigram searchParams={params} />
+        </Suspense>
         <FloatingButtons />
       </div>
     </div>
