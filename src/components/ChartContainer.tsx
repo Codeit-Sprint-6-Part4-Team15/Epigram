@@ -67,9 +67,10 @@ async function getMonthlyData(id: number, year: number, month: number) {
         month: month,
       },
     });
-    monthlyData = await res.data;
+    monthlyData = res.data || [];
   } catch (error) {
     console.error('사용자의 월 감정 데이터를 불러오는데 실패했습니다.');
+    return emotionInfo;
   }
 
   const emotionCounts: EmotionCounts = await monthlyData.reduce(
