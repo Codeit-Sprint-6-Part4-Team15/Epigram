@@ -26,9 +26,9 @@ export interface FormErrorResponse {
     }
 }
 
-export interface SignInWithOauthRequestBody {
-    state: string?;
-    redirectUri: string?;
+export interface OauthRequestBody {
+    state?: string;
+    redirectUri: string;
     token: OauthToken;
 }
 
