@@ -4,6 +4,8 @@ import IcoClose from '@/public/assets/ic_close.svg';
 import { User } from '@/src/types/auth';
 import Image from 'next/image';
 
+import { patchUserInfo, postImage } from '@/src/app/api/user';
+
 import Button from '../Button';
 import FileInput from '../FileInput';
 
@@ -15,7 +17,18 @@ interface ProfileModalProps {
 export default function ProfileEditModal({ user, onClose }: ProfileModalProps) {
   const [fileValue, setFileValue] = useState<File | null>(null);
 
-  const handlePatch = () => {};
+  const handlePatch = async () => {
+    if (fileValue) {
+      const formData = new FormData();
+      formData.append('image', fileValue);
+      const imageUrl = await postImage(formData);
+
+      if (imageUrl) {
+        await patchUserInfo(imageUrl, user.nickname);
+      }
+    }
+  };
+
   return (
     <div className="flex min-h-[166px] w-[328px] flex-col items-center gap-[20px] rounded-[12px] bg-[#F5F7FA] px-[40px] pb-[30px] pt-[24px] xl:min-h-[188px] xl:w-[360px]">
       <div className="flex w-full justify-end">
