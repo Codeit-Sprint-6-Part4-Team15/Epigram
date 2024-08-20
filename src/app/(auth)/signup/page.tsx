@@ -6,27 +6,55 @@ import InputError from '@/src/components/commons/InputError';
 import { SignUpRequestBody, AuthResponse, FormErrorResponse } from '@/src/types/auth';
 import Image from 'next/image';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { postSignUp } from '../../api/auth';
+import { getGoogleOAuthUrlFor, getKakaoOauthUrlFor, postOAuthGoogle, postOAuthKakao, postSignUp } from '../../api/auth';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { useEffect } from 'react';
 
 export default function SignUp() {
+    const router = useRouter();
     const { register, formState: { errors, isValid }, handleSubmit, setError } = useForm<SignUpRequestBody>({
         shouldUseNativeValidation: true,
         mode: "onBlur",
     });
 
+    useEffect(() => {
+        if(localStorage.getItem('access_token') !== null) router.push('/');
+        const searchParams = new URL(window.location.href).searchParams;
+        const hashParams = new URLSearchParams(window.location.hash);
+        if(hashParams.has('id_token')) {
+            postOAuthGoogle({
+                redirectUri: 'https://epigram-one.vercel.app/signin',
+                token: hashParams.get('id_token')!,
+            }).then(onAuthSucceeded);
+        }
+        if(searchParams.get('code') !== null) {
+            if(searchParams.get('state') === 'kakao') {
+                postOAuthKakao({
+                    redirectUri: 'https://epigram-one.vercel.app/signin',
+                    token: searchParams.get('code') ?? 'ERROR',
+                }).then(onAuthSucceeded);
+            }
+        }
+    }, []);
+
     const onSubmit: SubmitHandler<SignUpRequestBody> = (data) => {
         postSignUp(data)
-        .then((response: AuthResponse) => {
-            localStorage.setItem('access_token', response.accessToken);
-            localStorage.setItem('refresh_token', response.refreshToken);
-            localStorage.setItem('user', JSON.stringify(response.user));
-        })
-        .catch((response: FormErrorResponse) => {
-            Object.entries(response.details).forEach((value) => {
-                let fieldName = value[0].replace('requestBody.', '') as 'email' | 'password' | 'passwordConfirmation' | 'nickname';
-                let errorMessage = value[1].message;
-                setError(fieldName, {type: 'custom', message: errorMessage});
-            });
+        .then(onAuthSucceeded, onAuthFailed);
+    }
+
+    const onAuthSucceeded = (response: AuthResponse) => {
+        localStorage.setItem('access_token', response.accessToken);
+        localStorage.setItem('refresh_token', response.refreshToken);
+        localStorage.setItem('user', JSON.stringify(response.user));
+        router.push('/');
+    }
+
+    const onAuthFailed = (response: FormErrorResponse) => {
+        Object.entries(response.details).forEach((value) => {
+            let fieldName = value[0].replace('requestBody.', '') as keyof SignUpRequestBody;
+            let errorMessage = value[1].message;
+            setError(fieldName, {type: 'custom', message: errorMessage});
         });
     }
 
@@ -59,6 +87,7 @@ export default function SignUp() {
                             }
                         })
                     } />
+                    { errors.password && <InputError>{errors.password?.message}</InputError>}
                     <div className="md:h-[16px] sm:h-[10px]"></div>
                     <Input type="password" placeholder="비밀번호확인" {...register(
                         "passwordConfirmation",
@@ -94,8 +123,12 @@ export default function SignUp() {
                 SNS 계정으로 간편 가입하기
             </p>
             <div className="flex flex-row justify-center gap-x-[16px] *:w-[40px] *:h-[40px] lg:*:w-[60px] lg:*:h-[60px]">
-                <Image src="/assets/authPage/logo_google.svg" width="60" height="60" alt="구글로고" />
-                <Image src="/assets/authPage/logo_kakao.svg" width="60" height="60" alt="카카오로고" />
+                <Link href={getGoogleOAuthUrlFor('signup')}>
+                    <Image src="/assets/authPage/logo_google.svg" width="60" height="60" alt="구글로고" />
+                </Link>
+                <Link href={getKakaoOauthUrlFor('signup')}>
+                    <Image src="/assets/authPage/logo_kakao.svg" width="60" height="60" alt="카카오로고" />
+                </Link>
             </div>
         </div>
     );
