@@ -132,29 +132,19 @@ function SearchPage() {
   }, []);
 
   useEffect(() => {
-    // 클라이언트에서만 실행되도록 확인
-    if (typeof window !== 'undefined') {
-      const currentTag = searchParams.get('tag');
-      console.log(currentTag)
-      if (currentTag) {
-        handleSearch(currentTag);
-      }
-
-      if (isFocused) {
-        document.addEventListener('click', handleClickOutside);
-      } else {
-        document.removeEventListener('click', handleClickOutside);
-      }
-
-      return () => {
-        document.removeEventListener('click', handleClickOutside);
-      };
+    if (isFocused) {
+      document.addEventListener('click', handleClickOutside);
+    } else {
+      document.removeEventListener('click', handleClickOutside);
     }
-  }, [isFocused, searchParams]);
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [isFocused]);
 
   return (
-    <Suspense fallback={<div>Loading Epigram...</div>}>
-      <div className="flex justify-center">
+    <div className="flex justify-center">
       <div className="flex flex-col md:w-[384px] md:px-0 xl:w-[640px]">
         <div className="relative flex justify-center">
           <div className="relative mt-[8px] flex h-[52px] w-[312px] items-center md:mt-[16px] md:h-[60px] md:w-[384px] xl:mt-[24px] xl:h-[80px] xl:w-[640px]">
@@ -192,13 +182,12 @@ function SearchPage() {
             </div>
           )}
         </div>
-        <div>
+        <Suspense>
           <SearchEpigram searchParams={searchParams} />
-        </div>
+        </Suspense>
         <FloatingButtons />
       </div>
     </div>
-    </Suspense>
   );
 }
 
