@@ -46,6 +46,7 @@ export default function EpigramDetailPage({ params }: { params: { slug: string, 
     try {
       const data = await getEpigramById(id);
       setEpigram(data);
+      console.log(data)
     } catch (error) {
       console.error("에피그램을 불러오는데 실패했습니다:", error);
     }
@@ -73,8 +74,10 @@ export default function EpigramDetailPage({ params }: { params: { slug: string, 
                         },
                       }}
                     >
-                      <span className="text-blue-400 typo-lg-regular mr-[16px] xl:typo-xl-regular">
-                        # {tag.name}
+                      <span
+                        key={tag.id}
+                        className="text-blue-400 typo-lg-regular mr-[16px] xl:typo-xl-regular">
+                        #{tag.name} 
                       </span>
                     </Link>
                   ))}

@@ -22,7 +22,7 @@ interface FormValue {
 }
 
 export default function Edit({ params }: { params: { id: number } }) {
-  const [tags, setTags] = useState<string[]>([]);
+  const [tags, setTags] = useState<{ id: number; name: string }[]>([]);
   const [tagInput, setTagInput] = useState<string>("");
   const id = params.id;
   const router = useRouter();
@@ -35,33 +35,39 @@ export default function Edit({ params }: { params: { id: number } }) {
 
   let borderColor = errors.author ? "border-red-500" : "border-blue-300";
 
-  const [selectedAuthor, setSelectedAuthor] = useState<string>("직접 입력");
-  const setAuthor = (author: string) => {
-    if (author === "알 수 없음") {
-      return "unknown";
-    } else if (author === "본인") {
-      return "myself";
-    } else {
-      return "directInput";
-    }
-  };
+  const [selectedAuthor, setSelectedAuthor] = useState<string>("directInput"); // 기본값을 직접 입력으로 설정
+  const [authorInput, setAuthorInput] = useState<string>(""); // 직접 입력할 때의 텍스트 값을 관리
   const handleAuthorChange = (value: string) => {
     setSelectedAuthor(value);
-    setValue("author", value === "directInput" ? "" : setAuthor(value));
+    if (value !== "directInput") {
+      setValue("author", value === "unknown" ? "알 수 없음" : "본인");
+    } else {
+      setValue("author", authorInput); // "직접 입력"일 경우의 값 설정
+    }
   };
+
+  const handleAuthorInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAuthorInput(e.target.value);
+    if (selectedAuthor === "directInput") {
+      setValue("author", e.target.value); // "직접 입력"이 선택된 경우에만 값 업데이트
+    }
+  };
+
 
   const handleTagInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTagInput(e.target.value);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const trimmedTag = tagInput.trim();
     if (
       e.key === "Enter" &&
-      tagInput.trim().length > 0 &&
-      tagInput.length <= 10 &&
+      trimmedTag.length > 0 &&
+      trimmedTag.length <= 10 &&
       tags.length < 3
     ) {
-      setTags([...tags, tagInput.trim()]);
+      const newTag = { id: Date.now(), name: trimmedTag };
+      setTags([...tags, newTag]);
       setTagInput("");
       e.preventDefault();
     } else if (tags.length >= 3) {
@@ -69,24 +75,21 @@ export default function Edit({ params }: { params: { id: number } }) {
     }
   };
 
-  const handleTagClick = (index: number) => {
-    setTags(tags.filter((_, i) => i !== index));
+  const handleTagClick = (tagId: number) => {
+    setTags(tags.filter((tag) => tag.id !== tagId));
   };
 
   const fetchEpigrams = async () => {
     try {
       const data = await getEpigramById(id);
       if (data) {
-        const authorValue = setAuthor(data.author);
-        setSelectedAuthor(authorValue);
-        setValue("author", authorValue);
+        setSelectedAuthor(data.author === "알 수 없음" ? "unknown" : data.author === "본인" ? "myself" : "directInput");
+        setAuthorInput(data.author === "알 수 없음" || data.author === "본인" ? "" : data.author);
+        setValue("author", data.author);
         setValue("content", data.content);
         setValue("referenceTitle", data.referenceTitle);
         setValue("referenceUrl", data.referenceUrl);
-        if (Array.isArray(data.tags)) {
-          const tagNames = data.tags.map((tag: any) => tag.name); // 각 태그의 이름을 추출
-          setTags(tagNames); // 태그 이름을 상태에 저장
-        }
+        setTags(data.tags);
       }
     } catch (error) {
       console.error("에피그램을 불러오는데 실패했습니다:", error);
@@ -98,9 +101,12 @@ export default function Edit({ params }: { params: { id: number } }) {
   }, []);
 
   const onSubmitHandler: SubmitHandler<FormValue> = async (data) => {
-    data.tags = tags;
     try {
-      await updateEpigram(id, data);
+      // 태그 이름만 추출하여 문자열 배열로 변환
+      data.tags = tags.map((tag) => tag.name);
+      console.log("태그 반영 데이터",data);
+      const updatedData =await updateEpigram(id, data);
+      console.log(updatedData);
       console.log("에피그램 수정 완료");
       router.push(`/epigrams/${id}`);
     } catch (error) {
@@ -125,7 +131,7 @@ export default function Edit({ params }: { params: { id: number } }) {
           에피그램 수정
         </h1>
         <form
-          onSubmit={handleSubmit(onSubmitHandler)}
+          onSubmit={handleSubmit(onSubmitHandler, onErrorHandler)}
           className="flex flex-col mt-[24px]"
         >
           <label className="flex typo-md-semibold md:typo-lg-semibold xl:typo-xl-semibold mb-[8px] xl:mb-[24px] xl:mt-[40px]">
@@ -212,13 +218,13 @@ export default function Edit({ params }: { params: { id: number } }) {
             placeholder="입력하여 태그 작성 (최대 10자)"
           />
           <div className="mt-[8px]">
-            {tags.map((tag, index) => (
+            {tags.map((tag) => (
               <span
-                key={index}
-                onClick={() => handleTagClick(index)}
+                key={tag.id}
+                onClick={() => handleTagClick(tag.id)}
                 className="inline-block bg-blue-200 text-blue-800 px-[8px] py-[4px] rounded-[8px] mr-[4px] mt-[4px] transition transform hover:scale-105"
               >
-                #{tag}
+                #{tag.name}
               </span>
             ))}
           </div>

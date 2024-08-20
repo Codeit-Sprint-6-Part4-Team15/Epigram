@@ -31,7 +31,7 @@ export interface epigramsParams {
 }
 
 export interface PostEpigramData {
-  tags?: string[];
+  tags?:string[];
   referenceUrl?: string;
   referenceTitle?: string;
   author?: string;
