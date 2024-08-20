@@ -120,7 +120,6 @@ const SearchEpigram: React.FC = () => {
   const handleItemClick = (id: number) => {
     router.push(`/epigrams/${id}`);
   };
-  console.log(searchWord)
   return (
     <div className='w-[360px] md:w-[384px] xl:w-[640px] xl:text-[20px]'>
       <div>
