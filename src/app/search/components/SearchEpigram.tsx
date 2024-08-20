@@ -5,17 +5,11 @@ import { Epigram, EpigramTag } from '@/src/types/epigrams';
 import { getEpigrams } from '../../api/epigram';
 import EmptyEpigram from './EmptyEpigram';
 
-
-interface SearchEpigramProps {
-  searchParams: URLSearchParams;
-}
-
 const LIMIT = 7;
 
-const SearchEpigram: React.FC<SearchEpigramProps> = ( { searchParams } ) => {
+const SearchEpigram: React.FC = () => {
   const router = useRouter();
-  const searchWord = searchParams.get('query') || ''; // 쿼리에서 searchWord 가져오기
-  
+  const searchWord = useSearchParams().get('query') || ''; // 쿼리에서 searchWord 가져오기
   const [epigrams, setEpigrams] = useState<Epigram[]>([]);
   const [loading, setLoading] = useState(false);
   const [cursor, setCursor] = useState<number | null>(null);

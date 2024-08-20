@@ -6,7 +6,7 @@ import { useState, useEffect, useRef, Suspense } from 'react';
 import SearchHistory from './components/SearchHistory';
 import SearchEpigram from './components/SearchEpigram';
 import FloatingButtons from '@/src/components/FloatingButtons';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 function SearchPage() {
   const router = useRouter();
@@ -14,7 +14,6 @@ function SearchPage() {
   const [searchWords, setSearchWords] = useState<string[]>([]);
   const [isFocused, setIsFocused] = useState(false);
   const searchHistoryRef = useRef<HTMLDivElement>(null);
-  const searchParams = useSearchParams();
   
   useEffect(() => {
     const handleRouteChange = () => {
@@ -183,7 +182,7 @@ function SearchPage() {
           )}
         </div>
         <Suspense>
-          <SearchEpigram searchParams={searchParams} />
+          <SearchEpigram/>
         </Suspense>
         <FloatingButtons />
       </div>
