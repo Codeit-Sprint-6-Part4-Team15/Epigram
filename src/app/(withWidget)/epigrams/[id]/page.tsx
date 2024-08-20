@@ -69,7 +69,7 @@ export default function EpigramDetailPage({ params }: { params: { slug: string, 
                       href={{
                         pathname: "/search",
                         query: {
-                          tag: tag.name,
+                          query: tag.name,
                         },
                       }}
                     >
