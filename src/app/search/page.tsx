@@ -14,7 +14,7 @@ function SearchPage() {
   const [searchWords, setSearchWords] = useState<string[]>([]);
   const [isFocused, setIsFocused] = useState(false);
   const searchHistoryRef = useRef<HTMLDivElement>(null);
-  const params = useSearchParams();
+  const searchParams = useSearchParams();
   
   useEffect(() => {
     const handleRouteChange = () => {
@@ -134,10 +134,9 @@ function SearchPage() {
   useEffect(() => {
     // 클라이언트에서만 실행되도록 확인
     if (typeof window !== 'undefined') {
-      const currentTag = params.get('tag');
-      
+      const currentTag = searchParams.get('tag');
+      console.log(currentTag)
       if (currentTag) {
-        setSearchWord(currentTag);
         handleSearch(currentTag);
       }
 
@@ -151,10 +150,11 @@ function SearchPage() {
         document.removeEventListener('click', handleClickOutside);
       };
     }
-  }, [isFocused, params]);
+  }, [isFocused, searchParams]);
 
   return (
-    <div className="flex justify-center">
+    <Suspense fallback={<div>Loading Epigram...</div>}>
+      <div className="flex justify-center">
       <div className="flex flex-col md:w-[384px] md:px-0 xl:w-[640px]">
         <div className="relative flex justify-center">
           <div className="relative mt-[8px] flex h-[52px] w-[312px] items-center md:mt-[16px] md:h-[60px] md:w-[384px] xl:mt-[24px] xl:h-[80px] xl:w-[640px]">
@@ -192,12 +192,13 @@ function SearchPage() {
             </div>
           )}
         </div>
-        <Suspense fallback={<div>Loading Epigram...</div>}>
-          <SearchEpigram searchParams={params} />
-        </Suspense>
+        <div>
+          <SearchEpigram searchParams={searchParams} />
+        </div>
         <FloatingButtons />
       </div>
     </div>
+    </Suspense>
   );
 }
 

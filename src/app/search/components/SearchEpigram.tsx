@@ -20,7 +20,6 @@ const SearchEpigram: React.FC<SearchEpigramProps> = ( { searchParams } ) => {
   const [loading, setLoading] = useState(false);
   const [cursor, setCursor] = useState<number | null>(null);
   const [allEpigrams, setAllEpigrams] = useState<Epigram[]>([]); // 전체 데이터를 저장할 상태
-
   const fetchSearchEpigrams = useCallback(async () => {
     if (!searchWord) return; // 검색어가 없으면 함수 종료
 
