@@ -51,11 +51,26 @@ export async function postOAuthKakao(OAuthPayload: OauthRequestBody): Promise<Au
 }
 
 export function getGoogleOAuthUrlFor(endpoint: 'signin' | 'signup') {
-    const redirect_uri = `https://epigram-one.vercel.app/${endpoint}`;
-    return `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.NEXT_PUBLIC_GOOGLE_APP_KEY}&state=google&response_type=token&redirect_uri=${redirect_uri}&scope=https://www.googleapis.com/auth/userinfo.email`
+    const searchParams = new URLSearchParams();
+    
+    searchParams.set('client_id', process.env.NEXT_PUBLIC_GOOGLE_APP_KEY!);
+    searchParams.set('state', 'google');
+    searchParams.set('response_type', 'token id_token');
+    searchParams.set('redirect_uri', `https://epigram-one.vercel.app/${endpoint}`);
+    searchParams.set('scope', 'openid profile email')
+    searchParams.set('nonce',
+        Math.random().toString(36).substring(2, 15) +
+        Math.random().toString(36).substring(2, 15)
+    );
+
+    return `https://accounts.google.com/o/oauth2/v2/auth?${searchParams.toString()}`;
 }
 
 export function getKakaoOauthUrlFor(endpoint: 'signin' | 'signup') {
-    const redirect_uri = `https://epigram-one.vercel.app/${endpoint}`;
-    return `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_APP_KEY}&state=kakao&redirect_uri=${redirect_uri}&response_type=token`
+    const searchParams = new URLSearchParams();
+    searchParams.set('client_id', process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY!);
+    searchParams.set('state', 'kakao');
+    searchParams.set('response_type', 'code');
+    searchParams.set('redirect_uri', `https://epigram-one.vercel.app/${endpoint}`);
+    return `https://kauth.kakao.com/oauth/authorize?${searchParams.toString()}`
 }
