@@ -7,10 +7,17 @@ import Image from 'next/image';
 
 import instance from '@/src/app/api/axios';
 
+import useModal from '../hooks/useModal';
 import { User } from '../types/auth';
 import Loader from './commons/Loader';
+import Modal from './commons/Modal/Modal';
+import ProfileEditModal from './commons/Modal/ProfileEditModal';
 
 export default function UserInfo() {
+  const [
+    isProfileEditModalOpened,
+    { open: openProfileEditModal, close: closeProfileEditModal },
+  ] = useModal(false);
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState<User | null>(null);
 
@@ -43,9 +50,11 @@ export default function UserInfo() {
 
   return (
     <>
-      <figure className="relative flex h-[80px] w-[80px] items-center justify-center overflow-hidden rounded-full border-2 border-blue-200 bg-white xl:h-[120px] xl:w-[120px]">
-        <Image src={user?.image ?? IcoUser} fill alt="유저 이미지" />
-      </figure>
+      <button type="button" onClick={openProfileEditModal}>
+        <figure className="relative flex h-[80px] w-[80px] items-center justify-center overflow-hidden rounded-full border-2 border-blue-200 bg-white xl:h-[120px] xl:w-[120px]">
+          <Image src={user?.image ?? IcoUser} fill alt="유저 이미지" />
+        </figure>
+      </button>
       <strong className="typo-lg-medium text-black-950 xl:typo-2xl-medium">
         {user?.nickname ?? 'user'}
       </strong>
@@ -55,6 +64,9 @@ export default function UserInfo() {
       >
         로그아웃
       </button>
+      <Modal opened={isProfileEditModalOpened}>
+        <ProfileEditModal user={user} onClose={closeProfileEditModal} />
+      </Modal>
     </>
   );
 }
