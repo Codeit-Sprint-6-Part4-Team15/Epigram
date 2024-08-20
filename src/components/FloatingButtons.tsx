@@ -50,14 +50,14 @@ export default function FloatingButtons() {
             <path
               d="M6.5 12H18.5"
               stroke="#ffffff"
-              stroke-width="2"
-              stroke-linecap="round"
+              strokeWidth="2"
+              strokeLinecap="round"
             />
             <path
               d="M12.5 6L12.5 18"
               stroke="#ffffff"
-              stroke-width="2"
-              stroke-linecap="round"
+              strokeWidth="2"
+              strokeLinecap="round"
             />
           </svg>
           <span className="typo-lg-medium whitespace-nowrap">

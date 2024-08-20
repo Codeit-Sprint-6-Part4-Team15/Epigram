@@ -104,10 +104,7 @@ export default function Edit({ params }: { params: { id: number } }) {
     try {
       // 태그 이름만 추출하여 문자열 배열로 변환
       data.tags = tags.map((tag) => tag.name);
-      console.log("태그 반영 데이터",data);
-      const updatedData =await updateEpigram(id, data);
-      console.log(updatedData);
-      console.log("에피그램 수정 완료");
+      await updateEpigram(id, data);
       router.push(`/epigrams/${id}`);
     } catch (error) {
       console.error("에피그램 수정 실패:", error);
@@ -183,6 +180,7 @@ export default function Edit({ params }: { params: { id: number } }) {
           {selectedAuthor === "directInput" && (
             <input
               {...register("author", { required: true })}
+              onChange={handleAuthorInputChange}
               placeholder="저자 이름 입력"
               className={`typo-lg-regualr xl:typo-xl-regualr focus:border-black-600 focus:outline-none border-[1px] ${borderColor} pl-[16px] w-[312px] md:w-[384px] xl:w-[640px] h-[44px] xl:h-[64px] text-black-950 rounded-[12px] mt-[8px] md:mt-[12px] xl:mt-[16px]`}
             />

@@ -1,13 +1,15 @@
+'use client';
 
-"use client";
-import Image from 'next/image';
-import searchIcon from '@/public/assets/searchIcon.svg';
+import { useEffect, useRef, useState } from 'react';
+
 import smallLogo from '@/public/assets/epigramSmallLogo.svg';
-import { useState, useEffect, useRef } from 'react';
-import SearchHistory from './components/SearchHistory';
+import searchIcon from '@/public/assets/searchIcon.svg';
+import Image from 'next/image';
 import Link from 'next/link';
-import SearchEpigram from './components/SearchEpigram';
 import { useRouter, useSearchParams } from 'next/navigation';
+
+import SearchEpigram from './components/SearchEpigram';
+import SearchHistory from './components/SearchHistory';
 
 function SearchPage() {
   const [searchWord, setSearchWord] = useState('');
@@ -26,12 +28,12 @@ function SearchPage() {
 
   const handleIsFocusedClose = () => {
     setIsFocused(false);
-  }
+  };
 
   const saveToLocalStorage = (word: string) => {
     if (word.trim()) {
-      let updatedSearchWords = searchWords.filter(w => w !== word); 
-      updatedSearchWords.unshift(word); 
+      let updatedSearchWords = searchWords.filter((w) => w !== word);
+      updatedSearchWords.unshift(word);
 
       if (updatedSearchWords.length > 8) {
         updatedSearchWords = updatedSearchWords.slice(0, 8);
@@ -43,8 +45,9 @@ function SearchPage() {
     }
   };
 
-  const handleSearch = (word: string) => { 
-    if (!word.trim()) { // ""로 검색 했을 때(나중에 수정 하는 부분)
+  const handleSearch = (word: string) => {
+    if (!word.trim()) {
+      // ""로 검색 했을 때(나중에 수정 하는 부분)
       alert('검색어를 입력해주세요.');
       return;
     }
@@ -53,7 +56,9 @@ function SearchPage() {
   };
 
   const removeSearchWord = (word: string) => {
-    const updatedSearchWords = searchWords.filter(searchWord => searchWord !== word);
+    const updatedSearchWords = searchWords.filter(
+      (searchWord) => searchWord !== word,
+    );
     localStorage.setItem('searchWords', JSON.stringify(updatedSearchWords));
     setSearchWords(updatedSearchWords);
   };
@@ -73,7 +78,8 @@ function SearchPage() {
     localStorage.removeItem('searchWords');
   };
 
-  const handleClickOutside = (event: MouseEvent) => { //최근 검색어 탭 제어 기능
+  const handleClickOutside = (event: MouseEvent) => {
+    //최근 검색어 탭 제어 기능
     if (
       searchHistoryRef.current &&
       !searchHistoryRef.current.contains(event.target as Node) &&
@@ -83,23 +89,26 @@ function SearchPage() {
     }
   };
 
-  const handleInputClick = () => { // input 클릭했을 때 최근 검색어 탭 토글 기능
+  const handleInputClick = () => {
+    // input 클릭했을 때 최근 검색어 탭 토글 기능
     setIsFocused(true);
   };
 
-  const handleSearchWordClick = (word: string) => { // 태그 클릭 시 검색 기능
+  const handleSearchWordClick = (word: string) => {
+    // 태그 클릭 시 검색 기능
     setSearchWord(word);
     handleSearch(word);
     setIsFocused(false); // 태그 클릭 후 포커스를 잃도록 설정
   };
 
-  useEffect(() => { 
-    const storageSearchWords = JSON.parse(localStorage.getItem('searchWords') || '[]');
+  useEffect(() => {
+    const storageSearchWords = JSON.parse(
+      localStorage.getItem('searchWords') || '[]',
+    );
     setSearchWords(storageSearchWords);
   }, []);
 
   useEffect(() => {
-      //tag 수정한 부분
     if (tag) {
       setSearchWord(tag); // 'tag' 값을 검색어로 설정
       handleSearch(tag); // 'tag'로 검색을 실행
@@ -116,12 +125,12 @@ function SearchPage() {
 
 
   return (
-    <div className='flex justify-center'>
-      <div className='flex flex-col md:w-[384px] md:px-0 xl:w-[640px]'>
-        <div className='flex justify-center relative'>
-          <div className='flex items-center mt-[8px] relative w-[312px] h-[52px] md:mt-[16px] md:w-[384px] md:h-[60px] xl:mt-[24px] xl:w-[640px] xl:h-[80px]'>
+    <div className="flex justify-center">
+      <div className="flex flex-col md:w-[384px] md:px-0 xl:w-[640px]">
+        <div className="relative flex justify-center">
+          <div className="relative mt-[8px] flex h-[52px] w-[312px] items-center md:mt-[16px] md:h-[60px] md:w-[384px] xl:mt-[24px] xl:h-[80px] xl:w-[640px]">
             <input
-              className={`w-full border border-blue-600 rounded-full outline-none transition-shadow duration-300 placeholder-blue-300 h-[52px] pl-[52px] pr-[32px] md:h-[60px] md:text-[20px] xl:pr-[42px] xl:pl-[74px] xl:h-[80px] xl:text-[24px] ${isFocused ? 'rounded-none border-transparent shadow-custom-focus xl:shadow-custom-focus-xl' : 'hover:shadow-custom-hover'}`}
+              className={`h-[52px] w-full rounded-full border border-blue-600 pl-[52px] pr-[32px] placeholder-blue-300 outline-none transition-shadow duration-300 md:h-[60px] md:text-[20px] xl:h-[80px] xl:pl-[74px] xl:pr-[42px] xl:text-[24px] ${isFocused ? 'rounded-none border-transparent shadow-custom-focus xl:shadow-custom-focus-xl' : 'hover:shadow-custom-hover'}`}
               type="text"
               value={searchWord}
               onChange={handleInputChange}
@@ -129,19 +138,33 @@ function SearchPage() {
               onClick={handleInputClick}
               placeholder="검색어를 입력해 주세요."
             />
-            <Link className='flex items-center' href='/search'>
-              <Image className='absolute cursor-pointer left-[12px] md:left-[12px] xl:left-[16px] xl:w-[42px] xl:h-[42px]' priority src={smallLogo} alt='smallLogo' />
+            <Link className="flex items-center" href="/search">
+              <Image
+                className="absolute left-[12px] cursor-pointer md:left-[12px] xl:left-[16px] xl:h-[42px] xl:w-[42px]"
+                priority
+                src={smallLogo}
+                alt="smallLogo"
+              />
             </Link>
             <Image
-              className='w-[20px] h-[20px] cursor-pointer absolute right-[10px] bottom-[17px] md:bottom-[22px] xl:w-[36px] xl:h-[36px] xl:bottom-[23px]'
+              className="absolute bottom-[17px] right-[10px] h-[20px] w-[20px] cursor-pointer md:bottom-[22px] xl:bottom-[23px] xl:h-[36px] xl:w-[36px]"
               src={searchIcon}
-              alt='searchIcon'
+              alt="searchIcon"
               onClick={handleIconClick}
             />
           </div>
           {isFocused && (
-            <div className='absolute top-full w-[312px] mt-[4px] bg-white rounded-b-lg shadow-lg md:left-0 md:w-[384px] md:px-0 xl:w-[640px]' ref={searchHistoryRef}>
-              <SearchHistory searchWords={searchWords} handleIsFocusedClose={handleIsFocusedClose} onSearchWordClick={handleSearchWordClick} clearSearchHistory={clearSearchHistory} removeSearchWord={removeSearchWord} />
+            <div
+              className="absolute top-full mt-[4px] w-[312px] rounded-b-lg bg-white shadow-lg md:left-0 md:w-[384px] md:px-0 xl:w-[640px]"
+              ref={searchHistoryRef}
+            >
+              <SearchHistory
+                searchWords={searchWords}
+                handleIsFocusedClose={handleIsFocusedClose}
+                onSearchWordClick={handleSearchWordClick}
+                clearSearchHistory={clearSearchHistory}
+                removeSearchWord={removeSearchWord}
+              />
             </div>
           )}
         </div>

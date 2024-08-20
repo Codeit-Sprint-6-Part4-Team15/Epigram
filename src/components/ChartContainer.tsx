@@ -67,9 +67,10 @@ async function getMonthlyData(id: number, year: number, month: number) {
         month: month,
       },
     });
-    monthlyData = await res.data;
+    monthlyData = res.data || [];
   } catch (error) {
     console.error('사용자의 월 감정 데이터를 불러오는데 실패했습니다.');
+    return emotionInfo;
   }
 
   const emotionCounts: EmotionCounts = await monthlyData.reduce(
@@ -86,7 +87,7 @@ async function getMonthlyData(id: number, year: number, month: number) {
   const updatedEmotionInfo = emotionInfo.map((info) => {
     const count = emotionCounts[info.emotion] || 0;
     const rate =
-      totalRecords > 0 ? Math.round((count / totalRecords) * 100) : 0;
+      totalRecords > 0 ? Number(((count / totalRecords) * 100).toFixed(2)) : 0;
     return { ...info, rate };
   });
 
