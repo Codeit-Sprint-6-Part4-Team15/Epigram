@@ -1,53 +1,34 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-<<<<<<< HEAD
 
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 
-import useDetectClose from '@/src/hooks/useDetectClose';
-
-import { deleteEpigram } from '@/src/app/api/epigram';
-
-import Loader from './Loader';
-import ConfirmModal from './Modal/ConfirmModal';
-=======
-import Image from 'next/image';
-import { useParams, useRouter } from 'next/navigation';
 import useDetectClose from '@/src/hooks/useDetectClose';
 import useModal from '@/src/hooks/useModal';
+
 import { deleteEpigram } from '@/src/app/api/epigram';
+
 import Loader from './Loader';
 import ConfirmModal from './Modal/ConfirmModal';
 import Modal from './Modal/Modal';
 
->>>>>>> dev
-
 export default function DropdownMenu() {
   const dropDownRef = useRef<HTMLButtonElement | null>(null);
   const [isOpen, setIsOpen] = useDetectClose(dropDownRef, false);
-<<<<<<< HEAD
-  const [isModalOpen, setIsModalOpen] = useState(false);
-=======
   const [
     isConfirmModalOpened,
     { open: openConfirmModal, close: closeConfirmModal },
   ] = useModal(false);
->>>>>>> dev
   const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
   const router = useRouter();
 
   const handleDelete = () => {
     setIsOpen(!isOpen);
-<<<<<<< HEAD
-    setIsModalOpen(true);
-=======
     openConfirmModal();
->>>>>>> dev
   };
-
 
   const handleConfirmDelete = () => {
     //게시물 삭제
@@ -105,8 +86,4 @@ export default function DropdownMenu() {
       {isLoading && <Loader />} {/* 로딩 상태일 때 Loader 컴포넌트 렌더링 */}
     </div>
   );
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> dev
