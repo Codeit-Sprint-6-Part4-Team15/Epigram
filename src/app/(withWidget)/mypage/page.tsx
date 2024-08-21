@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react';
 
+import { useRouter } from 'next/navigation';
+
 import ChartContainer from '@/src/components/ChartContainer';
 import EmotionCalendar from '@/src/components/EmotionCalender';
 import MyContents from '@/src/components/MyContents';
@@ -22,6 +24,7 @@ function formatDate(date: Date): string {
 export default function MyPage() {
   const [userId, setUserId] = useState(0);
   const today = formatDate(new Date());
+  const router = useRouter();
 
   useEffect(() => {
     let user;
@@ -30,6 +33,8 @@ export default function MyPage() {
       if (userData) {
         user = JSON.parse(userData);
         setUserId(user.id);
+      } else {
+        router.push('/signin');
       }
     }
   }, []);
