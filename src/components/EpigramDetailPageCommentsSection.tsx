@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 
 import Image from 'next/image';
-import useSWR, { useSWRInfinite } from 'swr';
+import useSWR from 'swr';
+import useSWRInfinite from 'swr/infinite';
 
 import {
   getCommentsForEpigram,
@@ -22,12 +23,11 @@ interface CommentsSectionProps {
   userId: number;
 }
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
-
 export default function EpigramDetailPageCommentsSection({
   epigramId,
   userId,
 }: CommentsSectionProps) {
+  const PAGE_SIZE = 4;
   const [newComment, setNewComment] = useState('');
   const [profileImage, setProfileImage] = useState('');
   const [isPrivate, setIsPrivate] = useState(false);
@@ -35,7 +35,7 @@ export default function EpigramDetailPageCommentsSection({
   // SWR을 이용하여 유저 프로필 이미지 가져오기
   const { data: userData } = useSWR('/api/user/me', getUserMe);
 
-  // 유저 프로필 이미지 설정
+  // 유저 프로필 이미지 가져오기
   useEffect(() => {
     if (userData) {
       setProfileImage(userData.image);
@@ -45,25 +45,34 @@ export default function EpigramDetailPageCommentsSection({
   // SWR Infinite를 이용하여 페이지네이션 처리
   const { data, error, size, setSize, mutate } =
     useSWRInfinite<CommentsResponse>(
-      (index: number) =>
-        `/api/comments/epigram/${epigramId}?limit=4&cursor=${index * 4}`,
-      fetcher,
+      (index: number) => {
+        const cursorValue = index * PAGE_SIZE;
+        console.log(`Fetching page with cursor: ${cursorValue}`);
+        return `/epigrams/${epigramId}/comments?limit=${PAGE_SIZE}&cursor=${cursorValue}`;
+      },
+      async (url: string) => {
+        // URL에서 필요한 부분을 추출
+        const urlParams = new URLSearchParams(url.split('?')[1]);
+        const limit = parseInt(urlParams.get('limit') || '0', 10);
+        const cursor = parseInt(urlParams.get('cursor') || '0', 10);
+
+        // API 요청 수행
+        return getCommentsForEpigram(epigramId, limit, cursor);
+      },
       {
         revalidateOnFocus: false,
         revalidateOnReconnect: false,
       },
     );
 
-  const comments: CommentType[] = data
-    ? data.flatMap((page: CommentsResponse) => page.list)
-    : [];
+  const comments: CommentType[] = data ? data.flatMap((page) => page.list) : [];
   const totalCount = data ? data[0]?.totalCount : 0;
   const isLoading = !data && !error;
   const isLoadingMore =
     isLoading || (size > 0 && data && typeof data[size - 1] === 'undefined');
   const isEmpty = data?.[0]?.list.length === 0;
   const isReachingEnd =
-    isEmpty || (data && data[data.length - 1]?.list.length < 4);
+    isEmpty || (data && data[data.length - 1]?.list.length < PAGE_SIZE);
 
   const handleCommentSubmit = async () => {
     if (newComment.trim() === '') return;
@@ -133,7 +142,7 @@ export default function EpigramDetailPageCommentsSection({
           type="button"
           onClick={() => setSize(size + 1)} // 다음 댓글 불러오기
           disabled={isLoadingMore}
-          className="px/[18px] py/[12px] xl:mt/[72px] xl:px/[40px] typo-md-medium mt-[40px] flex items-center gap-[4px] rounded-[100px] border border-line-200 text-blue-500 xl:typo-xl-medium"
+          className="typo-md-medium flex items-center gap-[4px] rounded-[100px] border border-line-200 px-[18px] py-[12px] text-blue-500 xl:typo-xl-medium xl:px-[40px]"
         >
           <Image
             src="/assets/ic_plus.svg"
