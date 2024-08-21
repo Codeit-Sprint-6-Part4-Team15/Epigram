@@ -10,7 +10,7 @@ import Button from '../Button';
 import FileInput from '../FileInput';
 
 interface ProfileModalProps {
-  user: User;
+  user: User | null;
   onClose: () => void;
 }
 

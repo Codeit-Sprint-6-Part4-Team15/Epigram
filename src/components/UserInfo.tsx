@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 
+import IcoSetting from '@/public/assets/Ic_setting.svg';
 import IcoUser from '@/public/assets/ic_user.svg';
 import Image from 'next/image';
 
@@ -51,8 +52,16 @@ export default function UserInfo() {
   return (
     <>
       <button type="button" onClick={openProfileEditModal}>
-        <figure className="relative flex h-[80px] w-[80px] items-center justify-center overflow-hidden rounded-full border-2 border-blue-200 bg-white xl:h-[120px] xl:w-[120px]">
+        <figure className="relative flex h-[80px] w-[80px] items-center justify-center rounded-full border-2 border-blue-200 bg-white xl:h-[120px] xl:w-[120px]">
           <Image src={user?.image ?? IcoUser} fill alt="유저 이미지" />
+          <span className="absolute right-0 top-0 rounded-full border-2 border-blue-200 bg-white p-[2px]">
+            <Image
+              src={IcoSetting}
+              width={20}
+              height={20}
+              alt="프로필 수정하기"
+            />
+          </span>
         </figure>
       </button>
       <strong className="typo-lg-medium text-black-950 xl:typo-2xl-medium">
