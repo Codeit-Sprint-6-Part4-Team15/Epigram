@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
+import IMG_EMOTION from '@/public/assets/emotionChart';
 import { EmotionChartData, EmotionData } from '@/src/types/emotion';
 import Image from 'next/image';
 
@@ -10,9 +11,10 @@ interface DonutChartProps {
 }
 
 const sortAndCalculateDeg = (data: EmotionData[]): EmotionChartData[] => {
-  const sortedData = data.sort((a, b) => b.rate - a.rate);
-
+  let sortedData = data;
   let cumulativeDeg = 0;
+
+  sortedData = data.sort((a, b) => b.rate - a.rate);
 
   return sortedData.map((el) => {
     const deg = (el.rate * 360) / 100;
@@ -31,8 +33,9 @@ export default function DonutChart({ data }: DonutChartProps) {
   const [sortedData, setSortedData] = useState<EmotionChartData[]>(
     sortAndCalculateDeg(data),
   );
-  const [bestEmotion, setBestEmotion] = useState<EmotionChartData>(
-    sortedData[0],
+
+  const [bestEmotion, setBestEmotion] = useState<EmotionChartData | null>(
+    sortedData?.length > 0 ? sortedData[0] : null,
   );
 
   const getCoordFromDegrees = (angle: number, radius: number) => {
@@ -67,7 +70,7 @@ export default function DonutChart({ data }: DonutChartProps) {
   };
 
   const renderDonutChart = () => {
-    if (sortedData.every((item) => item.rate === 0)) {
+    if (sortedData && sortedData.every((item) => item.rate === 0)) {
       return (
         <path
           key={0}
@@ -83,33 +86,36 @@ export default function DonutChart({ data }: DonutChartProps) {
         />
       );
     }
-    return sortedData.map((item, index) => {
-      if (item.rate === 0) {
-        return null;
-      }
-      if (index === 0) {
-        return (
-          <path
-            key={item.emotion}
-            fill={item.color}
-            stroke={item.color}
-            strokeWidth={STROKE_WIDTH}
-            strokeLinejoin="round"
-            strokeLinecap="round"
-            d={`M ${getCoordFromDegrees(SPACE_LENGTH, 50 - STROKE_WIDTH / 2)}
+    return (
+      sortedData &&
+      sortedData.map((item, index) => {
+        if (item.rate === 0) {
+          return null;
+        }
+        if (index === 0) {
+          return (
+            <path
+              key={item.emotion}
+              fill={item.color}
+              stroke={item.color}
+              strokeWidth={STROKE_WIDTH}
+              strokeLinejoin="round"
+              strokeLinecap="round"
+              d={`M ${getCoordFromDegrees(SPACE_LENGTH, 50 - STROKE_WIDTH / 2)}
                 A ${50 - STROKE_WIDTH / 2} ${50 - STROKE_WIDTH / 2} 0 ${item.rate > 50 ? 1 : 0} 0 ${getCoordFromDegrees(item.deg - SPACE_LENGTH, 50 - STROKE_WIDTH / 2)}
                 L ${getCoordFromDegrees(item.deg - SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH / 2)}
                 A ${50 - FACE_WIDTH - STROKE_WIDTH / 2} ${50 - FACE_WIDTH - STROKE_WIDTH / 2} 0 ${item.rate > 50 ? 1 : 0} 1 ${getCoordFromDegrees(SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH / 2)}`}
-          />
-        );
-      }
+            />
+          );
+        }
 
-      if (index > 0 && index < sortedData.length) {
-        return renderPath(sortedData[index - 1].deg, item.deg, item.color);
-      }
+        if (index > 0 && index < sortedData.length) {
+          return renderPath(sortedData[index - 1].deg, item.deg, item.color);
+        }
 
-      return null;
-    });
+        return null;
+      })
+    );
   };
 
   return (
@@ -124,14 +130,18 @@ export default function DonutChart({ data }: DonutChartProps) {
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-[8px]">
           <figure className="relative h-[24px] w-[24px] xl:h-[40px] xl:w-[40px]">
-            <Image src={bestEmotion.image} fill alt={bestEmotion.label} />
+            <Image
+              src={bestEmotion?.image ?? IMG_EMOTION.HAPPY}
+              fill
+              alt={bestEmotion?.label ?? '기쁨'}
+            />
           </figure>
-          <strong>{bestEmotion.label}</strong>
+          <strong>{bestEmotion?.label ?? '기쁨'}</strong>
         </div>
       </div>
       <div>
         <ul className="flex flex-col gap-[8px] xl:gap-[14px]">
-          {sortedData.map((el) => (
+          {sortedData?.map((el) => (
             <li key={el.emotion} className="group flex items-center gap-[8px]">
               <i
                 style={{ background: `${el.rate !== 0 ? el.color : '#ddd'}` }}

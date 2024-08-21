@@ -80,7 +80,7 @@ export default function EpigramDetailPage({
                       href={{
                         pathname: '/search',
                         query: {
-                          tag: tag.name,
+                          query: tag.name,
                         },
                       }}
                     >
