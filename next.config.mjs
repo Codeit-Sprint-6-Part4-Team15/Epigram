@@ -1,7 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    reactStrictMode: false,
-    
+  reactStrictMode: process.env.NODE_ENV !== 'production',
 };
-
 export default nextConfig;

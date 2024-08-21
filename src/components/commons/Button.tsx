@@ -27,7 +27,7 @@ type Variant = 'main' | 'outline' | 'wide';
 interface ButtonProps<V extends keyof VariantSizeMap> {
   children: React.ReactNode;
   size: VariantSizeMap[Variant];
-  type: 'button' | 'link';
+  type: 'button' | 'link' | 'submit';
   variant?: Variant;
   href?: string;
   className?: string;
@@ -159,7 +159,7 @@ const Button = <V extends keyof VariantSizeMap>({
 
   return (
     <button
-      type="button"
+      type={type as 'button' | 'submit'}
       className={`${getBtnStyle(variant)} ${getSizeStyle(size)} ${className}`}
       onClick={onClick}
       disabled={disabled}

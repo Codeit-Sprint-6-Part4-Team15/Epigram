@@ -15,6 +15,12 @@ export interface Epigram {
   isLiked: boolean;
 }
 
+export interface EpigramsResponse {
+  list: Epigram[];
+  totalCount: number;
+  nextCursor?: number;
+}
+
 export interface TextCardProps {
   content: string;
   author: string;
@@ -36,9 +42,4 @@ export interface PostEpigramData {
   referenceTitle?: string;
   author?: string;
   content?: string;
-}
-export interface EpigramsResponse {
-  totalCount: number;
-  nextCursor: number;
-  list: Epigram[];
 }

@@ -14,13 +14,14 @@ import { userId } from '../CommentContainer';
 import Button from './Button';
 import ConfirmModal from './Modal/ConfirmModal';
 import Modal from './Modal/Modal';
+import ProfileModal from './Modal/ProfileModal';
 import Toggle from './Toggle';
 
 interface CommentsProps {
   comment: CommentType;
-  onEdit: (id: number, content: string, isPrivate: boolean) => void;
-  onDelete: (id: number) => void;
-  onUpdate: () => void;
+  onEdit?: (id: number, content: string, isPrivate: boolean) => void;
+  onDelete?: (id: number) => void;
+  onUpdate?: () => void;
 }
 
 export default function Comment({
@@ -32,6 +33,10 @@ export default function Comment({
   const [
     isDeleteModalOpened,
     { open: openDeleteModal, close: closeDeleteModal },
+  ] = useModal(false);
+  const [
+    isProfileModalOpened,
+    { open: openProfileModal, close: closeProfileModal },
   ] = useModal(false);
   const [content, setContent] = useState(comment.content);
   const [isPrivate, setIsPrivate] = useState(comment.isPrivate);
@@ -71,26 +76,30 @@ export default function Comment({
   };
 
   const handleEdit = async () => {
-    try {
-      await onEdit(comment.id, content, isPrivate);
-      setIsEdit(false);
-      toast.info('댓글이 수정되었습니다.');
-    } catch (error) {
-      console.error('댓글을 수정하는데 실패했습니다.');
-    } finally {
-      onUpdate();
+    if (onEdit) {
+      try {
+        await onEdit(comment.id, content, isPrivate);
+        setIsEdit(false);
+        toast.info('댓글이 수정되었습니다.');
+      } catch (error) {
+        console.error('댓글을 수정하는데 실패했습니다.');
+      } finally {
+        if (onUpdate) onUpdate();
+      }
     }
   };
 
   const handleDelete = async () => {
-    try {
-      await onDelete(comment.id);
-      closeDeleteModal();
-      toast.info('댓글이 삭제되었습니다.');
-    } catch (error) {
-      console.error('댓글을 삭제하는데 실패했습니다.');
-    } finally {
-      onUpdate();
+    if (onDelete) {
+      try {
+        await onDelete(comment.id);
+        closeDeleteModal();
+        toast.info('댓글이 삭제되었습니다.');
+      } catch (error) {
+        console.error('댓글을 삭제하는데 실패했습니다.');
+      } finally {
+        if (onUpdate) onUpdate();
+      }
     }
   };
 
@@ -117,8 +126,8 @@ export default function Comment({
             <div className="flex items-center justify-between">
               <Toggle
                 content={[{ value: 'isPrivate', label: '공개' }]}
-                checked={!isPrivate}
-                onChange={setIsPrivate}
+                checked={isPrivate}
+                onChange={() => setIsPrivate(!isPrivate)}
               />
               <div className="w-[53px] xl:w-[60px]">
                 <Button
@@ -135,7 +144,15 @@ export default function Comment({
           <div className="flex-1">
             <div className="flex items-center justify-between">
               <div className="typo-xs-regular mb-2 flex items-center space-x-2 text-black-300">
-                <div>{comment.writer.nickname}</div>
+                <div>
+                  <button
+                    type="button"
+                    onClick={openProfileModal}
+                    className="hover:underline"
+                  >
+                    {comment.writer.nickname}
+                  </button>
+                </div>
                 <div>{formatTimeAgo(comment.updatedAt)}</div>
               </div>
               {userId === comment.writer.id && (
@@ -164,7 +181,14 @@ export default function Comment({
         )}
       </div>
       <Modal opened={isDeleteModalOpened}>
-        <ConfirmModal onClose={closeDeleteModal} onSubmit={handleDelete} />
+        <ConfirmModal
+          onClose={closeDeleteModal}
+          onSubmit={handleDelete}
+          type="댓글"
+        />
+      </Modal>
+      <Modal opened={isProfileModalOpened}>
+        <ProfileModal writer={comment.writer} onClose={closeProfileModal} />
       </Modal>
     </div>
   );

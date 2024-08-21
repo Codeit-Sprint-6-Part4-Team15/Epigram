@@ -16,7 +16,7 @@ export const userId = 136;
 
 interface EpigramsContainerProps {
   type: 'recent' | 'my';
-  setCount: (count: number) => void;
+  setCount?: (count: number) => void;
 }
 
 export default function EpigramsContainer({
@@ -24,7 +24,7 @@ export default function EpigramsContainer({
   setCount,
 }: EpigramsContainerProps) {
   const [epigrams, setEpigrams] = useState<Epigram[]>([]);
-  const [cursor, setCursor] = useState(0);
+  const [cursor, setCursor] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingError, setLoadingError] = useState<Error | null>(null);
 
@@ -38,11 +38,11 @@ export default function EpigramsContainer({
           break;
         case 'my':
           fetchedEpigrams = await getMyEpigrams(userId, 3, 0);
-          setCount(fetchedEpigrams?.totalCount);
+          if (setCount) setCount(fetchedEpigrams?.totalCount);
           break;
       }
       setEpigrams(fetchedEpigrams?.list);
-      setCursor(fetchedEpigrams?.nextCursor);
+      setCursor(fetchedEpigrams?.nextCursor ?? null);
     } catch (error: any) {
       setLoadingError(error);
       console.error('댓글을 가져오는 데 실패했습니다.', error);
@@ -57,13 +57,13 @@ export default function EpigramsContainer({
     try {
       switch (type) {
         case 'recent':
-          fetchedEpigrams = await getRecentEpigrams(5, cursor);
+          fetchedEpigrams = await getRecentEpigrams(5, cursor ?? 0);
           break;
         case 'my':
-          fetchedEpigrams = await getMyEpigrams(userId, 5, cursor);
+          fetchedEpigrams = await getMyEpigrams(userId, 5, cursor ?? 0);
           break;
       }
-      setCursor(fetchedEpigrams.nextCursor);
+      setCursor(fetchedEpigrams.nextCursor ?? 0);
       setEpigrams((prevEpigrams) => [...prevEpigrams, ...fetchedEpigrams.list]);
     } catch (error: any) {
       setLoadingError(error);
@@ -80,8 +80,8 @@ export default function EpigramsContainer({
   return (
     <div className="flex flex-col items-center gap-[40px] xl:gap-[72px]">
       <div className="flex w-full flex-col gap-[16px]">
-        {epigrams.map((epigram) => (
-          <Link href={`epigrams/${epigram.id}`}>
+        {epigrams?.map((epigram) => (
+          <Link key={epigram.id} href={`epigrams/${epigram.id}`}>
             <TextCard
               key={epigram.id}
               id={epigram.id}

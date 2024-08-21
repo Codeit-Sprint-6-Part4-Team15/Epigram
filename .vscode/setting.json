@@ -2,6 +2,7 @@
   "prettier.requireConfig": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "prettier.requireConfig": true,
+  "typescript.tsdk": "node_modules/typescript/lib",
   "highlight.regexes": {
     "((?:<!-- *)?(?:#|// @|//|./\\*+|<!--|--|\\* @|{!|{{!--|{{!) *TODO(?:\\s*\\([^)]+\\))?:?)((?!\\w)(?: *-->| *\\*/| *!}| *--}}| *}}|(?= *(?:[^:]//|/\\*+|<!--|@|--|{!|{{!--|{{!))|(?: +[^\\n@]*?)(?= *(?:[^:]//|/\\*+|<!--|@|--(?!>)|{!|{{!--|{{!))|(?: +[^@\\n]+)?))": {
       "filterFileRegex": ".*(?<!CHANGELOG.md)$",
