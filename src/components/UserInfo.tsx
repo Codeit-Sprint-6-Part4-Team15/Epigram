@@ -52,17 +52,19 @@ export default function UserInfo() {
   return (
     <>
       <button type="button" onClick={openProfileEditModal}>
-        <figure className="relative flex h-[80px] w-[80px] items-center justify-center rounded-full border-2 border-blue-200 bg-white xl:h-[120px] xl:w-[120px]">
-          <Image src={user?.image ?? IcoUser} fill alt="유저 이미지" />
-          <span className="absolute right-0 top-0 rounded-full border-2 border-blue-200 bg-white p-[2px]">
+        <div className="relative">
+          <figure className="flex h-[80px] w-[80px] items-center justify-center rounded-full border-2 border-blue-200 bg-white xl:h-[120px] xl:w-[120px]">
+            <Image src={user?.image ?? IcoUser} fill alt="유저 이미지" />
+          </figure>
+          <figure className="absolute right-0 top-0 rounded-full border-2 border-blue-200 bg-white p-[2px]">
             <Image
               src={IcoSetting}
               width={20}
               height={20}
               alt="프로필 수정하기"
             />
-          </span>
-        </figure>
+          </figure>
+        </div>
       </button>
       <strong className="typo-lg-medium text-black-950 xl:typo-2xl-medium">
         {user?.nickname ?? 'user'}
