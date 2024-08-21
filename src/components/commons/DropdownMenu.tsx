@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+<<<<<<< HEAD
 
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
@@ -11,31 +12,49 @@ import { deleteEpigram } from '@/src/app/api/epigram';
 
 import Loader from './Loader';
 import ConfirmModal from './Modal/ConfirmModal';
+=======
+import Image from 'next/image';
+import { useParams, useRouter } from 'next/navigation';
+import useDetectClose from '@/src/hooks/useDetectClose';
+import useModal from '@/src/hooks/useModal';
+import { deleteEpigram } from '@/src/app/api/epigram';
+import Loader from './Loader';
+import ConfirmModal from './Modal/ConfirmModal';
+import Modal from './Modal/Modal';
+
+>>>>>>> dev
 
 export default function DropdownMenu() {
   const dropDownRef = useRef<HTMLButtonElement | null>(null);
   const [isOpen, setIsOpen] = useDetectClose(dropDownRef, false);
+<<<<<<< HEAD
   const [isModalOpen, setIsModalOpen] = useState(false);
+=======
+  const [
+    isConfirmModalOpened,
+    { open: openConfirmModal, close: closeConfirmModal },
+  ] = useModal(false);
+>>>>>>> dev
   const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
   const router = useRouter();
 
   const handleDelete = () => {
     setIsOpen(!isOpen);
+<<<<<<< HEAD
     setIsModalOpen(true);
+=======
+    openConfirmModal();
+>>>>>>> dev
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
 
   const handleConfirmDelete = () => {
     //게시물 삭제
     try {
       deleteEpigram(Number(id));
       console.log('게시물이 삭제되었습니다.');
-      //TODO: 삭제 시 메인페이지 피드로 이동하도록
-      router.push('/');
+      router.push('/feed');
     } catch (error) {
       console.error('에피그램 삭제 중 오류가 발생했습니다:', error);
     }
@@ -76,14 +95,18 @@ export default function DropdownMenu() {
           </ul>
         )}
       </button>
-      {isModalOpen && (
+      <Modal opened={isConfirmModalOpened} onClose={closeConfirmModal}>
         <ConfirmModal
-          onClose={handleCloseModal}
+          onClose={closeConfirmModal}
           onSubmit={handleConfirmDelete}
           type="게시물"
         />
-      )}
+      </Modal>
       {isLoading && <Loader />} {/* 로딩 상태일 때 Loader 컴포넌트 렌더링 */}
     </div>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> dev

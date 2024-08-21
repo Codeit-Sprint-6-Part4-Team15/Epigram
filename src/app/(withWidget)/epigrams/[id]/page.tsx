@@ -28,6 +28,14 @@ export default function EpigramDetailPage({ params }: { params: { slug: string, 
 
   const handleLike = async () => {
     try {
+      const likeButtonImage = document.querySelector(".like-button-image");
+      likeButtonImage?.classList.add("active");
+
+      setTimeout(() => {
+        likeButtonImage?.classList.remove("active");
+      }, 200);
+
+      
       if (epigram?.isLiked === false) {
         const data = await likeEpigram(id);
         setEpigram(data);
@@ -46,6 +54,7 @@ export default function EpigramDetailPage({ params }: { params: { slug: string, 
     try {
       const data = await getEpigramById(id);
       setEpigram(data);
+      console.log(data)
     } catch (error) {
       console.error("에피그램을 불러오는데 실패했습니다:", error);
     }
@@ -73,8 +82,10 @@ export default function EpigramDetailPage({ params }: { params: { slug: string, 
                         },
                       }}
                     >
-                      <span className="text-blue-400 typo-lg-regular mr-[16px] xl:typo-xl-regular">
-                        # {tag.name}
+                      <span
+                        key={tag.id}
+                        className="text-blue-400 typo-lg-regular mr-[16px] xl:typo-xl-regular">
+                        #{tag.name} 
                       </span>
                     </Link>
                   ))}
@@ -90,13 +101,13 @@ export default function EpigramDetailPage({ params }: { params: { slug: string, 
             - {epigram?.author} -
           </p>
           <div className="flex justify-center mt-[32px] xl:mt-[36px] mb-[20px]">
-            <button onClick={handleLike} className="flex items-center justify-center bg-black-600 text-blue-100 rounded-[100px] py-[6px] px-[14px] gap-[4px] typo-md-medium xl:typo-xl-medium mr-[8px] xl:mr-[16px]">
+          <button onClick={handleLike} className="flex items-center justify-center bg-black-600 text-blue-100 rounded-[100px] py-[6px] px-[14px] gap-[4px] typo-md-medium xl:typo-xl-medium mr-[8px] xl:mr-[16px]">
               <Image
                 src="/assets/ic-like.svg"
                 alt="에피그램 좋아요 버튼"
                 width={36}
                 height={36}
-                className="mr-[4px] w-[20px] h-[20px] md:w-[24px] md:h-[24px] xl:w-[36px] xl:h-[36px]"
+                className="mr-[4px] w-[20px] h-[20px] md:w-[24px] md:h-[24px] xl:w-[36px] xl:h-[36px] like-button-image"
               />
               {epigram?.likeCount}
             </button>
