@@ -21,16 +21,18 @@ export default function SignUp() {
     useEffect(() => {
         if(localStorage.getItem('access_token') !== null) router.push('/');
         const searchParams = new URL(window.location.href).searchParams;
-        if(searchParams.get('access_token') !== null) {
-            if(searchParams.get('state') === 'google') {
-                postOAuthGoogle({
-                    redirectUri: 'https://epigram-one.vercel.app/signup',
-                    token: searchParams.get('access_token') ?? 'ERROR',
-                }).then(onAuthSucceeded);
-            } else if(searchParams.get('state') === 'kakao') {
+        const hashParams = new URLSearchParams(window.location.hash);
+        if(hashParams.has('id_token')) {
+            postOAuthGoogle({
+                redirectUri: 'https://epigram-one.vercel.app/signin',
+                token: hashParams.get('id_token')!,
+            }).then(onAuthSucceeded);
+        }
+        if(searchParams.get('code') !== null) {
+            if(searchParams.get('state') === 'kakao') {
                 postOAuthKakao({
-                    redirectUri: 'https://epigram-one.vercel.app/signup',
-                    token: searchParams.get('access_token') ?? 'ERROR',
+                    redirectUri: 'https://epigram-one.vercel.app/signin',
+                    token: searchParams.get('code') ?? 'ERROR',
                 }).then(onAuthSucceeded);
             }
         }

@@ -50,10 +50,10 @@ module.exports = {
         },
       },
     ],
-    'react/react-in-jsx-scope': 'off', // Next.js doesn't require React to be in scope
-    'react/prop-types': 'off',
-    'no-console': 'error',
-    'react/jsx-props-no-spreading': 'off',
+    "react/react-in-jsx-scope": "off", // Next.js doesn't require React to be in scope
+    "react/prop-types": "off",
+    "no-console": "error",
+    "react/jsx-props-no-spreading": "off",
     '@typescript-eslint/semi': 'off',
     'react/jsx-filename-extension': ['warn', { extensions: ['.ts', '.tsx'] }],
     'no-useless-catch': 'off',
