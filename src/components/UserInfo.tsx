@@ -75,8 +75,8 @@ export default function UserInfo() {
       >
         로그아웃
       </button>
-      <Modal opened={isProfileEditModalOpened}>
-        <ProfileEditModal user={user} onClose={closeProfileEditModal} />
+      <Modal opened={isProfileEditModalOpened} onClose={closeProfileEditModal}>
+        <ProfileEditModal user={user!} onClose={closeProfileEditModal} />
       </Modal>
     </>
   );

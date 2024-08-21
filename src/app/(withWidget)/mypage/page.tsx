@@ -50,9 +50,9 @@ export default function MyPage() {
             </span>
           </div>
           <div className="mb-[56px] flex justify-center lg:mb-[60px] xl:mb-[164px]">
-            {userId !== 0 && <TodayEmotionSelector userId={userId} />}
+            {userId !== 0 && <TodayEmotionSelector userId={136} />}
           </div>
-          <div>{userId !== 0 && <EmotionCalendar userId={userId} />}</div>
+          <div>{userId !== 0 && <EmotionCalendar userId={136} />}</div>
         </div>
         <div className="w-[384px] py-[36px] xl:w-[640px] xl:py-[80px]">
           <h3 className="typo-lg-semibold mb-[16px] text-black-600 xl:typo-2xl-semibold xl:mb-[40px]">
@@ -60,7 +60,7 @@ export default function MyPage() {
           </h3>
           <div className="flex justify-center rounded-[8px] border border-blue-200 py-[24px]">
             {userId !== 0 && (
-              <ChartContainer userId={userId} year={2024} month={8} />
+              <ChartContainer userId={136} year={2024} month={8} />
             )}
           </div>
         </div>

@@ -180,14 +180,14 @@ export default function Comment({
           </div>
         )}
       </div>
-      <Modal opened={isDeleteModalOpened}>
+      <Modal opened={isDeleteModalOpened} onClose={closeDeleteModal}>
         <ConfirmModal
           onClose={closeDeleteModal}
           onSubmit={handleDelete}
           type="댓글"
         />
       </Modal>
-      <Modal opened={isProfileModalOpened}>
+      <Modal opened={isProfileModalOpened} onClose={closeProfileModal}>
         <ProfileModal writer={comment.writer} onClose={closeProfileModal} />
       </Modal>
     </div>
