@@ -27,7 +27,7 @@ export default function FloatingButtons() {
     };
   }, []);
   return (
-    <div className="fixed bottom-[30px] right-[10px] flex flex-col items-end gap-[3px]">
+    <div className="fixed bottom-[30px] right-[10px] flex flex-col items-end gap-[3px] z-[999]">
       <Link
         href="/addepigram"
         className="group flex h-[50px] w-[50px] items-center justify-center overflow-hidden rounded-[100px] bg-blue-900 text-white transition-[width] hover:w-[158px]"
