@@ -1,26 +1,45 @@
-'use client';
-
-import { useEffect, useRef, useState } from 'react';
-
-import smallLogo from '@/public/assets/epigramSmallLogo.svg';
-import searchIcon from '@/public/assets/searchIcon.svg';
+"use client";
 import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
-
-import SearchEpigram from './components/SearchEpigram';
+import searchIcon from '@/public/assets/searchIcon.svg';
+import smallLogo from '@/public/assets/epigramSmallLogo.svg';
+import { useState, useEffect, useRef, Suspense } from 'react';
 import SearchHistory from './components/SearchHistory';
+import SearchEpigram from './components/SearchEpigram';
+import FloatingButtons from '@/src/components/FloatingButtons';
+import { useRouter } from 'next/navigation';
 
 function SearchPage() {
+  const router = useRouter();
   const [searchWord, setSearchWord] = useState('');
-  const [currentSearchWord, setCurrentSearchWord] = useState('');
   const [searchWords, setSearchWords] = useState<string[]>([]);
   const [isFocused, setIsFocused] = useState(false);
   const searchHistoryRef = useRef<HTMLDivElement>(null);
-
-  //tag 수정한 부분
-  const params=useSearchParams();
-  const tag=params.get('tag')
+  
+  useEffect(() => {
+    const handleRouteChange = () => {
+      const query = new URLSearchParams(window.location.search).get('query');
+      if (query) {
+        
+        setSearchWord(query); // input value도 업데이트
+      } else {
+        // 쿼리가 없을 때 전체 데이터를 보여주기 위한 로직 추가
+        
+        setSearchWord(''); // input value도 초기화
+      }
+    };
+  
+    // 클라이언트에서만 실행되도록 체크
+    if (typeof window !== 'undefined') {
+      handleRouteChange();
+      window.addEventListener('popstate', handleRouteChange);
+    }
+  
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('popstate', handleRouteChange);
+      }
+    };
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchWord(e.target.value);
@@ -52,7 +71,10 @@ function SearchPage() {
       return;
     }
     saveToLocalStorage(word);
-    setCurrentSearchWord(word);
+    setSearchWord(word); // 현재 검색어를 입력란에 반영
+  
+    // URL에 검색어를 쿼리 파라미터로 추가
+    router.push(`/search?query=${encodeURIComponent(word)}`);
   };
 
   const removeSearchWord = (word: string) => {
@@ -109,15 +131,12 @@ function SearchPage() {
   }, []);
 
   useEffect(() => {
-    if (tag) {
-      setSearchWord(tag); // 'tag' 값을 검색어로 설정
-      handleSearch(tag); // 'tag'로 검색을 실행
-    }
     if (isFocused) {
       document.addEventListener('click', handleClickOutside);
     } else {
       document.removeEventListener('click', handleClickOutside);
     }
+
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
@@ -138,14 +157,9 @@ function SearchPage() {
               onClick={handleInputClick}
               placeholder="검색어를 입력해 주세요."
             />
-            <Link className="flex items-center" href="/search">
-              <Image
-                className="absolute left-[12px] cursor-pointer md:left-[12px] xl:left-[16px] xl:h-[42px] xl:w-[42px]"
-                priority
-                src={smallLogo}
-                alt="smallLogo"
-              />
-            </Link>
+            <a className='flex items-center' href='/search'>
+              <Image className='absolute cursor-pointer left-[12px] md:left-[12px] xl:left-[16px] xl:w-[42px] xl:h-[42px]' priority src={smallLogo} alt='smallLogo' />
+            </a>
             <Image
               className="absolute bottom-[17px] right-[10px] h-[20px] w-[20px] cursor-pointer md:bottom-[22px] xl:bottom-[23px] xl:h-[36px] xl:w-[36px]"
               src={searchIcon}
@@ -168,9 +182,10 @@ function SearchPage() {
             </div>
           )}
         </div>
-        <div>
-          <SearchEpigram searchWord={currentSearchWord} />
-        </div>
+        <Suspense>
+          <SearchEpigram/>
+        </Suspense>
+        <FloatingButtons />
       </div>
     </div>
   );

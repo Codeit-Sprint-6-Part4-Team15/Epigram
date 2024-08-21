@@ -4,8 +4,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
-import Header from './Header';
 import './globals.css';
+import Header from './Header';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -26,6 +26,7 @@ export default function RootLayout({
     <html lang="ko">
       <body>
         <div>
+          <Header />
           <ToastContainer autoClose={2000} />
           {children}
         </div>

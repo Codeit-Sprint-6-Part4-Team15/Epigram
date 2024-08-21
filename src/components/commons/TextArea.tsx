@@ -9,6 +9,7 @@ import React, {
 import { UseFormRegisterReturn } from 'react-hook-form';
 
 import '@/src/styles.css';
+import { UseFormRegisterReturn } from "react-hook-form";
 
 interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   placeholder?: string;
