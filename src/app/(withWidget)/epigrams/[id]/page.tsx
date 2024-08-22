@@ -132,13 +132,15 @@ export default function EpigramDetailPage({
           </div>
         </div>
       </div>
-      <div className="h-[600px] bg-bg-100">
-        {epigram && epigram.id && (
-          <EpigramDetailPageCommentsSection
-            epigramId={epigram.id}
-            userId={USER_ID}
-          />
-        )}
+      <div className="flex justify-center">
+        <div className="h-auto w-[380px] bg-bg-100 p-[22px] md:w-[500px] xl:w-[640px]">
+          {epigram && epigram.id && (
+            <EpigramDetailPageCommentsSection
+              epigramId={epigram.id}
+              userId={USER_ID}
+            />
+          )}
+        </div>
       </div>
     </div>
   );

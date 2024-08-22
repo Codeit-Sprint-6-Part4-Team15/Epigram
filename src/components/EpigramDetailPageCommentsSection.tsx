@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 
 import Image from 'next/image';
-import useSWR from 'swr';
-import useSWRInfinite from 'swr/infinite';
 
 import {
   getCommentsForEpigram,
@@ -11,7 +9,7 @@ import {
   handleCommentPost,
 } from '../app/api/comment';
 import { getUserMe } from '../app/api/user';
-import { Comment as CommentType, CommentsResponse } from '../types/comments';
+import { Comment as CommentType } from '../types/comments';
 import LoadingError from './LoadingError';
 import Comment from './commons/Comment';
 import Loader from './commons/Loader';
@@ -28,58 +26,68 @@ export default function EpigramDetailPageCommentsSection({
   userId,
 }: CommentsSectionProps) {
   const PAGE_SIZE = 4;
+  const [comments, setComments] = useState<CommentType[]>([]);
   const [newComment, setNewComment] = useState('');
   const [profileImage, setProfileImage] = useState('');
   const [isPrivate, setIsPrivate] = useState(false);
-
-  // SWR을 이용하여 유저 프로필 이미지 가져오기
-  const { data: userData } = useSWR('/api/user/me', getUserMe);
+  const [cursor, setCursor] = useState<number | null>(0);
+  const [totalCount, setTotalCount] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
 
   // 유저 프로필 이미지 가져오기
   useEffect(() => {
-    if (userData) {
-      setProfileImage(userData.image);
+    const fetchUserProfile = async () => {
+      try {
+        const userData = await getUserMe();
+        setProfileImage(userData.image); // 프로필 이미지 설정
+      } catch (error) {
+        console.error('프로필 이미지를 가져오는데 실패했습니다.', error);
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
+
+  // 댓글 불러오기 함수
+  const fetchComments = async () => {
+    if (cursor === null) return; // 더 불러올 댓글이 없으면 종료
+
+    setIsLoading(true);
+    try {
+      const response = await getCommentsForEpigram(
+        epigramId,
+        PAGE_SIZE,
+        cursor,
+      );
+      setComments((prevComments) => [...prevComments, ...response.list]);
+      setCursor(response.nextCursor); // 다음 커서를 설정 (더 이상 없으면 null로 설정됨)
+      setTotalCount(response.totalCount);
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err); // err가 Error 타입인지 확인 후 설정
+      } else {
+        console.error('Unknown error:', err);
+        setError(new Error('An unknown error occurred'));
+      }
+    } finally {
+      setIsLoading(false);
     }
-  }, [userData]);
+  };
 
-  // SWR Infinite를 이용하여 페이지네이션 처리
-  const { data, error, size, setSize, mutate } =
-    useSWRInfinite<CommentsResponse>(
-      (index: number) => {
-        const cursorValue = index * PAGE_SIZE;
-        console.log(`Fetching page with cursor: ${cursorValue}`);
-        return `/epigrams/${epigramId}/comments?limit=${PAGE_SIZE}&cursor=${cursorValue}`;
-      },
-      async (url: string) => {
-        // URL에서 필요한 부분을 추출
-        const urlParams = new URLSearchParams(url.split('?')[1]);
-        const limit = parseInt(urlParams.get('limit') || '0', 10);
-        const cursor = parseInt(urlParams.get('cursor') || '0', 10);
-
-        // API 요청 수행
-        return getCommentsForEpigram(epigramId, limit, cursor);
-      },
-      {
-        revalidateOnFocus: false,
-        revalidateOnReconnect: false,
-      },
-    );
-
-  const comments: CommentType[] = data ? data.flatMap((page) => page.list) : [];
-  const totalCount = data ? data[0]?.totalCount : 0;
-  const isLoading = !data && !error;
-  const isLoadingMore =
-    isLoading || (size > 0 && data && typeof data[size - 1] === 'undefined');
-  const isEmpty = data?.[0]?.list.length === 0;
-  const isReachingEnd =
-    isEmpty || (data && data[data.length - 1]?.list.length < PAGE_SIZE);
+  // 컴포넌트가 처음 렌더링될 때 첫 댓글을 로드
+  useEffect(() => {
+    fetchComments();
+  }, []);
 
   const handleCommentSubmit = async () => {
     if (newComment.trim() === '') return;
     try {
       await handleCommentPost(epigramId, isPrivate, newComment);
       setNewComment('');
-      await mutate(); // 새로운 댓글 작성 후 SWR 데이터를 갱신
+      setCursor(0); // 새 댓글 작성 후 첫 페이지부터 다시 로드
+      setComments([]); // 기존 댓글 초기화
+      fetchComments(); // 첫 페이지 다시 로드
     } catch (error) {
       console.error('댓글 작성에 실패했습니다.', error);
     }
@@ -128,21 +136,21 @@ export default function EpigramDetailPageCommentsSection({
             <Comment
               key={comment.id}
               comment={comment}
-              onUpdate={mutate} // 댓글 수정 후 SWR 데이터를 갱신
+              onUpdate={() => fetchComments()}
               onEdit={isMyComment ? handleCommentEdit : undefined}
               onDelete={isMyComment ? handleCommentDelete : undefined}
             />
           );
         })}
-        {isLoadingMore && <Loader />}
+        {isLoading && <Loader />}
         {error && <LoadingError>{error.message}</LoadingError>}
       </div>
-      {!isReachingEnd && (
+      {cursor !== null && (
         <button
           type="button"
-          onClick={() => setSize(size + 1)} // 다음 댓글 불러오기
-          disabled={isLoadingMore}
-          className="typo-md-medium flex items-center gap-[4px] rounded-[100px] border border-line-200 px-[18px] py-[12px] text-blue-500 xl:typo-xl-medium xl:px-[40px]"
+          onClick={fetchComments} // 다음 댓글 불러오기
+          disabled={isLoading}
+          className="typo-md-medium mt-[40px] flex items-center gap-[4px] rounded-[100px] border border-line-200 px-[18px] py-[12px] text-blue-500 xl:typo-xl-medium xl:mt-[72px] xl:px-[40px]"
         >
           <Image
             src="/assets/ic_plus.svg"
