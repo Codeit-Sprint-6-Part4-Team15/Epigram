@@ -7,10 +7,10 @@ import { EmotionData } from '@/src/types/emotion';
 
 import instance from '@/src/app/api/axios';
 
-import DonutChart from '@/src/components/DonutChart';
+import DonutChart from '@/src/components/myPage/DonutChart';
 
-import LoadingError from './LoadingError';
-import Loader from './commons/Loader';
+import Loader from '../commons/Loader';
+import LoadingError from '../commons/LoadingError';
 
 interface ChartContainerProps {
   userId: number;

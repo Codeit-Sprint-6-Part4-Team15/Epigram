@@ -7,7 +7,7 @@ import searchIcon from '@/public/assets/searchIcon.svg';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-import FloatingButtons from '@/src/components/FloatingButtons';
+import FloatingButtons from '@/src/components/epigrams/FloatingButtons';
 
 import SearchEpigram from './components/SearchEpigram';
 import SearchHistory from './components/SearchHistory';

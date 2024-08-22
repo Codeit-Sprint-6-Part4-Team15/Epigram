@@ -1,7 +1,7 @@
-import CommentsContainer from '@/src/components/CommentContainer';
-import EpigramsContainer from '@/src/components/EpigramsContainer';
-import TodayEpigram from '@/src/components/TodayEpigram';
 import TodayEmotionSelector from '@/src/components/commons/TodayEmotionSelector';
+import EpigramsContainer from '@/src/components/epigrams/EpigramsContainer';
+import TodayEpigram from '@/src/components/epigrams/TodayEpigram';
+import CommentsContainer from '@/src/components/myPage/CommentContainer';
 
 export default async function EpigramsPage() {
   return (

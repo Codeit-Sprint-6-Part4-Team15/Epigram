@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 
+import EpigramsContainer from '../epigrams/EpigramsContainer';
 import CommentsContainer from './CommentContainer';
-import EpigramsContainer from './EpigramsContainer';
 
 export default function MyContents() {
   const [activeTab, setActiveTab] = useState(1);

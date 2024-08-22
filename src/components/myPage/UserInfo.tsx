@@ -7,8 +7,8 @@ import Image from 'next/image';
 
 import instance from '@/src/app/api/axios';
 
-import { User } from '../types/auth';
-import Loader from './commons/Loader';
+import { User } from '../../types/auth';
+import Loader from '../commons/Loader';
 
 export default function UserInfo() {
   const [isLoading, setIsLoading] = useState(false);

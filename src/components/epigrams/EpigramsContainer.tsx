@@ -2,51 +2,47 @@
 
 import { useCallback, useEffect, useState } from 'react';
 
-import { CommentType, CommentsResponse } from '@/src/types';
 import Image from 'next/image';
+import Link from 'next/link';
 
-import {
-  getMyComments,
-  getRecentComments,
-  handleCommentDelete,
-  handleCommentEdit,
-} from '../app/api/comment';
-import LoadingError from './LoadingError';
-import Comment from './commons/Comment';
-import Loader from './commons/Loader';
+import { getMyEpigrams, getRecentEpigrams } from '../../app/api/epigram';
+import { Epigram, EpigramsResponse } from '../../types/epigrams';
+import Loader from '../commons/Loader';
+import LoadingError from '../commons/LoadingError';
+import TextCard from '../commons/TextCard';
 
 // FIX : userId 전역값으로 변경해야함
 export const userId = 136;
 
-interface CommentsContainerProps {
+interface EpigramsContainerProps {
   type: 'recent' | 'my';
   setCount?: (count: number) => void;
 }
 
-export default function CommentsContainer({
+export default function EpigramsContainer({
   type,
   setCount,
-}: CommentsContainerProps) {
-  const [comments, setComments] = useState<CommentType[]>([]);
-  const [cursor, setCursor] = useState(0);
+}: EpigramsContainerProps) {
+  const [epigrams, setEpigrams] = useState<Epigram[]>([]);
+  const [cursor, setCursor] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingError, setLoadingError] = useState<Error | null>(null);
 
-  const fetchComments = useCallback(async () => {
+  const fetchEpigrams = useCallback(async () => {
     setIsLoading(true);
     try {
-      let fetchedComments: CommentsResponse;
+      let fetchedEpigrams: EpigramsResponse;
       switch (type) {
         case 'recent':
-          fetchedComments = await getRecentComments(4, 0);
+          fetchedEpigrams = await getRecentEpigrams(3, 0);
           break;
         case 'my':
-          fetchedComments = await getMyComments(userId, 4, 0);
-          if (setCount) setCount(fetchedComments?.totalCount);
+          fetchedEpigrams = await getMyEpigrams(userId, 3, 0);
+          if (setCount) setCount(fetchedEpigrams?.totalCount);
           break;
       }
-      setComments(fetchedComments?.list);
-      setCursor(fetchedComments?.nextCursor);
+      setEpigrams(fetchedEpigrams?.list);
+      setCursor(fetchedEpigrams?.nextCursor ?? null);
     } catch (error: any) {
       setLoadingError(error);
       console.error('댓글을 가져오는 데 실패했습니다.', error);
@@ -56,19 +52,19 @@ export default function CommentsContainer({
   }, [type]);
 
   const handleMore = async () => {
+    let fetchedEpigrams: EpigramsResponse;
     setIsLoading(true);
     try {
-      let fetchedComments: CommentsResponse;
       switch (type) {
         case 'recent':
-          fetchedComments = await getRecentComments(4, cursor);
+          fetchedEpigrams = await getRecentEpigrams(5, cursor ?? 0);
           break;
         case 'my':
-          fetchedComments = await getMyComments(userId, 4, cursor);
+          fetchedEpigrams = await getMyEpigrams(userId, 5, cursor ?? 0);
           break;
       }
-      setCursor(fetchedComments.nextCursor);
-      setComments((prevComments) => [...prevComments, ...fetchedComments.list]);
+      setCursor(fetchedEpigrams.nextCursor ?? 0);
+      setEpigrams((prevEpigrams) => [...prevEpigrams, ...fetchedEpigrams.list]);
     } catch (error: any) {
       setLoadingError(error);
       console.error('댓글을 더 불러오는데 실패했습니다.', error);
@@ -78,20 +74,22 @@ export default function CommentsContainer({
   };
 
   useEffect(() => {
-    fetchComments();
-  }, [fetchComments]);
+    fetchEpigrams();
+  }, [fetchEpigrams]);
 
   return (
     <div className="flex flex-col items-center gap-[40px] xl:gap-[72px]">
-      <div className="w-full">
-        {comments?.map((comment) => (
-          <Comment
-            key={comment.id}
-            comment={comment}
-            onEdit={handleCommentEdit}
-            onDelete={handleCommentDelete}
-            onUpdate={fetchComments}
-          />
+      <div className="flex w-full flex-col gap-[16px]">
+        {epigrams?.map((epigram) => (
+          <Link key={epigram.id} href={`epigrams/${epigram.id}`}>
+            <TextCard
+              key={epigram.id}
+              id={epigram.id}
+              content={epigram.content}
+              author={epigram.author}
+              tags={epigram.tags}
+            />
+          </Link>
         ))}
         {isLoading && <Loader />}
         {loadingError && <LoadingError>{loadingError?.message}</LoadingError>}
@@ -109,7 +107,7 @@ export default function CommentsContainer({
             height={24}
             alt="아이콘"
           />
-          <span>최신 댓글 더보기</span>
+          <span>최신 에피그램 더보기</span>
         </button>
       )}
     </div>

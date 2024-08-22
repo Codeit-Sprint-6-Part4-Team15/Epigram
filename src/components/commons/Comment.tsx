@@ -4,13 +4,13 @@ import { ChangeEvent, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import IcoUser from '@/public/assets/ic_user.svg';
-import { CommentType } from '@/src/types';
+import { CommentType } from '@/src/types/types';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import useModal from '@/src/hooks/useModal';
 
-import { userId } from '../CommentContainer';
+import { userId } from '../myPage/CommentContainer';
 import Button from './Button';
 import ConfirmModal from './Modal/ConfirmModal';
 import Modal from './Modal/Modal';
