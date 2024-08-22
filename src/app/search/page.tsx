@@ -140,7 +140,7 @@ function SearchPage() {
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
-  }, [isFocused,tag]);
+  }, [isFocused]);
 
 
   return (
