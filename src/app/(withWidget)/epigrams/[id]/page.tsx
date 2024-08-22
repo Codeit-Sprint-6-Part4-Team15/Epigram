@@ -39,6 +39,13 @@ export default function EpigramDetailPage({
 
   const handleLike = async () => {
     try {
+      const likeButtonImage = document.querySelector('.like-button-image');
+      likeButtonImage?.classList.add('active');
+
+      setTimeout(() => {
+        likeButtonImage?.classList.remove('active');
+      }, 200);
+
       if (epigram?.isLiked === false) {
         const data = await likeEpigram(id);
         setEpigram(data);
@@ -57,6 +64,7 @@ export default function EpigramDetailPage({
     try {
       const data = await getEpigramById(id);
       setEpigram(data);
+      console.log(data);
     } catch (error) {
       console.error('에피그램을 불러오는데 실패했습니다:', error);
     }
@@ -84,8 +92,11 @@ export default function EpigramDetailPage({
                         },
                       }}
                     >
-                      <span className="typo-lg-regular mr-[16px] text-blue-400 xl:typo-xl-regular">
-                        # {tag.name}
+                      <span
+                        key={tag.id}
+                        className="typo-lg-regular mr-[16px] text-blue-400 xl:typo-xl-regular"
+                      >
+                        #{tag.name}
                       </span>
                     </Link>
                   ))}
@@ -110,7 +121,7 @@ export default function EpigramDetailPage({
                 alt="에피그램 좋아요 버튼"
                 width={36}
                 height={36}
-                className="mr-[4px] h-[20px] w-[20px] md:h-[24px] md:w-[24px] xl:h-[36px] xl:w-[36px]"
+                className="like-button-image mr-[4px] h-[20px] w-[20px] md:h-[24px] md:w-[24px] xl:h-[36px] xl:w-[36px]"
               />
               {epigram?.likeCount}
             </button>

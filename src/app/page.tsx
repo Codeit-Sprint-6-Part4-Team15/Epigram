@@ -72,7 +72,7 @@ export default function Home() {
   const handleClick = () => {
     //시작하기 버튼 클릭 시
     const router = useRouter();
-    router.push('/epigrams');
+    router.push('/feed');
   };
 
   //타이핑 효과 추가
@@ -100,16 +100,8 @@ export default function Home() {
   }, [typingCompleted, animation]);
 
   return (
-    <div className="flex flex-col items-center bg-bg-100">
-      <div className="mt-[320px] flex w-[440px] flex-col items-center">
-        <Image
-          src="/assets/landingPage/landing-background.webp"
-          alt="배경 이미지"
-          layout="fill"
-          objectFit="cover"
-          className="z-[1]"
-        />
-        <div className="z-[2] flex flex-col items-center text-center">
+    <div className="w-screen flex flex-col items-center bg-bg-100 m-0">
+      <div className="note-background w-full h-screen pt-[252px] md:pt-[204px] xl:pt-[300px] flex flex-col items-center text-center">
           <p
             className="white-space iropke-2xl md:iropke-3xl xl:iropke-4xl"
             dangerouslySetInnerHTML={{ __html: displayText }}
@@ -132,7 +124,7 @@ export default function Home() {
               </ScrollWrapper>
               <button
                 onClick={scrollToMain}
-                className="typo-xs-semibold mt-[214px] flex flex-col items-center text-blue-400 md:typo-lg-medium xl:typo-lg-medium"
+                className="typo-xs-semibold mt-[150px] flex flex-col items-center text-blue-400 md:typo-lg-medium xl:typo-lg-medium"
               >
                 더 알아보기
                 <Image
@@ -144,7 +136,6 @@ export default function Home() {
               </button>
             </div>
           )}
-        </div>
       </div>
       <main ref={mainRef} className="flex flex-col text-center">
         <div className="ml-[24px] mr-[24px] mt-[174px] flex flex-col xl:mt-[240px] xl:flex-row">
@@ -362,8 +353,7 @@ export default function Home() {
           </ScrollWrapper>
         </div>
       </main>
-      <div className="relative w-screen">
-        <div className="relative z-[2] flex flex-col items-center">
+          <div className='note-background w-screen flex flex-col items-center xl:h-[1040px] md:h-[528px] h-[600px]'>
           <div className="block md:hidden xl:hidden">
             <Image
               src="/assets/landingPage/logo2-lg.webp"
@@ -392,23 +382,15 @@ export default function Home() {
             />
           </div>
           <Button
-            type="button"
-            variant="main"
-            size={{ default: 'sm', md: 'sm', xl: 'lg' }}
-            onClick={handleClick}
-            className="mb-[200px] mt-[24px] xl:mb-[400px] xl:mt-[48px]"
-          >
-            시작하기
+                  type="button"
+                  variant="main"
+                  size={{ default: 'sm', md: 'md', xl: 'lg' }}
+                  onClick={handleClick}
+                  className="mt-[24px] xl:mt-[48px]"
+                >
+                  시작하기
           </Button>
         </div>
-        <Image
-          src="/assets/landingPage/landing-background.webp"
-          alt="배경 이미지"
-          layout="fill"
-          objectFit="cover"
-          className="z-[1] w-screen"
-        />
-      </div>
-    </div>
+        </div>
   );
 }

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import searchIcon from '@/public/assets/ic_search.svg';
 import profileIcon from '@/public/assets/ic_profile.svg';
-import epigramLogo from '@/public/assets/epigramLogo.svg';
+import epigramLogo from '@/public/assets/logo.svg';
 import hamberger from '@/public/assets/ic_hamberger.svg';
 import closeIcon from '@/public/assets/ic_close_bk.svg';
 import userProfile from '@/public/assets/ic_user.svg';
@@ -53,7 +53,7 @@ function Header() {
       return (
         <div className='w-full h-[52px] flex items-center justify-between border-b border-line-300 px-[24px] md:px-[48px] md:h-[60px] xl:px-[88px] xl:h-[80px]'>
           <Link href="/search"><Image className='w-[20px] h-[20px] cursor-pointer xl:w-[36px] xl:h-[36px]' src={searchIcon} alt='searchIcon' /></Link>
-          <Link href="/"><Image className='w-[119px] h-[36px] cursor-pointer xl:w-[172px] xl:h-[48px]' src={epigramLogo} alt='epigramLogo' /></Link>
+          <Link href="/"><Image className='w-[170px] h-[50px] cursor-pointer xl:w-[170px] xl:h-[70px]' src={epigramLogo} alt='epigramLogo' /></Link>
           <Link href="/mypage"><Image className='w-[20px] h-[20px] cursor-pointer xl:w-[36px] xl:h-[36px]' src={profileIcon} alt='profileIcon' /></Link>
         </div>
       );

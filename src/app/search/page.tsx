@@ -140,7 +140,8 @@ function SearchPage() {
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
-  }, [isFocused]);
+  }, [isFocused,tag]);
+
 
   return (
     <div className="flex justify-center">

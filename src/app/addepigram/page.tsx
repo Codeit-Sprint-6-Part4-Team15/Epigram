@@ -15,8 +15,8 @@ let inputClass = `typo-lg-regualr xl:typo-xl-regualr focus:border-black-600 focu
 
 interface FormValue  {
   tags: string[];
-  referenceUrl: string;
-  referenceTitle: string;
+  referenceUrl?: string;
+  referenceTitle?: string;
   author: string;
   content: string;
 }
@@ -80,11 +80,15 @@ export default function Page() {
   }, []);
 
   const onSubmitHandler: SubmitHandler<FormValue> = async (data) => {
+
+    if (!data.referenceUrl) {
+      delete data.referenceUrl;
+  }
+
     data.tags = tags;
     try {
       const newData= await postEpigram(data); 
-      console.log(newData.id)
-      //router.push(`{/epigrams/${Number(newData.id)}}`) 
+      router.push(`/feed`) 
     } catch (error) {
       console.error("에피그램 등록 실패:", error);
     }
@@ -145,7 +149,8 @@ export default function Page() {
                 출처
             </label>
             <input {...register("referenceTitle")} name="referenceTitle"  className={`${inputClass}`} placeholder="출처 제목 입력"/>
-            <input {...register("referenceUrl")} name="referenceUrl" className={`${inputClass}`} placeholder="URL (ex. https://www.website.com)"/>
+            <input  {...register("referenceUrl",{ required: false})} 
+   name="referenceUrl" className={`${inputClass}`} placeholder="URL (ex. https://www.website.com)"/>
             <label className="flex flex-col typo-md-semibold md:typo-lg-semibold xl:typo-xl-semibold mt-[40px] xl:mb-[24px] xl:mt-[54px]">
                 태그
             </label>
