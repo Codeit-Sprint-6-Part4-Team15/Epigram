@@ -1,12 +1,16 @@
-"use client";
-import Image from 'next/image';
-import searchIcon from '@/public/assets/searchIcon.svg';
+'use client';
+
+import { Suspense, useEffect, useRef, useState } from 'react';
+
 import smallLogo from '@/public/assets/epigramSmallLogo.svg';
-import { useState, useEffect, useRef, Suspense } from 'react';
-import SearchHistory from './components/SearchHistory';
-import SearchEpigram from './components/SearchEpigram';
-import FloatingButtons from '@/src/components/FloatingButtons';
+import searchIcon from '@/public/assets/searchIcon.svg';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+
+import FloatingButtons from '@/src/components/FloatingButtons';
+
+import SearchEpigram from './components/SearchEpigram';
+import SearchHistory from './components/SearchHistory';
 
 function SearchPage() {
   const router = useRouter();
@@ -14,26 +18,25 @@ function SearchPage() {
   const [searchWords, setSearchWords] = useState<string[]>([]);
   const [isFocused, setIsFocused] = useState(false);
   const searchHistoryRef = useRef<HTMLDivElement>(null);
-  
+
   useEffect(() => {
     const handleRouteChange = () => {
       const query = new URLSearchParams(window.location.search).get('query');
       if (query) {
-        
         setSearchWord(query); // input value도 업데이트
       } else {
         // 쿼리가 없을 때 전체 데이터를 보여주기 위한 로직 추가
-        
+
         setSearchWord(''); // input value도 초기화
       }
     };
-  
+
     // 클라이언트에서만 실행되도록 체크
     if (typeof window !== 'undefined') {
       handleRouteChange();
       window.addEventListener('popstate', handleRouteChange);
     }
-  
+
     return () => {
       if (typeof window !== 'undefined') {
         window.removeEventListener('popstate', handleRouteChange);
@@ -72,7 +75,7 @@ function SearchPage() {
     }
     saveToLocalStorage(word);
     setSearchWord(word); // 현재 검색어를 입력란에 반영
-  
+
     // URL에 검색어를 쿼리 파라미터로 추가
     router.push(`/search?query=${encodeURIComponent(word)}`);
   };
@@ -142,7 +145,6 @@ function SearchPage() {
     };
   }, [isFocused]);
 
-
   return (
     <div className="flex justify-center">
       <div className="flex flex-col md:w-[384px] md:px-0 xl:w-[640px]">
@@ -157,8 +159,13 @@ function SearchPage() {
               onClick={handleInputClick}
               placeholder="검색어를 입력해 주세요."
             />
-            <a className='flex items-center' href='/search'>
-              <Image className='absolute cursor-pointer left-[12px] md:left-[12px] xl:left-[16px] xl:w-[42px] xl:h-[42px]' priority src={smallLogo} alt='smallLogo' />
+            <a className="flex items-center" href="/search">
+              <Image
+                className="absolute left-[12px] cursor-pointer md:left-[12px] xl:left-[16px] xl:h-[42px] xl:w-[42px]"
+                priority
+                src={smallLogo}
+                alt="smallLogo"
+              />
             </a>
             <Image
               className="absolute bottom-[17px] right-[10px] h-[20px] w-[20px] cursor-pointer md:bottom-[22px] xl:bottom-[23px] xl:h-[36px] xl:w-[36px]"
@@ -183,7 +190,7 @@ function SearchPage() {
           )}
         </div>
         <Suspense>
-          <SearchEpigram/>
+          <SearchEpigram />
         </Suspense>
         <FloatingButtons />
       </div>
