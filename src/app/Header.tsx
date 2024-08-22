@@ -10,6 +10,9 @@ import closeIcon from '@/public/assets/ic_close_bk.svg';
 import userProfile from '@/public/assets/ic_user.svg';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import instance from './api/axios';
+import { User } from '../types/auth';
+import Loader from '../components/commons/Loader';
 
 function Header() {
   const pathname = usePathname();
@@ -41,23 +44,61 @@ function Header() {
       mediaQuery.removeEventListener('change', handleMediaQueryChange);
     };
   }, []);
+  const [isLoading, setIsLoading] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+
+  const getUser = async () => {
+    let userData;
+    setIsLoading(true);
+    try {
+      const res = await instance.get('users/me');
+      userData = await res.data;
+    } catch (error) {
+      console.error('유저 데이터를 불러오는데 실패했습니다.', error);
+    } finally {
+      setIsLoading(false);
+    }
+    return userData;
+  };
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const userData = await getUser();
+      setUser(userData);
+    };
+
+    fetchUser();
+  }, []);
+
+  const handleProfileClick = () => {
+    const accessToken = localStorage.getItem('access_token');
+    if (accessToken) {
+      // access_token이 있을 경우 /mypage로 이동
+      window.location.href = '/mypage';
+    } else {
+      // access_token이 없을 경우 /signin으로 이동
+      window.location.href = '/signin';
+    }
+  };
 
   const renderNavBarContent = () => {
-    if (pathname === '/login' || pathname === '/signup') {
+    if (pathname === '/signin' || pathname === '/signup') {
       return (
-        <div className='w-full h-[52px] flex justify-center items-center border-b border-line-300 md:h-[60px] xl:h-[80px]'>
+        <Link href='/' className='w-full h-[52px] flex justify-center items-center border-b border-line-300 md:h-[60px] xl:h-[80px]'>
           <Image className='w-[119px] h-[36px] cursor-pointer md:w-[172px] md:h-[48px]' src={epigramLogo} alt='epigramLogo' />
-        </div>
+        </Link>
       );
     } else if (pathname === '/') {
       return (
         <div className='w-full h-[52px] flex items-center justify-between border-b border-line-300 px-[24px] md:px-[48px] md:h-[60px] xl:px-[88px] xl:h-[80px]'>
           <Link href="/search"><Image className='w-[20px] h-[20px] cursor-pointer xl:w-[36px] xl:h-[36px]' src={searchIcon} alt='searchIcon' /></Link>
           <Link href="/"><Image className='w-[170px] h-[50px] cursor-pointer xl:w-[170px] xl:h-[70px]' src={epigramLogo} alt='epigramLogo' /></Link>
-          <Link href="/mypage"><Image className='w-[20px] h-[20px] cursor-pointer xl:w-[36px] xl:h-[36px]' src={profileIcon} alt='profileIcon' /></Link>
+          <button onClick={handleProfileClick} className='flex items-center justify-center cursor-pointer'>
+            <Image className='w-[20px] h-[20px] xl:w-[36px] xl:h-[36px]' src={profileIcon} alt='profileIcon' />
+          </button>        
         </div>
       );
-    } else if (pathname === '/epigrams' || pathname === '/search' || pathname === '/addepigram' || pathname === '/mypage') {
+    } else if (pathname === '/epigrams' || pathname.startsWith('/epigrams/') || pathname === '/search' || pathname === '/addepigram' || pathname === '/mypage' || pathname === '/feed') {
       return (
         <div className='w-full h-[52px] flex items-center justify-between border-b border-line-300 px-[24px] md:px-[72px] md:h-[60px] xl:px-[120px] xl:h-[80px]'>
           <div className='flex items-center gap-[12px] md:gap-[24px] xl:gap-[36px]'>
@@ -68,13 +109,13 @@ function Header() {
               <Image className='w-[101px] h-[26px] xl:w-[131px] xl:h-[36px]' src={epigramLogo} alt='epigramLogo' />
             </Link>
             <div className='hidden md:flex md:gap-[24px] text-[14px] xl:text-[16px]'>
-              <Link href='/'>피드</Link>
-              <Link href='/'>검색</Link>
+              <Link href='/feed'>피드</Link>
+              <Link href='/search'>검색</Link>
             </div>
           </div>
           <div className='flex items-center gap-[6px]'>
-            <div><Image className='w-[16px] h-[16px] xl:w-[24px] xl:h-[24px]' src={userProfile} alt='userProfile'/></div>
-            <div className='text-[13px] xl:text-[14px]'>name</div>
+            <div><Image width={20} height={20} className='w-[16px] h-[16px] xl:w-[24px] xl:h-[24px]' src={user?.image ?? userProfile} alt='userProfile'/></div>
+            <div className='text-[13px] xl:text-[14px]'>{user?.nickname ?? 'user'}</div>
           </div>
         </div>
       );
@@ -82,6 +123,9 @@ function Header() {
       return null;
     }
   };
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <nav className='sticky top-0 z-10 w-full bg-white'>
@@ -90,10 +134,10 @@ function Header() {
         <div className="fixed inset-0 z-50 flex">
           <div className="w-3/5 bg-white h-full">
             <div className='h-[54px] px-[16px] flex items-center justify-end border-b border-line-300'><Image className='cursor-pointer w-[24px] h-[24px]' src={closeIcon} alt='close' onClick={toggleSidebar} /></div>
-            <Link href='/' className='text-[16px] px-[20px] h-[74px] flex items-center hover:bg-blue-200'>
+            <Link href='/feed' className='text-[16px] px-[20px] h-[74px] flex items-center hover:bg-blue-200'>
               <div>피드</div>
             </Link>
-            <Link href='/' className='text-[16px] px-[20px] h-[74px] flex items-center hover:bg-blue-200'>
+            <Link href='/search' className='text-[16px] px-[20px] h-[74px] flex items-center hover:bg-blue-200'>
               <div>검색</div>
             </Link>
           </div>
