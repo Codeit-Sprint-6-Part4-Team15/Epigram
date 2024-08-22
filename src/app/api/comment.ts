@@ -1,4 +1,3 @@
-import { CommentType } from '@/src/types';
 import { CommentsResponse } from '@/src/types/comments';
 
 import instance from './axios';

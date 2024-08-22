@@ -13,8 +13,8 @@ import {
   unlikeEpigram,
 } from '@/src/app/api/epigram';
 
-import EpigramDetailPageCommentsSection from '@/src/components/EpigramDetailPageCommentsSection';
 import DropdownMenu from '@/src/components/commons/DropdownMenu';
+import EpigramDetailPageCommentsSection from '@/src/components/epigrams/EpigramDetailPageCommentsSection';
 
 //FIX: 전역 유저 아이디 필요
 const USER_ID = 767;

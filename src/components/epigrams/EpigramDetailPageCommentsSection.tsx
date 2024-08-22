@@ -7,14 +7,14 @@ import {
   handleCommentDelete,
   handleCommentEdit,
   handleCommentPost,
-} from '../app/api/comment';
-import { getUserMe } from '../app/api/user';
-import { Comment as CommentType } from '../types/comments';
-import LoadingError from './LoadingError';
-import Comment from './commons/Comment';
-import Loader from './commons/Loader';
-import TextArea from './commons/TextArea';
-import Toggle from './commons/Toggle';
+} from '../../app/api/comment';
+import { getUserMe } from '../../app/api/user';
+import { Comment as CommentType } from '../../types/comments';
+import Comment from '../commons/Comment';
+import Loader from '../commons/Loader';
+import LoadingError from '../commons/LoadingError';
+import TextArea from '../commons/TextArea';
+import Toggle from '../commons/Toggle';
 
 interface CommentsSectionProps {
   epigramId: number;

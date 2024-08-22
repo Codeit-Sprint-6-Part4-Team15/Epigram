@@ -1,6 +1,6 @@
 import '@/src/app/globals.css';
 
-import FloatingButtons from '@/src/components/FloatingButtons';
+import FloatingButtons from '@/src/components/epigrams/FloatingButtons';
 
 export default function WithWidgetLayout({
   children,

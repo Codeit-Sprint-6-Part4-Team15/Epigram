@@ -2,11 +2,11 @@
 
 import React, { useEffect, useState } from 'react';
 
-import instance from '../app/api/axios';
-import { Epigram } from '../types/epigrams';
-import LoadingError from './LoadingError';
-import Loader from './commons/Loader';
-import TextCard from './commons/TextCard';
+import instance from '../../app/api/axios';
+import { Epigram } from '../../types/epigrams';
+import Loader from '../commons/Loader';
+import LoadingError from '../commons/LoadingError';
+import TextCard from '../commons/TextCard';
 
 export default function TodayEpigram() {
   const [todayEpigram, setTodayEpigram] = useState<Epigram | null>(null);

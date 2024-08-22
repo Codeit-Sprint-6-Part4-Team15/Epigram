@@ -9,12 +9,12 @@ import ArrowLeft from '@/public/assets/ic-arrow-left.svg';
 import ArrowRight from '@/public/assets/ic-arrow-right.svg';
 import Image from 'next/image';
 
-import '@/src/components/EmotionCalender.css';
+import '@/src/components/myPage/EmotionCalender.css';
 
-import { getMonthlyEmotions } from '../app/api/emotionLog';
-import { EmotionDataMap } from '../types/emotion';
-import Dropdown from './commons/Dropdown';
-import { emotions } from './commons/TodayEmotionSelector';
+import { getMonthlyEmotions } from '../../app/api/emotionLog';
+import { EmotionDataMap } from '../../types/emotion';
+import Dropdown from '../commons/Dropdown';
+import { emotions } from '../commons/TodayEmotionSelector';
 
 interface EmotionCalenderProps {
   userId: number;
