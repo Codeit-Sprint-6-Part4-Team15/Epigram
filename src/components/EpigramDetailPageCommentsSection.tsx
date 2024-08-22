@@ -35,12 +35,11 @@ export default function EpigramDetailPageCommentsSection({
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
-  // 유저 프로필 이미지 가져오기
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
         const userData = await getUserMe();
-        setProfileImage(userData.image); // 프로필 이미지 설정
+        setProfileImage(userData.image);
       } catch (error) {
         console.error('프로필 이미지를 가져오는데 실패했습니다.', error);
       }
@@ -51,7 +50,7 @@ export default function EpigramDetailPageCommentsSection({
 
   // 댓글 불러오기 함수
   const fetchComments = async () => {
-    if (cursor === null) return; // 더 불러올 댓글이 없으면 종료
+    if (cursor === null) return;
 
     setIsLoading(true);
     try {
@@ -61,11 +60,11 @@ export default function EpigramDetailPageCommentsSection({
         cursor,
       );
       setComments((prevComments) => [...prevComments, ...response.list]);
-      setCursor(response.nextCursor); // 다음 커서를 설정 (더 이상 없으면 null로 설정됨)
+      setCursor(response.nextCursor);
       setTotalCount(response.totalCount);
     } catch (err) {
       if (err instanceof Error) {
-        setError(err); // err가 Error 타입인지 확인 후 설정
+        setError(err);
       } else {
         console.error('Unknown error:', err);
         setError(new Error('An unknown error occurred'));
@@ -75,7 +74,6 @@ export default function EpigramDetailPageCommentsSection({
     }
   };
 
-  // 컴포넌트가 처음 렌더링될 때 첫 댓글을 로드
   useEffect(() => {
     fetchComments();
   }, []);
@@ -85,9 +83,9 @@ export default function EpigramDetailPageCommentsSection({
     try {
       await handleCommentPost(epigramId, isPrivate, newComment);
       setNewComment('');
-      setCursor(0); // 새 댓글 작성 후 첫 페이지부터 다시 로드
-      setComments([]); // 기존 댓글 초기화
-      fetchComments(); // 첫 페이지 다시 로드
+      setCursor(0);
+      setComments([]);
+      fetchComments();
     } catch (error) {
       console.error('댓글 작성에 실패했습니다.', error);
     }
@@ -131,7 +129,7 @@ export default function EpigramDetailPageCommentsSection({
       </div>
       <div className="w-full">
         {comments.map((comment) => {
-          const isMyComment = comment.writer.id === userId; // 내 댓글인지 확인
+          const isMyComment = comment.writer.id === userId;
           return (
             <Comment
               key={comment.id}
@@ -148,7 +146,7 @@ export default function EpigramDetailPageCommentsSection({
       {cursor !== null && (
         <button
           type="button"
-          onClick={fetchComments} // 다음 댓글 불러오기
+          onClick={fetchComments}
           disabled={isLoading}
           className="typo-md-medium mt-[40px] flex items-center gap-[4px] rounded-[100px] border border-line-200 px-[18px] py-[12px] text-blue-500 xl:typo-xl-medium xl:mt-[72px] xl:px-[40px]"
         >
