@@ -1,4 +1,5 @@
 import { CommentType } from '@/src/types';
+import { CommentsResponse } from '@/src/types/comments';
 
 import instance from './axios';
 
@@ -77,57 +78,26 @@ export async function handleCommentPost(
 export async function getCommentsForEpigram(
   epigramId: number,
   limit: number,
-  cursor: number | null,
-) {
-  let comments;
+  cursor?: number | null,
+): Promise<CommentsResponse> {
   try {
-    const res = await instance.get('/comments', {
+    console.log(
+      `Fetching comments for epigramId: ${epigramId}, limit: ${limit}, cursor: ${cursor}`,
+    );
+    const res = await instance.get(`/epigrams/${epigramId}/comments`, {
       params: {
         limit,
         cursor,
       },
     });
-    comments = await res.data;
-
-    const filteredComments = comments.list.filter(
-      (comment: CommentType) => comment.epigramId === epigramId,
-    );
-
-    return {
-      totalCount: filteredComments.length,
-      nextCursor: comments.nextCursor,
-      list: filteredComments,
-    };
-  } catch (error) {
+    console.log('Response data:', res.data);
+    return res.data;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error('Error message:', error.message);
+    } else {
+      console.error('Unknown error:', error);
+    }
     throw new Error('특정 에피그램의 댓글을 불러오는데 실패했습니다.');
-  }
-}
-
-export async function getMyCommentsForEpigram(
-  epigramId: number,
-  userId: number,
-  limit: number,
-  cursor: number | null,
-) {
-  let comments;
-  try {
-    const res = await instance.get('/comments', {
-      params: { limit, cursor },
-    });
-
-    comments = res.data.list;
-
-    const filteredComments = comments.filter(
-      (comment: CommentType) =>
-        comment.epigramId === epigramId && comment.writer.id === userId,
-    );
-
-    return {
-      totalCount: filteredComments.length,
-      nextCursor: res.data.nextCursor,
-      list: filteredComments,
-    };
-  } catch (error) {
-    throw new Error('특정 에피그램의 내 댓글을 불러오는데 실패했습니다.');
   }
 }
