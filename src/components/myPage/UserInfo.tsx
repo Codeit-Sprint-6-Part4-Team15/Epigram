@@ -3,13 +3,13 @@
 import React, { useEffect, useState } from 'react';
 
 import IcoUser from '@/public/assets/ic_user.svg';
+import { User } from '@/src/types/auth';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 import instance from '@/src/app/api/axios';
 
-import { User } from '../types/auth';
-import Loader from './commons/Loader';
+import Loader from '../commons/Loader';
 
 export default function UserInfo() {
   const [isLoading, setIsLoading] = useState(false);
