@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import IcoSetting from '@/public/assets/Ic_setting.svg';
+import IcoSetting from '@/public/assets/ic_setting.svg';
 import IcoUser from '@/public/assets/ic_user.svg';
 import { User } from '@/src/types/auth';
 import Image from 'next/image';
