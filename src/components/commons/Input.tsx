@@ -31,7 +31,7 @@ const Input = forwardRef<HTMLInputElement, InputProps & UseFormRegisterReturn>(
           onBlur={onBlur}
           onInvalid={(e) => e.preventDefault()}
           name={name}
-          className={`w-full ${outlined ? 'bg-white focus:outline-none' : 'bg-blue-200'} lg:typo-xl-regualr typo-lg-regular text-black-950 placeholder:text-blue-400`}
+          className={`w-full ${outlined ? 'bg-white' : 'bg-blue-200'} outline-none lg:typo-xl-regualr typo-lg-regular text-black-950 placeholder:text-blue-400`}
           type={
             name.includes('password')
               ? isPasswordVisible
