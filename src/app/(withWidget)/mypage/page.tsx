@@ -4,11 +4,11 @@ import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/navigation';
 
-import ChartContainer from '@/src/components/ChartContainer';
-import EmotionCalendar from '@/src/components/EmotionCalender';
-import MyContents from '@/src/components/MyContents';
-import UserInfo from '@/src/components/UserInfo';
 import TodayEmotionSelector from '@/src/components/commons/TodayEmotionSelector';
+import ChartContainer from '@/src/components/myPage/ChartContainer';
+import EmotionCalendar from '@/src/components/myPage/EmotionCalender';
+import MyContents from '@/src/components/myPage/MyContents';
+import UserInfo from '@/src/components/myPage/UserInfo';
 
 function formatDate(date: Date): string {
   return new Intl.DateTimeFormat('ko-KR', {

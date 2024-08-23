@@ -4,15 +4,17 @@ import React, { useEffect, useState } from 'react';
 
 import IcoSetting from '@/public/assets/Ic_setting.svg';
 import IcoUser from '@/public/assets/ic_user.svg';
+import { User } from '@/src/types/auth';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+
+import useModal from '@/src/hooks/useModal';
 
 import instance from '@/src/app/api/axios';
 
-import useModal from '../hooks/useModal';
-import { User } from '../types/auth';
-import Loader from './commons/Loader';
-import Modal from './commons/Modal/Modal';
-import ProfileEditModal from './commons/Modal/ProfileEditModal';
+import Loader from '@/src/components/commons/Loader';
+import Modal from '@/src/components/commons/Modal/Modal';
+import ProfileEditModal from '@/src/components/commons/Modal/ProfileEditModal';
 
 export default function UserInfo() {
   const [
@@ -21,7 +23,14 @@ export default function UserInfo() {
   ] = useModal(false);
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  const router = useRouter();
 
+  const handleLogout = () => {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('user');
+    localStorage.removeItem('refresh_token');
+    router.replace('/'); // 홈 페이지로 리다이렉트
+  };
   const getUser = async () => {
     let userData;
     setIsLoading(true);
@@ -72,6 +81,7 @@ export default function UserInfo() {
       <button
         type="button"
         className="typo-md-regular mt-[8px] rounded-[100px] bg-line-100 px-[14px] py-[6px] text-gray-300 xl:typo-xl-regular xl:px-[15px] xl:py-[8px]"
+        onClick={handleLogout}
       >
         로그아웃
       </button>

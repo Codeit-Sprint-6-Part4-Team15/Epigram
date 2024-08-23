@@ -1,23 +1,20 @@
-'use client';
-
 import { useEffect, useState } from 'react';
 
 import Image from 'next/image';
 
 import {
   getCommentsForEpigram,
-  getMyCommentsForEpigram,
   handleCommentDelete,
   handleCommentEdit,
   handleCommentPost,
-} from '../app/api/comment';
-import { getUserMe } from '../app/api/user';
-import { CommentType } from '../types';
-import LoadingError from './LoadingError';
-import Comment from './commons/Comment';
-import Loader from './commons/Loader';
-import TextArea from './commons/TextArea';
-import Toggle from './commons/Toggle';
+} from '../../app/api/comment';
+import { getUserMe } from '../../app/api/user';
+import { Comment as CommentType } from '../../types/comments';
+import Comment from '../commons/Comment';
+import Loader from '../commons/Loader';
+import LoadingError from '../commons/LoadingError';
+import TextArea from '../commons/TextArea';
+import Toggle from '../commons/Toggle';
 
 interface CommentsSectionProps {
   epigramId: number;
@@ -28,67 +25,58 @@ export default function EpigramDetailPageCommentsSection({
   epigramId,
   userId,
 }: CommentsSectionProps) {
+  const PAGE_SIZE = 4;
   const [comments, setComments] = useState<CommentType[]>([]);
   const [newComment, setNewComment] = useState('');
-  const [cursor, setCursor] = useState<number | null>(0);
-  const [isLoading, setIsLoading] = useState(false);
-  const [loadingError, setLoadingError] = useState<Error | null>(null);
   const [profileImage, setProfileImage] = useState('');
-  const [totalCount, setTotalCount] = useState(0);
-  const [myComments, setMyComments] = useState<CommentType[]>([]);
   const [isPrivate, setIsPrivate] = useState(false);
+  const [cursor, setCursor] = useState<number | null>(0);
+  const [totalCount, setTotalCount] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    async function fetchUserProfile() {
+    const fetchUserProfile = async () => {
       try {
         const userData = await getUserMe();
         setProfileImage(userData.image);
       } catch (error) {
-        console.error('유저데이터를 가져오는 데 실패했습니다.', error);
+        console.error('프로필 이미지를 가져오는데 실패했습니다.', error);
       }
-    }
+    };
 
     fetchUserProfile();
   }, []);
 
-  const fetchMyComments = async () => {
-    try {
-      const res = await getMyCommentsForEpigram(epigramId, userId, 10000, 0);
-      setMyComments(res.list);
-    } catch (error) {
-      console.error('내 댓글을 불러오는 데 실패했습니다.', error);
-    }
-  };
-
+  // 댓글 불러오기 함수
   const fetchComments = async () => {
-    if (cursor === null || isLoading) return;
+    if (cursor === null) return;
 
     setIsLoading(true);
-
     try {
-      const res = await getCommentsForEpigram(epigramId, 4, cursor);
-      setComments((prevComments) => [...prevComments, ...res.list]);
-      if (res.nextCursor && res.list.length === 4) {
-        setCursor(res.nextCursor);
+      const response = await getCommentsForEpigram(
+        epigramId,
+        PAGE_SIZE,
+        cursor,
+      );
+      setComments((prevComments) => [...prevComments, ...response.list]);
+      setCursor(response.nextCursor);
+      setTotalCount(response.totalCount);
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err);
       } else {
-        setCursor(null);
+        console.error('Unknown error:', err);
+        setError(new Error('An unknown error occurred'));
       }
-    } catch (error: any) {
-      setLoadingError(error);
-      console.error('댓글을 불러오는 데 실패했습니다.', error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const fetchTotalCommentsCount = async () => {
-    try {
-      const res = await getCommentsForEpigram(epigramId, 10000, 0);
-      setTotalCount(res.totalCount);
-    } catch (error) {
-      console.error('전체 댓글 수를 불러오는 데 실패했습니다.', error);
-    }
-  };
+  useEffect(() => {
+    fetchComments();
+  }, []);
 
   const handleCommentSubmit = async () => {
     if (newComment.trim() === '') return;
@@ -112,11 +100,6 @@ export default function EpigramDetailPageCommentsSection({
     }
   };
 
-  useEffect(() => {
-    fetchTotalCommentsCount();
-    fetchComments();
-  }, [epigramId]);
-
   return (
     <div className="flex flex-col items-center">
       <div className="typo-lg-semibold mb-4 self-start xl:typo-xl-semibold lg:mb-6">
@@ -124,7 +107,7 @@ export default function EpigramDetailPageCommentsSection({
       </div>
       <div className="mb-3 flex w-full items-start gap-4 lg:mb-8 xl:mb-10">
         <Image
-          src={profileImage}
+          src={profileImage || '/assets/ic_user.svg'}
           alt="User Profile"
           width={48}
           height={48}
@@ -138,29 +121,27 @@ export default function EpigramDetailPageCommentsSection({
             onKeyDown={handleKeyPress}
           />
           <Toggle
-            content={[{ value: 'isPrivate', label: '공개' }]}
-            checked={!isPrivate}
-            onChange={setIsPrivate}
+            content={[{ value: 'isPrivate', label: '비공개' }]}
+            checked={isPrivate}
+            onChange={() => setIsPrivate(!isPrivate)}
           />
         </div>
       </div>
       <div className="w-full">
         {comments.map((comment) => {
-          const isMyComment = myComments.some(
-            (myComment) => myComment.id === comment.id,
-          );
+          const isMyComment = comment.writer.id === userId;
           return (
             <Comment
               key={comment.id}
               comment={comment}
-              onUpdate={fetchComments}
+              onUpdate={() => fetchComments()}
               onEdit={isMyComment ? handleCommentEdit : undefined}
               onDelete={isMyComment ? handleCommentDelete : undefined}
             />
           );
         })}
         {isLoading && <Loader />}
-        {loadingError && <LoadingError>{loadingError?.message}</LoadingError>}
+        {error && <LoadingError>{error.message}</LoadingError>}
       </div>
       {cursor !== null && (
         <button

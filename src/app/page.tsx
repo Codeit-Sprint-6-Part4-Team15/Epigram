@@ -6,7 +6,7 @@ import { useEffect, useRef } from 'react';
 import { motion, useAnimation, useInView } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 import Button from '../components/commons/Button';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
@@ -69,9 +69,9 @@ export default function Home() {
     }
   };
 
+  const router = useRouter();
   const handleClick = () => {
     //시작하기 버튼 클릭 시
-    const router = useRouter();
     router.push('/feed');
   };
 
@@ -100,42 +100,42 @@ export default function Home() {
   }, [typingCompleted, animation]);
 
   return (
-    <div className="w-screen flex flex-col items-center bg-bg-100 m-0">
-      <div className="note-background w-full h-screen pt-[252px] md:pt-[204px] xl:pt-[300px] flex flex-col items-center text-center">
-          <p
-            className="white-space iropke-2xl md:iropke-3xl xl:iropke-4xl"
-            dangerouslySetInnerHTML={{ __html: displayText }}
-          ></p>
-          {showElements && (
-            <div className="flex flex-col items-center">
-              <ScrollWrapper direction="up">
-                <p className="iropke-md mt-[8px] md:iropke-xl xl:iropke-xl md:mt-[24px] xl:mt-[40px]">
-                  다른 사람들과 감정을 공유해 보세요.
-                </p>
-                <Button
-                  type="button"
-                  variant="main"
-                  size={{ default: 'sm', md: 'sm', xl: 'lg' }}
-                  onClick={handleClick}
-                  className="mt-[24px] xl:mt-[48px]"
-                >
-                  시작하기
-                </Button>
-              </ScrollWrapper>
-              <button
-                onClick={scrollToMain}
-                className="typo-xs-semibold mt-[150px] flex flex-col items-center text-blue-400 md:typo-lg-medium xl:typo-lg-medium"
+    <div className="m-0 flex w-screen flex-col items-center bg-bg-100">
+      <div className="note-background flex h-screen w-full flex-col items-center pt-[252px] text-center md:pt-[204px] xl:pt-[300px]">
+        <p
+          className="white-space iropke-2xl md:iropke-3xl xl:iropke-4xl"
+          dangerouslySetInnerHTML={{ __html: displayText }}
+        ></p>
+        {showElements && (
+          <div className="flex flex-col items-center">
+            <ScrollWrapper direction="up">
+              <p className="iropke-md mt-[8px] md:iropke-xl xl:iropke-xl md:mt-[24px] xl:mt-[40px]">
+                다른 사람들과 감정을 공유해 보세요.
+              </p>
+              <Button
+                type="button"
+                variant="main"
+                size={{ default: 'sm', md: 'sm', xl: 'lg' }}
+                onClick={handleClick}
+                className="mt-[24px] xl:mt-[48px]"
               >
-                더 알아보기
-                <Image
-                  src="/assets/landingPage/ic-chevron-up.svg"
-                  alt="더 알아보기 버튼"
-                  width={25}
-                  height={25}
-                />
-              </button>
-            </div>
-          )}
+                시작하기
+              </Button>
+            </ScrollWrapper>
+            <button
+              onClick={scrollToMain}
+              className="typo-xs-semibold mt-[150px] flex flex-col items-center text-blue-400 md:typo-lg-medium xl:typo-lg-medium"
+            >
+              더 알아보기
+              <Image
+                src="/assets/landingPage/ic-chevron-up.svg"
+                alt="더 알아보기 버튼"
+                width={25}
+                height={25}
+              />
+            </button>
+          </div>
+        )}
       </div>
       <main ref={mainRef} className="flex flex-col text-center">
         <div className="ml-[24px] mr-[24px] mt-[174px] flex flex-col xl:mt-[240px] xl:flex-row">
@@ -353,44 +353,44 @@ export default function Home() {
           </ScrollWrapper>
         </div>
       </main>
-          <div className='note-background w-screen flex flex-col items-center xl:h-[1040px] md:h-[528px] h-[600px]'>
-          <div className="block md:hidden xl:hidden">
-            <Image
-              src="/assets/landingPage/logo2-lg.webp"
-              alt="날마다 에피그램"
-              width={122}
-              height={200}
-              className="mt-[180px]"
-            />
-          </div>
-          <div className="hidden md:block xl:hidden">
-            <Image
-              src="/assets/landingPage/logo2-lg.webp"
-              alt="날마다 에피그램"
-              width={122}
-              height={200}
-              className="mt-[180px]"
-            />
-          </div>
-          <div className="hidden md:hidden xl:block">
-            <Image
-              src="/assets/landingPage/logo2-xl.webp"
-              alt="날마다 에피그램"
-              width={184}
-              height={388}
-              className="mt-[495px]"
-            />
-          </div>
-          <Button
-                  type="button"
-                  variant="main"
-                  size={{ default: 'sm', md: 'md', xl: 'lg' }}
-                  onClick={handleClick}
-                  className="mt-[24px] xl:mt-[48px]"
-                >
-                  시작하기
-          </Button>
+      <div className="note-background flex h-[600px] w-screen flex-col items-center md:h-[528px] xl:h-[1040px]">
+        <div className="block md:hidden xl:hidden">
+          <Image
+            src="/assets/landingPage/logo2-lg.webp"
+            alt="날마다 에피그램"
+            width={122}
+            height={200}
+            className="mt-[180px]"
+          />
         </div>
+        <div className="hidden md:block xl:hidden">
+          <Image
+            src="/assets/landingPage/logo2-lg.webp"
+            alt="날마다 에피그램"
+            width={122}
+            height={200}
+            className="mt-[180px]"
+          />
         </div>
+        <div className="hidden md:hidden xl:block">
+          <Image
+            src="/assets/landingPage/logo2-xl.webp"
+            alt="날마다 에피그램"
+            width={184}
+            height={388}
+            className="mt-[495px]"
+          />
+        </div>
+        <Button
+          type="button"
+          variant="main"
+          size={{ default: 'sm', md: 'md', xl: 'lg' }}
+          onClick={handleClick}
+          className="mt-[24px] xl:mt-[48px]"
+        >
+          시작하기
+        </Button>
+      </div>
+    </div>
   );
 }
