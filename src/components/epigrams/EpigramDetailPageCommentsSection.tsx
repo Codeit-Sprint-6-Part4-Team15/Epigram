@@ -39,9 +39,14 @@ export default function EpigramDetailPageCommentsSection({
     const fetchUserProfile = async () => {
       try {
         const userData = await getUserMe();
-        setProfileImage(userData.image);
+        if (userData && userData.image) {
+          setProfileImage(userData.image);
+        } else {
+          setProfileImage('/assets/ic_user.svg');
+        }
       } catch (error) {
         console.error('프로필 이미지를 가져오는데 실패했습니다.', error);
+        setProfileImage('/assets/ic_user.svg');
       }
     };
 
@@ -59,6 +64,7 @@ export default function EpigramDetailPageCommentsSection({
         PAGE_SIZE,
         cursor,
       );
+      console.log('Fetched comments:', response);
       setComments((prevComments) => [...prevComments, ...response.list]);
       setCursor(response.nextCursor);
       setTotalCount(response.totalCount);
@@ -81,10 +87,14 @@ export default function EpigramDetailPageCommentsSection({
   const handleCommentSubmit = async () => {
     if (newComment.trim() === '') return;
     try {
-      await handleCommentPost(epigramId, isPrivate, newComment);
+      const newCommentData = await handleCommentPost(
+        epigramId,
+        isPrivate,
+        newComment,
+      );
       setNewComment('');
       setCursor(0);
-      setComments([]);
+      setComments((prevComments) => [newCommentData, ...prevComments]);
       fetchComments();
     } catch (error) {
       console.error('댓글 작성에 실패했습니다.', error);
@@ -99,6 +109,10 @@ export default function EpigramDetailPageCommentsSection({
       handleCommentSubmit();
     }
   };
+
+  useEffect(() => {
+    console.log('Logged in user ID:', userId);
+  }, [userId]);
 
   return (
     <div className="flex flex-col items-center">
@@ -130,6 +144,9 @@ export default function EpigramDetailPageCommentsSection({
       <div className="w-full">
         {comments.map((comment) => {
           const isMyComment = comment.writer.id === userId;
+          console.log(
+            `Comment writer ID: ${comment.writer.id}, Logged in user ID: ${userId}, isMyComment: ${isMyComment}`,
+          );
           return (
             <Comment
               key={comment.id}
