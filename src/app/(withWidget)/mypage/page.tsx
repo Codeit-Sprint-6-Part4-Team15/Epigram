@@ -1,3 +1,9 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+
+import { useRouter } from 'next/navigation';
+
 import TodayEmotionSelector from '@/src/components/commons/TodayEmotionSelector';
 import ChartContainer from '@/src/components/myPage/ChartContainer';
 import EmotionCalendar from '@/src/components/myPage/EmotionCalender';
@@ -16,7 +22,23 @@ function formatDate(date: Date): string {
 }
 
 export default function MyPage() {
+  const [userId, setUserId] = useState(0);
   const today = formatDate(new Date());
+  const router = useRouter();
+
+  useEffect(() => {
+    let user;
+    if (typeof window !== 'undefined') {
+      const userData = localStorage.getItem('user');
+      if (userData) {
+        user = JSON.parse(userData);
+        setUserId(user.id);
+      } else {
+        router.push('/signin');
+      }
+    }
+  }, []);
+
   return (
     <div className="flex min-h-[100vh] flex-col items-center bg-bg-100 pt-[64px] xl:pt-[128px]">
       <div className="shadow-1 flex w-full flex-col items-center rounded-[24px] bg-white">
@@ -33,18 +55,18 @@ export default function MyPage() {
             </span>
           </div>
           <div className="mb-[56px] flex justify-center lg:mb-[60px] xl:mb-[164px]">
-            <TodayEmotionSelector userId={136} />
+            {userId !== 0 && <TodayEmotionSelector userId={136} />}
           </div>
-          <div>
-            <EmotionCalendar userId={136} />
-          </div>
+          <div>{userId !== 0 && <EmotionCalendar userId={136} />}</div>
         </div>
         <div className="w-[384px] py-[36px] xl:w-[640px] xl:py-[80px]">
           <h3 className="typo-lg-semibold mb-[16px] text-black-600 xl:typo-2xl-semibold xl:mb-[40px]">
             감정차트
           </h3>
           <div className="flex justify-center rounded-[8px] border border-blue-200 py-[24px]">
-            <ChartContainer userId={136} year={2024} month={8} />
+            {userId !== 0 && (
+              <ChartContainer userId={136} year={2024} month={8} />
+            )}
           </div>
         </div>
       </div>
