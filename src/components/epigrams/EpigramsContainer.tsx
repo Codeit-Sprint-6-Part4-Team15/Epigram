@@ -12,7 +12,6 @@ import LoadingError from '../commons/LoadingError';
 import TextCard from '../commons/TextCard';
 
 // FIX : userId 전역값으로 변경해야함
-export const userId = 136;
 
 interface EpigramsContainerProps {
   type: 'recent' | 'my';
@@ -27,6 +26,18 @@ export default function EpigramsContainer({
   const [cursor, setCursor] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingError, setLoadingError] = useState<Error | null>(null);
+  const [userId, setUserId] = useState(0);
+
+  useEffect(() => {
+    let user;
+    if (typeof window !== 'undefined') {
+      const userData = localStorage.getItem('user');
+      if (userData) {
+        user = JSON.parse(userData);
+        setUserId(user.id);
+      }
+    }
+  }, []);
 
   const fetchEpigrams = useCallback(async () => {
     setIsLoading(true);

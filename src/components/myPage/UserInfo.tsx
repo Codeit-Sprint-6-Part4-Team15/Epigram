@@ -65,6 +65,8 @@ export default function UserInfo() {
           <figure className="flex h-[80px] w-[80px] items-center justify-center overflow-hidden rounded-full border-2 border-blue-200 bg-white xl:h-[120px] xl:w-[120px]">
             <Image
               src={user?.image ?? IcoUser}
+              width={80}
+              height={80}
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               alt="유저 이미지"
             />

@@ -13,7 +13,7 @@ export default function MyContents() {
   return (
     <div className="flex flex-col gap-[24px] md:gap-[32px] xl:gap-[48px]">
       <div
-        className="typo-lg-semibold flex gap-[16px] text-black-600 text-gray-300 xl:typo-2xl-semibold xl:gap-[24px]"
+        className="typo-lg-semibold flex gap-[16px] text-gray-300 xl:typo-2xl-semibold xl:gap-[24px]"
         role="tablist"
       >
         <button
