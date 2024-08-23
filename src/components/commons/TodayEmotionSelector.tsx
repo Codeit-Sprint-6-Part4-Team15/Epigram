@@ -15,7 +15,7 @@ import { Emotion } from '../../types/emotion';
 
 interface EmotionSelectorProps {
   userId: number;
-  onEmotionPost: () => void;
+  onEmotionPost?: () => void;
 }
 
 export const emotions: Emotion[] = [
@@ -115,7 +115,9 @@ export default function TodayEmotionSelector({
       await postTodayEmotion(emotion.postName ?? 'defaultPostName');
       console.log("Posted today's emotion:", emotion.postName);
       setIsEmotionPosted(true);
-      onEmotionPost();
+      if (onEmotionPost) {
+        onEmotionPost();
+      }
     } catch (error) {
       console.error("Error posting today's emotion:", error);
     }
