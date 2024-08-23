@@ -15,6 +15,7 @@ import { Emotion } from '../../types/emotion';
 
 interface EmotionSelectorProps {
   userId: number;
+  onEmotionPost: () => void;
 }
 
 export const emotions: Emotion[] = [
@@ -60,7 +61,10 @@ export const emotions: Emotion[] = [
   },
 ];
 
-export default function TodayEmotionSelector({ userId }: EmotionSelectorProps) {
+export default function TodayEmotionSelector({
+  userId,
+  onEmotionPost,
+}: EmotionSelectorProps) {
   const [selectedEmotion, setSelectedEmotion] = useState<Emotion | null>(null);
   const [isEmotionPosted, setIsEmotionPosted] = useState<boolean>(false);
 
@@ -111,6 +115,7 @@ export default function TodayEmotionSelector({ userId }: EmotionSelectorProps) {
       await postTodayEmotion(emotion.postName ?? 'defaultPostName');
       console.log("Posted today's emotion:", emotion.postName);
       setIsEmotionPosted(true);
+      onEmotionPost();
     } catch (error) {
       console.error("Error posting today's emotion:", error);
     }

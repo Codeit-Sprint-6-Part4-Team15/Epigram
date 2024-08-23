@@ -18,12 +18,15 @@ import { emotions } from '../commons/TodayEmotionSelector';
 
 interface EmotionCalenderProps {
   userId: number;
+  selectedDate: Date;
+  onDateChange: (date: Date) => void;
 }
 
-// const userId = 766; // 테스트
-
-export default function EmotionCalendar({ userId }: EmotionCalenderProps) {
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+export default function EmotionCalendar({
+  userId,
+  selectedDate,
+  onDateChange,
+}: EmotionCalenderProps) {
   const [emotionData, setEmotionData] = useState<EmotionDataMap>({});
   const [selectedValue, setSelectedValue] = useState<string>('필터: 없음');
 
@@ -150,6 +153,17 @@ export default function EmotionCalendar({ userId }: EmotionCalenderProps) {
     return date.getDate().toString();
   };
 
+  const handleTodayClick = () => {
+    onDateChange(new Date());
+  };
+
+  const currentMonth = new Date().getMonth() + 1;
+  const currentYear = new Date().getFullYear();
+
+  const isCurrentMonth =
+    currentMonth === selectedDate.getMonth() + 1 &&
+    currentYear === selectedDate.getFullYear();
+
   return (
     <div>
       <div className="flex items-center justify-between p-4">
@@ -163,7 +177,7 @@ export default function EmotionCalendar({ userId }: EmotionCalenderProps) {
           />
           <button
             onClick={() =>
-              setSelectedDate(
+              onDateChange(
                 new Date(selectedDate.setMonth(selectedDate.getMonth() - 1)),
               )
             }
@@ -173,12 +187,20 @@ export default function EmotionCalendar({ userId }: EmotionCalenderProps) {
               alt=""
               width={20}
               height={20}
-              className="mr-[16px] h-[20px] w-[20px] xl:mr-[24px] xl:h-[24px] xl:w-[24px]"
+              className="mr-[4px] h-[20px] w-[20px] xl:mr-[6px] xl:h-[24px] xl:w-[24px]"
             />
           </button>
           <button
+            onClick={handleTodayClick}
+            className={`typo-md-semibold text-black-600 transition-opacity duration-200 xl:typo-2lg-semibold ${
+              isCurrentMonth ? 'pointer-events-none opacity-0' : 'opacity-100'
+            }`}
+          >
+            {currentMonth}월
+          </button>
+          <button
             onClick={() =>
-              setSelectedDate(
+              onDateChange(
                 new Date(selectedDate.setMonth(selectedDate.getMonth() + 1)),
               )
             }
@@ -188,14 +210,14 @@ export default function EmotionCalendar({ userId }: EmotionCalenderProps) {
               alt=""
               width={20}
               height={20}
-              className="ml-[16px] h-[20px] w-[20px] xl:ml-[24px] xl:h-[24px] xl:w-[24px]"
+              className="ml-[4px] h-[20px] w-[20px] xl:ml-[6px] xl:h-[24px] xl:w-[24px]"
             />
           </button>
         </div>
       </div>
       <Calendar
         value={selectedDate}
-        onClickMonth={(date) => setSelectedDate(date)}
+        onClickMonth={(date) => onDateChange(date)}
         tileContent={renderTileContent}
         tileClassName={renderTileClassName}
         locale="ko-KR"
