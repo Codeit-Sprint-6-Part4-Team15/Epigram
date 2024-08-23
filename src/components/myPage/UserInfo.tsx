@@ -62,7 +62,7 @@ export default function UserInfo() {
     <>
       <button type="button" onClick={openProfileEditModal}>
         <div className="relative">
-          <figure className="flex h-[80px] w-[80px] items-center justify-center rounded-full border-2 border-blue-200 bg-white xl:h-[120px] xl:w-[120px]">
+          <figure className="flex h-[80px] w-[80px] items-center justify-center overflow-hidden rounded-full border-2 border-blue-200 bg-white xl:h-[120px] xl:w-[120px]">
             <Image src={user?.image ?? IcoUser} fill alt="유저 이미지" />
           </figure>
           <figure className="absolute right-0 top-0 rounded-full border-2 border-blue-200 bg-white p-[2px]">
