@@ -82,9 +82,13 @@ export default function SignUp() {
                         {
                             required: "비밀번호를 입력해주세요.",
                             pattern: {
-                                value: /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?/~`])(.){12,}$/,
-                                message: "숫자, 영어, 특수문자 포함 12자 이상 입력해주세요."
-                            }
+                                value: /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?/~`])(.)*$/,
+                                message: "비밀번호는 숫자, 영문, 특수문자로만 가능합니다.",
+                            },
+                            minLength: {
+                                value: 8,
+                                message: "비밀번호는 8자 이상입니다."
+                            },
                         })
                     } />
                     { errors.password && <InputError>{errors.password?.message}</InputError>}
@@ -92,10 +96,14 @@ export default function SignUp() {
                     <Input type="password" placeholder="비밀번호확인" {...register(
                         "passwordConfirmation",
                         {
-                            required: "비밀번호를 입력해주세요.",
+                            required: "비밀번호 확인을 입력해주세요.",
                             pattern: {
-                                value: /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?/~`])(.){12,}$/,
-                                message: "숫자, 영어, 특수문자 포함 12자 이상 입력해주세요.",
+                                value: /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?/~`])(.)*$/,
+                                message: "비밀번호는 숫자, 영문, 특수문자로만 가능합니다.",
+                            },
+                            minLength: {
+                                value: 8,
+                                message: "비밀번호는 8자 이상입니다."
                             },
                             validate: {
                                 areEachPasswordNotEqual: (_, values) => {
@@ -110,10 +118,16 @@ export default function SignUp() {
                 <label className="block">
                     <p>닉네임</p>
                     <Input type="text" placeholder="닉네임" {...register(
-                        "nickname",
+                        "nickname", 
                         {
                             required: "닉네임을 입력해주세요",
-                        })
+                            maxLength: {
+                                value: 20,
+                                message: "닉네임은 20자를 초과할 수 없습니다."
+                            }
+                        },
+
+                        )
                     } />
                     { errors.nickname && <InputError>{errors.nickname?.message}</InputError>}
                 </label>
