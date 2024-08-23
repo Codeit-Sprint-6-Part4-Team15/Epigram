@@ -124,7 +124,7 @@ export default function Login() {
       <div className="mb-[40px] text-right text-blue-400 sm:typo-md-medium md:typo-lg-medium lg:typo-xl-medium">
         회원이 아니신가요?&nbsp;
         <Link
-          href="/"
+          href="/signup"
           className="font-medium text-black-500 underline sm:text-[14px]/[26px] md:text-[16px]/[26px] lg:text-[20px]/[26px]"
         >
           가입하기
