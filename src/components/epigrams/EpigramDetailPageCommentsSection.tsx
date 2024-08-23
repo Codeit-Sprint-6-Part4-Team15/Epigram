@@ -64,8 +64,12 @@ export default function EpigramDetailPageCommentsSection({
         PAGE_SIZE,
         cursor,
       );
-      console.log('Fetched comments:', response);
-      setComments((prevComments) => [...prevComments, ...response.list]);
+      console.log('서버로부터 불러온 댓글들:', response);
+      setComments((prevComments) => {
+        console.log('이전 댓글 리스트:', prevComments);
+        console.log('새로 불러온 댓글들:', response.list);
+        return [...prevComments, ...response.list];
+      });
       setCursor(response.nextCursor);
       setTotalCount(response.totalCount);
     } catch (err) {
@@ -81,21 +85,26 @@ export default function EpigramDetailPageCommentsSection({
   };
 
   useEffect(() => {
+    console.log('에피그램 ID에 대한 댓글 불러오기:', epigramId);
     fetchComments();
   }, []);
 
   const handleCommentSubmit = async () => {
     if (newComment.trim() === '') return;
     try {
+      console.log('댓글 제출 중:', newComment);
       const newCommentData = await handleCommentPost(
         epigramId,
         isPrivate,
         newComment,
       );
+      console.log('새로 제출된 댓글:', newCommentData);
       setNewComment('');
       setCursor(0);
-      setComments((prevComments) => [newCommentData, ...prevComments]);
-      fetchComments();
+      setComments((prevComments) => {
+        console.log('이전 댓글 리스트:', prevComments);
+        return [newCommentData, ...prevComments];
+      });
     } catch (error) {
       console.error('댓글 작성에 실패했습니다.', error);
     }
@@ -110,9 +119,7 @@ export default function EpigramDetailPageCommentsSection({
     }
   };
 
-  useEffect(() => {
-    console.log('Logged in user ID:', userId);
-  }, [userId]);
+  useEffect(() => {}, [userId]);
 
   return (
     <div className="flex flex-col items-center">
@@ -143,17 +150,14 @@ export default function EpigramDetailPageCommentsSection({
       </div>
       <div className="w-full">
         {comments.map((comment) => {
-          const isMyComment = comment.writer.id === userId;
-          console.log(
-            `Comment writer ID: ${comment.writer.id}, Logged in user ID: ${userId}, isMyComment: ${isMyComment}`,
-          );
+          console.log('렌더링 중인 댓글:', comment);
           return (
             <Comment
               key={comment.id}
               comment={comment}
-              onUpdate={() => fetchComments()}
-              onEdit={isMyComment ? handleCommentEdit : undefined}
-              onDelete={isMyComment ? handleCommentDelete : undefined}
+              onEdit={handleCommentEdit}
+              onDelete={handleCommentDelete}
+              onUpdate={fetchComments}
             />
           );
         })}
