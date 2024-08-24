@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import {
@@ -35,6 +35,13 @@ export default function SignUp() {
     shouldUseNativeValidation: true,
     mode: 'onBlur',
   });
+  const [googleOAuthUrl, setGoogleOAuthUrl] = useState('');
+  const [kakaoOAuthUrl, setKakaoOAuthUrl] = useState('');
+
+  useEffect(() => {
+    setGoogleOAuthUrl(getGoogleOAuthUrlFor('signin'));
+    setKakaoOAuthUrl(getKakaoOauthUrlFor('signin'));
+  }, []);
 
   useEffect(() => {
     if (localStorage.getItem('access_token') !== null) router.push('/');
@@ -181,7 +188,7 @@ export default function SignUp() {
         SNS 계정으로 간편 가입하기
       </p>
       <div className="flex flex-row justify-center gap-x-[16px] *:h-[40px] *:w-[40px] lg:*:h-[60px] lg:*:w-[60px]">
-        <Link href={getGoogleOAuthUrlFor('signup')}>
+        <Link href={googleOAuthUrl}>
           <Image
             src="/assets/authPage/logo_google.svg"
             width="60"
@@ -189,7 +196,7 @@ export default function SignUp() {
             alt="구글로고"
           />
         </Link>
-        <Link href={getKakaoOauthUrlFor('signup')}>
+        <Link href={kakaoOAuthUrl}>
           <Image
             src="/assets/authPage/logo_kakao.svg"
             width="60"
