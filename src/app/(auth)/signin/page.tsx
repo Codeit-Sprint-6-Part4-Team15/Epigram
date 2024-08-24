@@ -112,10 +112,7 @@ export default function Login() {
 
   return (
     <div className="block">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="last-child:mb-[24px] *:mb-[16px]"
-      >
+      <form onSubmit={handleSubmit(onSubmit)} className="last-child:mb-[24px]">
         <label className="block">
           <Input
             type="email"
@@ -128,8 +125,11 @@ export default function Login() {
                 message: '잘못된 이메일 주소입니다.',
               },
             })}
+            hasError={!!errors.email}
           />
-          {errors.email && <InputError>{errors.email?.message}</InputError>}
+          <InputError isVisible={!!errors.email}>
+            {errors.email?.message || ' '}
+          </InputError>
         </label>
         <label className="block">
           <Input
@@ -137,10 +137,11 @@ export default function Login() {
             placeholder="비밀번호"
             autoComplete="current-password"
             {...register('password', { required: '비밀번호를 입력해주세요' })}
+            hasError={!!errors.password}
           />
-          {errors.password && (
-            <InputError>{errors.password?.message}</InputError>
-          )}
+          <InputError isVisible={!!errors.password}>
+            {errors.password?.message || ' '}
+          </InputError>
         </label>
         <Button
           variant="wide"

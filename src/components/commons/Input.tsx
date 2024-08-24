@@ -8,6 +8,7 @@ interface InputProps {
   placeholder: string;
   outlined?: boolean;
   autoComplete?: string;
+  hasError?: boolean;
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps & UseFormRegisterReturn>(
@@ -19,13 +20,24 @@ const Input = forwardRef<HTMLInputElement, InputProps & UseFormRegisterReturn>(
       onBlur,
       name,
       autoComplete,
+      hasError = false,
     }: InputProps & UseFormRegisterReturn,
     ref,
   ) => {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     return (
       <div
-        className={`flex h-[44px] w-[312px] flex-row items-center rounded-xl px-[16px] py-0 md:w-[384px] lg:h-[64px] lg:w-[640px] ${outlined ? 'border border-blue-300 bg-white' : 'border border-blue-200 bg-blue-200'} transition duration-150 ease-in-out focus-within:border-green-500 focus-within:ring-1 focus-within:ring-green-500 has-[input:invalid]:border-state-error`}
+        className={`flex h-[44px] w-[312px] flex-row items-center rounded-xl px-[16px] py-0 md:w-[384px] lg:h-[64px] lg:w-[640px] ${
+          outlined ? 'border' : 'border'
+        } ${
+          hasError
+            ? 'border-state-error'
+            : outlined
+              ? 'border-blue-300'
+              : 'border-blue-200'
+        } ${
+          outlined ? 'bg-white' : 'bg-blue-200'
+        } transition duration-150 ease-in-out focus-within:border-green-500 focus-within:ring-1 focus-within:ring-green-500`}
       >
         <input
           ref={ref}
@@ -38,7 +50,7 @@ const Input = forwardRef<HTMLInputElement, InputProps & UseFormRegisterReturn>(
             outlined
               ? 'bg-white autofill:bg-white autofill:shadow-[inset_0_0_0px_1000px_white] focus:outline-none'
               : 'bg-blue-200 autofill:bg-blue-200 autofill:shadow-[inset_0_0_0px_1000px_#ECEFF4]'
-          } lg:typo-xl-regualr typo-lg-regular text-black-950 placeholder:text-blue-400 autofill:bg-transparent focus:shadow-none focus:outline-none focus:ring-0`}
+          } typo-lg-regular text-black-950 lg:typo-xl-regular placeholder:text-blue-400 autofill:bg-transparent focus:shadow-none focus:outline-none focus:ring-0`}
           type={
             name.includes('password')
               ? isPasswordVisible

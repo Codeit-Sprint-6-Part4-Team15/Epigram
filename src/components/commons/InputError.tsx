@@ -1,7 +1,17 @@
-import { PropsWithChildren } from "react";
+import { PropsWithChildren } from 'react';
 
-export default function InputError({children}: PropsWithChildren) {
-    return (
-        <p className="lg:typo-lg-regular typo-sm-medium text-state-error">{children}</p>
-    )
+interface InputErrorProps extends PropsWithChildren {
+  isVisible: boolean;
+}
+
+export default function InputError({ children, isVisible }: InputErrorProps) {
+  return (
+    <p
+      className={`typo-sm-medium min-h-[26px] text-state-error transition-opacity duration-500 ease-in-out lg:typo-lg-regular lg:min-h-[32px]${
+        isVisible ? 'opacity-100' : 'opacity-0'
+      }`}
+    >
+      {children}
+    </p>
+  );
 }
