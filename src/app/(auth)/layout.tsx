@@ -8,7 +8,7 @@ export default function AuthLayout({ children }: PropsWithChildren) {
     <div className="m-auto w-[312px] md:w-[384px] lg:w-[640px]">
       <Link href="/">
         <Image
-          className="m-auto mb-[60px] mt-[100px]"
+          className="m-auto mb-[60px] mt-[60px] lg:mt-[100px]"
           src="/assets/authPage/logo_epigram.svg"
           width={172}
           height={48}

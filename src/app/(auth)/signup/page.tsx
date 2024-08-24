@@ -93,12 +93,9 @@ export default function SignUp() {
         autoComplete="off"
       >
         <label className="block">
-          <p className="typo-md-bold md:typo-lg-semibold lg:typo-xl-semibold">
-            이메일
-          </p>
           <Input
             type="email"
-            placeholder="example@example.com"
+            placeholder="이메일 example@example.com"
             autoComplete="off"
             {...register('email', {
               required: '이메일 주소를 입력해주세요',
@@ -113,12 +110,9 @@ export default function SignUp() {
           </InputError>
         </label>
         <label className="block">
-          <p className="typo-md-bold md:typo-lg-semibold lg:typo-xl-semibold">
-            비밀번호
-          </p>
           <Input
             type="password"
-            placeholder="숫자, 영어, 특수문자 포함 8자 이상"
+            placeholder="비밀번호 8자 이상(숫자, 문자, 특수문자)"
             autoComplete="new-password"
             {...register('password', {
               required: '비밀번호를 입력해주세요.',
@@ -135,7 +129,7 @@ export default function SignUp() {
           <div className="sm:h-[10px] md:h-[16px]"></div>
           <Input
             type="password"
-            placeholder="비밀번호확인"
+            placeholder="비밀번호 확인"
             autoComplete="new-password"
             {...register('passwordConfirmation', {
               required: '비밀번호를 입력해주세요.',
@@ -159,9 +153,6 @@ export default function SignUp() {
           </InputError>
         </label>
         <label className="block">
-          <p className="typo-md-bold md:typo-lg-semibold lg:typo-xl-semibold">
-            닉네임
-          </p>
           <Input
             type="text"
             placeholder="닉네임"
