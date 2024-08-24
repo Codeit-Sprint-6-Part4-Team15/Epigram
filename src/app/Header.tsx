@@ -1,18 +1,20 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import Image from 'next/image';
-import searchIcon from '@/public/assets/ic_search.svg';
-import profileIcon from '@/public/assets/ic_profile.svg';
-import epigramLogo from '@/public/assets/logo.svg';
-import hamberger from '@/public/assets/ic_hamberger.svg';
+import { useEffect, useState } from 'react';
+
 import closeIcon from '@/public/assets/ic_close_bk.svg';
+import hamberger from '@/public/assets/ic_hamberger.svg';
+import profileIcon from '@/public/assets/ic_profile.svg';
+import searchIcon from '@/public/assets/ic_search.svg';
 import userProfile from '@/public/assets/ic_user.svg';
-import { usePathname } from 'next/navigation';
+import epigramLogo from '@/public/assets/logo.svg';
+import Image from 'next/image';
 import Link from 'next/link';
-import instance from './api/axios';
-import { User } from '../types/auth';
+import { usePathname } from 'next/navigation';
+
 import Loader from '../components/commons/Loader';
+import { User } from '../types/auth';
+import instance from './api/axios';
 
 function Header() {
   const pathname = usePathname();
@@ -24,21 +26,21 @@ function Header() {
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(max-width: 744px)'); // 'md' 사이즈 기준
-  
+
     const handleMediaQueryChange = (e: MediaQueryListEvent) => {
       if (!e.matches) {
         setIsSidebarOpen(false); // 'md' 사이즈 이상일 때 사이드바를 강제로 끔
       }
     };
-  
+
     // 미디어 쿼리 변화 감지
     mediaQuery.addEventListener('change', handleMediaQueryChange);
-  
+
     // 초기 상태 설정
     if (mediaQuery.matches) {
       setIsSidebarOpen(false);
     }
-  
+
     // 클린업
     return () => {
       mediaQuery.removeEventListener('change', handleMediaQueryChange);
@@ -84,38 +86,86 @@ function Header() {
   const renderNavBarContent = () => {
     if (pathname === '/signin' || pathname === '/signup') {
       return (
-        <Link href='/' className='w-full h-[52px] flex justify-center items-center border-b border-line-300 md:h-[60px] xl:h-[80px]'>
-          <Image className='w-[119px] h-[36px] cursor-pointer md:w-[172px] md:h-[48px]' src={epigramLogo} alt='epigramLogo' />
+        <Link
+          href="/"
+          className="flex h-[52px] w-full items-center justify-center border-b border-line-300 md:h-[60px] xl:h-[80px]"
+        >
+          <Image
+            className="h-[36px] w-[119px] cursor-pointer md:h-[48px] md:w-[172px]"
+            src={epigramLogo}
+            alt="epigramLogo"
+          />
         </Link>
       );
     } else if (pathname === '/') {
       return (
-        <div className='w-full h-[52px] flex items-center justify-between border-b border-line-300 px-[24px] md:px-[48px] md:h-[60px] xl:px-[88px] xl:h-[80px]'>
-          <Link href="/search"><Image className='w-[20px] h-[20px] cursor-pointer xl:w-[36px] xl:h-[36px]' src={searchIcon} alt='searchIcon' /></Link>
-          <Link href="/"><Image className='w-[170px] h-[50px] cursor-pointer xl:w-[170px] xl:h-[70px]' src={epigramLogo} alt='epigramLogo' /></Link>
-          <button onClick={handleProfileClick} className='flex items-center justify-center cursor-pointer'>
-            <Image className='w-[20px] h-[20px] xl:w-[36px] xl:h-[36px]' src={profileIcon} alt='profileIcon' />
-          </button>        
+        <div className="flex h-[52px] w-full items-center justify-between border-b border-line-300 px-[24px] md:h-[60px] md:px-[48px] xl:h-[80px] xl:px-[88px]">
+          <Link href="/search">
+            <Image
+              className="h-[20px] w-[20px] cursor-pointer xl:h-[36px] xl:w-[36px]"
+              src={searchIcon}
+              alt="searchIcon"
+            />
+          </Link>
+          <Link href="/">
+            <Image
+              className="h-[50px] w-[170px] cursor-pointer xl:h-[70px] xl:w-[170px]"
+              src={epigramLogo}
+              alt="epigramLogo"
+              priority={true}
+            />
+          </Link>
+          <button
+            onClick={handleProfileClick}
+            className="flex cursor-pointer items-center justify-center"
+          >
+            <Image
+              className="h-[20px] w-[20px] xl:h-[36px] xl:w-[36px]"
+              src={profileIcon}
+              alt="profileIcon"
+            />
+          </button>
         </div>
       );
-    } else if (pathname === '/epigrams' || pathname.startsWith('/epigrams/') || pathname === '/search' || pathname === '/addepigram' || pathname === '/mypage' || pathname === '/feed') {
+    } else if (
+      pathname === '/epigrams' ||
+      pathname.startsWith('/epigrams/') ||
+      pathname === '/search' ||
+      pathname === '/addepigram' ||
+      pathname === '/mypage' ||
+      pathname === '/feed'
+    ) {
       return (
-        <div className='w-full h-[52px] flex items-center justify-between border-b border-line-300 px-[24px] md:px-[72px] md:h-[60px] xl:px-[120px] xl:h-[80px]'>
-          <div className='flex items-center gap-[12px] md:gap-[24px] xl:gap-[36px]'>
-            <div className='block cursor-pointer md:hidden'>
-              <Image src={hamberger} alt='hamberger' onClick={toggleSidebar} />
+        <div className="flex h-[52px] w-full items-center justify-between border-b border-line-300 px-[24px] md:h-[60px] md:px-[72px] xl:h-[80px] xl:px-[120px]">
+          <div className="flex items-center gap-[12px] md:gap-[24px] xl:gap-[36px]">
+            <div className="block cursor-pointer md:hidden">
+              <Image src={hamberger} alt="hamberger" onClick={toggleSidebar} />
             </div>
-            <Link href='/'>
-              <Image className='w-[101px] h-[26px] xl:w-[131px] xl:h-[36px]' src={epigramLogo} alt='epigramLogo' />
+            <Link href="/">
+              <Image
+                className="h-[26px] w-[101px] xl:h-[36px] xl:w-[131px]"
+                src={epigramLogo}
+                alt="epigramLogo"
+              />
             </Link>
-            <div className='hidden md:flex md:gap-[24px] text-[14px] xl:text-[16px]'>
-              <Link href='/feed'>피드</Link>
-              <Link href='/search'>검색</Link>
+            <div className="hidden text-[14px] md:flex md:gap-[24px] xl:text-[16px]">
+              <Link href="/feed">피드</Link>
+              <Link href="/search">검색</Link>
             </div>
           </div>
-          <div className='flex items-center gap-[6px]'>
-            <div><Image width={20} height={20} className='w-[16px] h-[16px] xl:w-[24px] xl:h-[24px]' src={user?.image ?? userProfile} alt='userProfile'/></div>
-            <div className='text-[13px] xl:text-[14px]'>{user?.nickname ?? 'user'}</div>
+          <div className="flex items-center gap-[6px]">
+            <div>
+              <Image
+                width={20}
+                height={20}
+                className="h-[16px] w-[16px] xl:h-[24px] xl:w-[24px]"
+                src={user?.image ?? userProfile}
+                alt="userProfile"
+              />
+            </div>
+            <div className="text-[13px] xl:text-[14px]">
+              {user?.nickname ?? 'user'}
+            </div>
           </div>
         </div>
       );
@@ -128,20 +178,36 @@ function Header() {
   }
 
   return (
-    <nav className='sticky top-0 z-10 w-full bg-white'>
+    <nav className="sticky top-0 z-10 w-full bg-white">
       {renderNavBarContent()}
       {isSidebarOpen && (
         <div className="fixed inset-0 z-50 flex">
-          <div className="w-3/5 bg-white h-full">
-            <div className='h-[54px] px-[16px] flex items-center justify-end border-b border-line-300'><Image className='cursor-pointer w-[24px] h-[24px]' src={closeIcon} alt='close' onClick={toggleSidebar} /></div>
-            <Link href='/feed' className='text-[16px] px-[20px] h-[74px] flex items-center hover:bg-blue-200'>
+          <div className="h-full w-3/5 bg-white">
+            <div className="flex h-[54px] items-center justify-end border-b border-line-300 px-[16px]">
+              <Image
+                className="h-[24px] w-[24px] cursor-pointer"
+                src={closeIcon}
+                alt="close"
+                onClick={toggleSidebar}
+              />
+            </div>
+            <Link
+              href="/feed"
+              className="flex h-[74px] items-center px-[20px] text-[16px] hover:bg-blue-200"
+            >
               <div>피드</div>
             </Link>
-            <Link href='/search' className='text-[16px] px-[20px] h-[74px] flex items-center hover:bg-blue-200'>
+            <Link
+              href="/search"
+              className="flex h-[74px] items-center px-[20px] text-[16px] hover:bg-blue-200"
+            >
               <div>검색</div>
             </Link>
           </div>
-          <div className="w-2/5 bg-gray-700 opacity-50 h-full" onClick={toggleSidebar}></div>
+          <div
+            className="h-full w-2/5 bg-gray-700 opacity-50"
+            onClick={toggleSidebar}
+          ></div>
         </div>
       )}
     </nav>
