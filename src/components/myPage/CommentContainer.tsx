@@ -15,9 +15,6 @@ import Comment from '../commons/Comment';
 import Loader from '../commons/Loader';
 import LoadingError from '../commons/LoadingError';
 
-// FIX : userId 전역값으로 변경해야함
-export const userId = 136;
-
 interface CommentsContainerProps {
   type: 'recent' | 'my';
   setCount?: (count: number) => void;
