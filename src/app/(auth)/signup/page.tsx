@@ -167,6 +167,15 @@ export default function SignUp() {
         >
           가입하기
         </Button>
+        <div className="mb-[40px] text-right text-blue-400 sm:typo-md-medium md:typo-lg-medium lg:typo-xl-medium">
+          이미 회원이신가요?&nbsp;
+          <Link
+            href="/signin"
+            className="font-medium text-black-500 underline sm:text-[14px]/[26px] md:text-[16px]/[26px] lg:text-[20px]/[26px]"
+          >
+            로그인
+          </Link>
+        </div>
       </form>
       <p className="mb-[26px] flex flex-row before:m-auto before:mr-2.5 before:flex-1 before:border-b before:border-solid before:content-[''] after:m-auto after:ml-2.5 after:flex-1 after:border-b after:border-solid after:content-[''] lg:mb-[40px]">
         SNS 계정으로 간편 가입하기
