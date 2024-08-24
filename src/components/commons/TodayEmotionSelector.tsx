@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 import IMG_EMOTION from '@/public/assets/emotionChart';
 import {
@@ -14,7 +15,7 @@ import { getTodayEmotion, postTodayEmotion } from '../../app/api/emotionLog';
 import { Emotion } from '../../types/emotion';
 
 interface EmotionSelectorProps {
-  userId: number;
+  userId?: number | null;
   onEmotionPost?: () => void;
 }
 
@@ -78,36 +79,43 @@ export default function TodayEmotionSelector({
 
   useEffect(() => {
     const fetchTodayEmotion = async () => {
-      try {
-        const todayEmotion = await getTodayEmotion(userId);
-        if (todayEmotion) {
-          const emotionDate = new Date(todayEmotion.createdAt)
-            .toISOString()
-            .split('T')[0];
-          const currentDate = today.toISOString().split('T')[0];
+      if (userId) {
+        try {
+          const todayEmotion = await getTodayEmotion(userId);
+          if (todayEmotion) {
+            const emotionDate = new Date(todayEmotion.createdAt)
+              .toISOString()
+              .split('T')[0];
+            const currentDate = today.toISOString().split('T')[0];
 
-          if (emotionDate === currentDate) {
-            const emotion = emotions.find(
-              (e) => e.postName === todayEmotion.emotion,
-            );
-            if (emotion) {
-              setSelectedEmotion(emotion);
-              setIsEmotionPosted(true);
+            if (emotionDate === currentDate) {
+              const emotion = emotions.find(
+                (e) => e.postName === todayEmotion.emotion,
+              );
+              if (emotion) {
+                setSelectedEmotion(emotion);
+                setIsEmotionPosted(true);
+              }
+            } else {
+              setSelectedEmotion(null);
+              setIsEmotionPosted(false);
             }
-          } else {
-            setSelectedEmotion(null);
-            setIsEmotionPosted(false);
           }
+        } catch (error) {
+          console.error("Error fetching today's emotion:", error);
         }
-      } catch (error) {
-        console.error("Error fetching today's emotion:", error);
       }
     };
 
     fetchTodayEmotion();
-  }, []);
+  }, [userId]);
 
   const handleEmotionClick = async (emotion: Emotion) => {
+    if (!userId) {
+      toast.error('로그인이 필요합니다');
+      return;
+    }
+
     if (isEmotionPosted) return;
 
     setSelectedEmotion(emotion);
