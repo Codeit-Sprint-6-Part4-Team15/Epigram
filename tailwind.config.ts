@@ -10,6 +10,7 @@ const config: Config = {
   theme: {
     extend: {
       screens: {
+        '2xs': '368px',
         md: '744px',
         // => @media (min-width: 744px) { ... }
         xl: '1200px',
