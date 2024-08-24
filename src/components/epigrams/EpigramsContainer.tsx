@@ -11,8 +11,6 @@ import Loader from '../commons/Loader';
 import LoadingError from '../commons/LoadingError';
 import TextCard from '../commons/TextCard';
 
-// FIX : userId 전역값으로 변경해야함
-
 interface EpigramsContainerProps {
   type: 'recent' | 'my';
   setCount?: (count: number) => void;
@@ -86,7 +84,7 @@ export default function EpigramsContainer({
 
   useEffect(() => {
     fetchEpigrams();
-  }, [fetchEpigrams]);
+  }, [fetchEpigrams, userId]);
 
   return (
     <div className="flex flex-col items-center gap-[40px] xl:gap-[72px]">

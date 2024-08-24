@@ -15,9 +15,6 @@ import Comment from '../commons/Comment';
 import Loader from '../commons/Loader';
 import LoadingError from '../commons/LoadingError';
 
-// FIX : userId 전역값으로 변경해야함
-export const userId = 136;
-
 interface CommentsContainerProps {
   type: 'recent' | 'my';
   setCount?: (count: number) => void;
@@ -91,7 +88,7 @@ export default function CommentsContainer({
 
   useEffect(() => {
     fetchComments();
-  }, [fetchComments]);
+  }, [fetchComments, userId]);
 
   return (
     <div className="flex flex-col items-center gap-[40px] xl:gap-[72px]">
