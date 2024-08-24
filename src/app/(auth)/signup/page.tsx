@@ -95,6 +95,7 @@ export default function SignUp() {
           <Input
             type="email"
             placeholder="example@example.com"
+            autoComplete="off"
             {...register('email', {
               required: '이메일 주소를 입력해주세요',
               pattern: {
@@ -114,6 +115,7 @@ export default function SignUp() {
           <Input
             type="password"
             placeholder="숫자, 영어, 특수문자 포함 8자 이상"
+            autoComplete="new-password"
             {...register('password', {
               required: '비밀번호를 입력해주세요.',
               pattern: {
@@ -130,6 +132,7 @@ export default function SignUp() {
           <Input
             type="password"
             placeholder="비밀번호확인"
+            autoComplete="new-password"
             {...register('passwordConfirmation', {
               required: '비밀번호를 입력해주세요.',
               pattern: {
@@ -158,6 +161,7 @@ export default function SignUp() {
           <Input
             type="text"
             placeholder="닉네임"
+            autoComplete="off"
             {...register('nickname', {
               required: '닉네임을 입력해주세요',
             })}
