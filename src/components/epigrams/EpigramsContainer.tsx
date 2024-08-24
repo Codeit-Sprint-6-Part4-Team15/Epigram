@@ -11,8 +11,6 @@ import Loader from '../commons/Loader';
 import LoadingError from '../commons/LoadingError';
 import TextCard from '../commons/TextCard';
 
-// FIX : userId 전역값으로 변경해야함
-
 interface EpigramsContainerProps {
   type: 'recent' | 'my';
   setCount?: (count: number) => void;
