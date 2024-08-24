@@ -10,7 +10,6 @@ import Link from 'next/link';
 
 import useModal from '@/src/hooks/useModal';
 
-import { userId } from '../myPage/CommentContainer';
 import Button from './Button';
 import ConfirmModal from './Modal/ConfirmModal';
 import Modal from './Modal/Modal';
