@@ -50,7 +50,7 @@ const Input = forwardRef<HTMLInputElement, InputProps & UseFormRegisterReturn>(
             outlined
               ? 'bg-white autofill:bg-white autofill:shadow-[inset_0_0_0px_1000px_white] focus:outline-none'
               : 'bg-blue-200 autofill:bg-blue-200 autofill:shadow-[inset_0_0_0px_1000px_#ECEFF4]'
-          } typo-lg-regular text-black-950 lg:typo-xl-regular placeholder:text-blue-400 autofill:bg-transparent focus:shadow-none focus:outline-none focus:ring-0`}
+          } typo-lg-regular text-black-950 placeholder-blue-400 lg:typo-xl-regular autofill:bg-transparent focus:shadow-none focus:outline-none focus:ring-0`}
           type={
             name.includes('password')
               ? isPasswordVisible
@@ -64,7 +64,6 @@ const Input = forwardRef<HTMLInputElement, InputProps & UseFormRegisterReturn>(
             WebkitBoxShadow: outlined
               ? '0 0 0px 1000px white inset'
               : '0 0 0px 1000px #ECEFF4 inset',
-            WebkitTextFillColor: 'black',
           }}
         />
         {name.includes('password') && (
