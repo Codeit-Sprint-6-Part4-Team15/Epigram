@@ -87,7 +87,11 @@ export default function SignUp() {
 
   return (
     <div className="block">
-      <form onSubmit={handleSubmit(onSubmit)} className="mb-[24px]">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="mb-[24px]"
+        autoComplete="off"
+      >
         <label className="block">
           <p className="typo-md-bold md:typo-lg-semibold lg:typo-xl-semibold">
             이메일
