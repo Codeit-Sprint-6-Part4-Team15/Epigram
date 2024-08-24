@@ -94,6 +94,7 @@ function Header() {
             className="h-[36px] w-[119px] cursor-pointer md:h-[48px] md:w-[172px]"
             src={epigramLogo}
             alt="epigramLogo"
+            priority={true}
           />
         </Link>
       );
@@ -146,6 +147,7 @@ function Header() {
                 className="h-[26px] w-[101px] xl:h-[36px] xl:w-[131px]"
                 src={epigramLogo}
                 alt="epigramLogo"
+                priority={true}
               />
             </Link>
             <div className="hidden text-[14px] md:flex md:gap-[24px] xl:text-[16px]">
