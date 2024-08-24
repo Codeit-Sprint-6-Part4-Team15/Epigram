@@ -1,6 +1,6 @@
 'use client';
 
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import IcoUser from '@/public/assets/ic_user.svg';
@@ -40,6 +40,18 @@ export default function Comment({
   const [content, setContent] = useState(comment.content);
   const [isPrivate, setIsPrivate] = useState(comment.isPrivate);
   const [isEdit, setIsEdit] = useState(false);
+  const [userId, setUserId] = useState(0);
+
+  useEffect(() => {
+    let user;
+    if (typeof window !== 'undefined') {
+      const userData = localStorage.getItem('user');
+      if (userData) {
+        user = JSON.parse(userData);
+        setUserId(user.id);
+      }
+    }
+  }, []);
 
   const formatTimeAgo = (dateString: string): string => {
     const date = new Date(dateString);
