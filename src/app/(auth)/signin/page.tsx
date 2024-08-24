@@ -37,7 +37,8 @@ export default function Login() {
     shouldUseNativeValidation: true,
     mode: 'onBlur',
   });
-
+  const [googleOAuthUrl, setGoogleOAuthUrl] = useState('');
+  const [kakaoOAuthUrl, setKakaoOAuthUrl] = useState('');
   const [isButtonEnabled, setIsButtonEnabled] = useState(false);
 
   const emailValue = watch('email');
@@ -110,6 +111,11 @@ export default function Login() {
     postSignIn(data).then(onAuthSucceeded, onAuthFailed);
   };
 
+  useEffect(() => {
+    setGoogleOAuthUrl(getGoogleOAuthUrlFor('signin'));
+    setKakaoOAuthUrl(getKakaoOauthUrlFor('signin'));
+  }, []);
+
   return (
     <div className="block">
       <form onSubmit={handleSubmit(onSubmit)} className="last-child:mb-[24px]">
@@ -165,7 +171,7 @@ export default function Login() {
         SNS 계정으로 로그인하기
       </p>
       <div className="flex flex-row justify-center gap-x-[16px] *:h-[40px] *:w-[40px] lg:*:h-[60px] lg:*:w-[60px]">
-        <Link href={getGoogleOAuthUrlFor('signin')}>
+        <Link href={googleOAuthUrl}>
           <Image
             src="/assets/authPage/logo_google.svg"
             width="60"
@@ -173,7 +179,7 @@ export default function Login() {
             alt="구글로고"
           />
         </Link>
-        <Link href={getKakaoOauthUrlFor('signin')}>
+        <Link href={kakaoOAuthUrl}>
           <Image
             src="/assets/authPage/logo_kakao.svg"
             width="60"
