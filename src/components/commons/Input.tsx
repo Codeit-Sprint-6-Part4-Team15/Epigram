@@ -7,6 +7,7 @@ interface InputProps {
   type: string;
   placeholder: string;
   outlined?: boolean;
+  autoComplete?: string;
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps & UseFormRegisterReturn>(
@@ -17,6 +18,7 @@ const Input = forwardRef<HTMLInputElement, InputProps & UseFormRegisterReturn>(
       onChange,
       onBlur,
       name,
+      autoComplete,
     }: InputProps & UseFormRegisterReturn,
     ref,
   ) => {
@@ -31,6 +33,7 @@ const Input = forwardRef<HTMLInputElement, InputProps & UseFormRegisterReturn>(
           onBlur={onBlur}
           onInvalid={(e) => e.preventDefault()}
           name={name}
+          autoComplete={autoComplete}
           className={`w-full ${
             outlined
               ? 'bg-white autofill:bg-white autofill:shadow-[inset_0_0_0px_1000px_white] focus:outline-none'

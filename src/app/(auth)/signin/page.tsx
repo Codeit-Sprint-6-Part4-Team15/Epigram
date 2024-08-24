@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import {
@@ -32,10 +32,38 @@ export default function Login() {
     formState: { errors, isValid },
     handleSubmit,
     setError,
+    watch,
   } = useForm<SignInRequestBody>({
     shouldUseNativeValidation: true,
     mode: 'onBlur',
   });
+
+  const [isButtonEnabled, setIsButtonEnabled] = useState(false);
+
+  const emailValue = watch('email');
+  const passwordValue = watch('password');
+
+  // 페이지 로드 시 자동완성된 필드가 있는지 확인
+  useEffect(() => {
+    const emailField = document.querySelector(
+      'input[name="email"]',
+    ) as HTMLInputElement | null;
+    const passwordField = document.querySelector(
+      'input[name="password"]',
+    ) as HTMLInputElement | null;
+
+    if (emailField?.value && passwordField?.value) {
+      setIsButtonEnabled(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (emailValue && passwordValue && isValid) {
+      setIsButtonEnabled(true);
+    } else {
+      setIsButtonEnabled(false);
+    }
+  }, [emailValue, passwordValue, isValid]);
 
   useEffect(() => {
     if (localStorage.getItem('access_token') !== null) router.push('/');
@@ -92,6 +120,7 @@ export default function Login() {
           <Input
             type="email"
             placeholder="이메일"
+            autoComplete="username"
             {...register('email', {
               required: '이메일 주소를 입력해주세요',
               pattern: {
@@ -106,6 +135,7 @@ export default function Login() {
           <Input
             type="password"
             placeholder="비밀번호"
+            autoComplete="current-password"
             {...register('password', { required: '비밀번호를 입력해주세요' })}
           />
           {errors.password && (
@@ -115,7 +145,7 @@ export default function Login() {
         <Button
           variant="wide"
           type="submit"
-          disabled={!isValid}
+          disabled={!isButtonEnabled}
           size={{ default: 'xl', md: '2xl', xl: '3xl' }}
         >
           로그인
