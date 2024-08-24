@@ -71,7 +71,7 @@ export default function Home() {
 
   const router = useRouter();
   const handleClick = () => {
-    //시작하기 버튼 클릭 시
+    //시작하기 버튼 클릭시
     router.push('/epigrams');
   };
 
