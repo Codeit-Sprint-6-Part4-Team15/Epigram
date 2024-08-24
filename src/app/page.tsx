@@ -72,7 +72,7 @@ export default function Home() {
   const router = useRouter();
   const handleClick = () => {
     //시작하기 버튼 클릭 시
-    router.push('/feed');
+    router.push('/epigrams');
   };
 
   //타이핑 효과 추가
