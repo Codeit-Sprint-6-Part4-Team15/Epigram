@@ -1,7 +1,6 @@
 import { forwardRef, useState } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
-import '@/src/styles.css';
 import Image from 'next/image';
 
 interface InputProps {
