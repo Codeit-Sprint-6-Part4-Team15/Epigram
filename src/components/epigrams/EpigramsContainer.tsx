@@ -84,7 +84,7 @@ export default function EpigramsContainer({
 
   useEffect(() => {
     fetchEpigrams();
-  }, [fetchEpigrams]);
+  }, [fetchEpigrams, userId]);
 
   return (
     <div className="flex flex-col items-center gap-[40px] xl:gap-[72px]">

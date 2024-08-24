@@ -88,7 +88,7 @@ export default function CommentsContainer({
 
   useEffect(() => {
     fetchComments();
-  }, [fetchComments]);
+  }, [fetchComments, userId]);
 
   return (
     <div className="flex flex-col items-center gap-[40px] xl:gap-[72px]">
