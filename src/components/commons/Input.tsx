@@ -29,7 +29,7 @@ const Input = forwardRef<HTMLInputElement, InputProps & UseFormRegisterReturn>(
       <div
         className={`flex h-[44px] w-[312px] flex-row items-center rounded-xl border px-[16px] py-0 md:w-[384px] lg:h-[64px] lg:w-[640px] ${
           hasError
-            ? 'animate-vibrate border-state-error'
+            ? 'animate-vibrate border-state-error ring-1 ring-state-error'
             : outlined
               ? 'border-blue-300'
               : 'border-blue-200'
