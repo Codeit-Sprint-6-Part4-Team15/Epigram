@@ -27,11 +27,9 @@ const Input = forwardRef<HTMLInputElement, InputProps & UseFormRegisterReturn>(
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     return (
       <div
-        className={`flex h-[44px] w-[312px] flex-row items-center rounded-xl px-[16px] py-0 md:w-[384px] lg:h-[64px] lg:w-[640px] ${
-          outlined ? 'border' : 'border'
-        } ${
+        className={`flex h-[44px] w-[312px] flex-row items-center rounded-xl border px-[16px] py-0 md:w-[384px] lg:h-[64px] lg:w-[640px] ${
           hasError
-            ? 'border-state-error'
+            ? 'animate-vibrate border-state-error'
             : outlined
               ? 'border-blue-300'
               : 'border-blue-200'
