@@ -10,7 +10,7 @@ interface TextCardProps {
   content: string;
   author: string;
   tags: EpigramTag[];
-  id: number;
+  id?: number;
   heightClass?: string;
 }
 
