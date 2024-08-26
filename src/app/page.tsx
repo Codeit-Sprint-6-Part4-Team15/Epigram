@@ -1,24 +1,21 @@
 'use client';
 
 import { ReactNode, useState } from 'react';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import './globals.css';
-
-import { motion, useAnimation, useInView } from 'framer-motion';
+import { motion, useAnimation , Variants} from 'framer-motion';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-
 import Button from '../components/commons/Button';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 import TextCard from '../components/commons/TextCard';
 
 interface ScrollWrapperProps {
   children: ReactNode;
-  direction: string;
+  direction: 'left' | 'right' | 'up' | 'rotate';
 }
 
-const imageVariantsLeft = {
+const imageVariantsLeft :Variants = {
   hiddenState: { opacity: 0, x: -50 },
   showState: { opacity: 1, x: 0, transition: { 
    type: 'spring',
@@ -28,7 +25,7 @@ const imageVariantsLeft = {
     bounce: 0.3,} },
 };
 
-const imageVariantsRight = {
+const imageVariantsRight:Variants = {
   hiddenState: { opacity: 0, x: 50 },
   showState: { opacity: 1, x: 0, transition: {  type: 'spring',
     stiffness: 100,
@@ -37,7 +34,7 @@ const imageVariantsRight = {
     bounce: 0.3, } },
 };
 
-const cardVariant = {
+const cardVariant :Variants= {
   hiddenState: { opacity: 0, y: 30 },
   showState: {
     opacity: 1,
@@ -52,10 +49,10 @@ const cardVariant = {
   },
 };
 
-const rotateVariant = {
+const rotateVariant:Variants = {
   showState: {
     opacity: 1,
-    y: [0, -10, 10, 0], // 위아래로 이동하는 효과
+    y: [0, -10, 10, 0],
     transition: {
       duration: 3,
       repeat: Infinity,
@@ -66,7 +63,8 @@ const rotateVariant = {
 
 const ScrollWrapper = ({ children, direction }: ScrollWrapperProps) => {
   const { ref, animation } = useScrollAnimation();
-  const directionVariant =
+  
+  const directionVariant: Variants =
     direction === 'left'
       ? imageVariantsLeft
       : direction === 'right'
@@ -86,6 +84,7 @@ const ScrollWrapper = ({ children, direction }: ScrollWrapperProps) => {
     </motion.div>
   );
 };
+
 export default function Home() {
   const mainRef = useRef<HTMLDivElement>(null);
   const [typingCompleted, setTypingCompleted] = useState(false);
@@ -103,42 +102,13 @@ export default function Home() {
     router.push('/feed');
   };
 
-  // //타이핑 효과 추가
-  // const [displayText, setDisplayText] = useState('');
-  // const content = '나만 갖고 있기엔\n아까운 글이 있지 않나요?';
-  // let i = 0;
-
-  // useEffect(() => {
-  //   window.scrollTo({ top: 0, behavior: 'smooth' });
-
-  //   const typing = () => {
-  //     if (i < content.length) {
-  //       let txt = content[i++];
-  //       setDisplayText((prev) => prev + (txt === '\n' ? '<br/>' : txt));
-  //       setTimeout(typing, 100);
-  //     } else {
-  //       setShowElements(true);
-  //     }
-  //   };
-  //   typing();
-  // }, []);
-
-  // useEffect(() => {
-  //   if (typingCompleted) {
-  //     animation.start('showState');
-  //   }
-  // }, [typingCompleted, animation]);
-
-  // dangerouslySetInnerHTML={{ __html: displayText }}
-
   return (
     <div className="m-0 flex w-screen flex-col items-center bg-bg-100">
-      <div className="note-background flex h-screen w-full flex-col items-center justify-center text-center ">
+      <div className="note-background flex items-center justify-center h-[780px] w-full flex-col text-center xl:pt-[100px] ">
         <p
           className="white-space iropke-2xl md:iropke-3xl xl:iropke-4xl"
         >나만 갖고 있기엔</p>
-     <p
-          className="white-space iropke-2xl md:iropke-3xl xl:iropke-4xl"
+     <p className="white-space iropke-2xl md:iropke-3xl xl:iropke-4xl"
         >아까운 글이 있지 않나요?</p>
           <div className="flex flex-col items-center">
               <p className="iropke-md mt-[8px] md:iropke-xl xl:iropke-xl md:mt-[24px] xl:mt-[40px]">
@@ -326,27 +296,25 @@ export default function Home() {
             />
         </div>
       </main>
-      <div className="note-background flex h-[500px] w-screen flex-col items-center md:h-[528px] xl:h-[780px]">
+      <div className="note-background flex w-screen  h-[780px] flex-col items-center justify-center">
         <div className='flex'>
           <div className='m-0'>
         <ScrollWrapper direction="rotate">
         <Image
             src="/assets/landingPage/charcacter1.svg"
             alt="에피그램 캐릭터"
-            width={122}
+            width={250}
             height={200}
-            className="mt-[180px]"
           />
           </ScrollWrapper>
           </div>
-        <div className='flex flex-col items-center w-[122px] xl:w-[286px] md:mx-[40px] mx-[20px] '>
+        <div className='flex flex-col items-center w-full md:mx-[40px] mx-[20px] '>
         <div className="block md:hidden xl:hidden">
           <Image
             src="/assets/landingPage/logo2-lg.webp"
             alt="날마다 에피그램"
             width={122}
             height={200}
-            className="mt-[180px]"
           />
         </div>
         <div className="hidden md:block xl:hidden">
@@ -355,7 +323,6 @@ export default function Home() {
             alt="날마다 에피그램"
             width={122}
             height={200}
-            className="mt-[180px]"
           />
         </div>
         <div className="hidden md:hidden xl:block">
@@ -364,13 +331,12 @@ export default function Home() {
             alt="날마다 에피그램"
             width={184}
             height={388}
-            className="mt-[250px]"
           />
         </div>
         <Button
           type="button"
           variant="main"
-          size={{ default: 'sm', md: 'md', xl: 'lg' }}
+          size={{ default: 'sm', md: 'sm', xl: 'lg' }}
           onClick={handleClick}
           className="mt-[24px] xl:mt-[48px]"
         >
@@ -381,9 +347,8 @@ export default function Home() {
         <Image
             src="/assets/landingPage/charcacter2.svg"
             alt="에피그램 캐릭터"
-            width={122}
+            width={250}
             height={200}
-            className='mt-[200px]'
           />
           </ScrollWrapper>
         </div>

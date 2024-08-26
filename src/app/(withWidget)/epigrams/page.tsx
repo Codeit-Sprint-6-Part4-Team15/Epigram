@@ -1,4 +1,4 @@
-import TodayEmotionSelector from '@/src/components/commons/TodayEmotionSelector';
+import { ClientSideUser } from '@/src/components/epigrams/ClientSideUserId';
 import EpigramsContainer from '@/src/components/epigrams/EpigramsContainer';
 import TodayEpigram from '@/src/components/epigrams/TodayEpigram';
 import CommentsContainer from '@/src/components/myPage/CommentContainer';
@@ -17,7 +17,7 @@ export default async function EpigramsPage() {
           오늘의 감정은 어떤가요?
         </h3>
         <div className="flex justify-center">
-          <TodayEmotionSelector userId={136} />
+          <ClientSideUser />
         </div>
       </div>
       <div className="w-[384px] py-[36px] xl:w-[640px] xl:py-[80px]">
