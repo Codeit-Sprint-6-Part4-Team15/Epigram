@@ -90,7 +90,8 @@ export default function EpigramDetailPage({
   }, []);
 
   return (
-    <div className="h-full w-screen bg-bg-100">
+    <div className='w-screen h-screen bg-bg-100 bg-fixed'>
+    <div className="absolute bg-bg-100">
       <div className="note-background flex h-auto w-screen flex-col items-center pt-[40px]">
         <div className="w-[380px] p-[22px] md:w-[500px] xl:w-[640px]">
           <div className="mb-[16px] flex justify-between">
@@ -170,6 +171,7 @@ export default function EpigramDetailPage({
           )}
         </div>
       </div>
+    </div>
     </div>
   );
 }
