@@ -13,7 +13,6 @@ import {
 import DropdownMenu from '@/src/components/commons/DropdownMenu';
 import EpigramDetailPageCommentsSection from '@/src/components/epigrams/EpigramDetailPageCommentsSection';
 import { getUserMe } from '@/src/app/api/user';
-import useDetectClose from '@/src/hooks/useDetectClose';
 
 let USER_ID :any= null;
 
