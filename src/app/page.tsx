@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { useRef } from 'react';
 import './globals.css';
 import { motion, useAnimation , Variants} from 'framer-motion';
@@ -102,6 +102,10 @@ export default function Home() {
     //시작하기 버튼 클릭시
     router.push('/epigrams');
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="m-0 flex w-screen flex-col items-center bg-bg-100">
