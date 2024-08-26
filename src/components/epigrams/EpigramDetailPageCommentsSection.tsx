@@ -10,6 +10,7 @@ import {
 } from '../../app/api/comment';
 import { getUserMe } from '../../app/api/user';
 import { Comment as CommentType } from '../../types/comments';
+import Button from '../commons/Button';
 import Comment from '../commons/Comment';
 import Loader from '../commons/Loader';
 import LoadingError from '../commons/LoadingError';
@@ -64,9 +65,15 @@ export default function EpigramDetailPageCommentsSection({
         PAGE_SIZE,
         cursor,
       );
-      console.log('Fetched comments:', response);
-      setComments((prevComments) => [...prevComments, ...response.list]);
-      setCursor(response.nextCursor);
+      console.log('서버로부터 불러온 댓글들:', response);
+      setComments((prevComments) => {
+        return [...prevComments, ...response.list];
+      });
+      if (response.list.length < PAGE_SIZE) {
+        setCursor(null);
+      } else {
+        setCursor(response.nextCursor);
+      }
       setTotalCount(response.totalCount);
     } catch (err) {
       if (err instanceof Error) {
@@ -81,21 +88,25 @@ export default function EpigramDetailPageCommentsSection({
   };
 
   useEffect(() => {
+    console.log('에피그램 ID에 대한 댓글 불러오기:', epigramId);
     fetchComments();
   }, []);
 
   const handleCommentSubmit = async () => {
     if (newComment.trim() === '') return;
     try {
+      console.log('댓글 제출 중:', newComment);
       const newCommentData = await handleCommentPost(
         epigramId,
         isPrivate,
         newComment,
       );
+      console.log('새로 제출된 댓글:', newCommentData);
       setNewComment('');
-      setCursor(0);
-      setComments((prevComments) => [newCommentData, ...prevComments]);
-      fetchComments();
+      setComments((prevComments) => {
+        console.log('이전 댓글 리스트:', prevComments);
+        return [newCommentData, ...prevComments];
+      });
     } catch (error) {
       console.error('댓글 작성에 실패했습니다.', error);
     }
@@ -110,50 +121,60 @@ export default function EpigramDetailPageCommentsSection({
     }
   };
 
-  useEffect(() => {
-    console.log('Logged in user ID:', userId);
-  }, [userId]);
+  useEffect(() => {}, [userId]);
 
   return (
     <div className="flex flex-col items-center">
       <div className="typo-lg-semibold mb-4 self-start xl:typo-xl-semibold lg:mb-6">
         댓글 ({totalCount})
       </div>
-      <div className="mb-3 flex w-full items-start gap-4 lg:mb-8 xl:mb-10">
-        <Image
-          src={profileImage || '/assets/ic_user.svg'}
-          alt="User Profile"
-          width={48}
-          height={48}
-          className="rounded-full"
-        />
-        <div className="flex-1">
-          <TextArea
-            variant="outlined"
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            onKeyDown={handleKeyPress}
+      {userId && (
+        <div className="mb-3 flex w-full items-start gap-4 lg:mb-8 xl:mb-10">
+          <Image
+            src={profileImage || '/assets/ic_user.svg'}
+            alt="User Profile"
+            width={48}
+            height={48}
+            className="rounded-full"
           />
-          <Toggle
-            content={[{ value: 'isPrivate', label: '비공개' }]}
-            checked={isPrivate}
-            onChange={() => setIsPrivate(!isPrivate)}
-          />
+          <div className="flex-1">
+            <TextArea
+              variant="outlined"
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              onKeyDown={handleKeyPress}
+            />
+            <div className="flex items-center justify-between">
+              <Toggle
+                content={[
+                  { value: 'isPrivate', label: isPrivate ? '비공개' : '공개' },
+                ]}
+                checked={isPrivate}
+                onChange={() => setIsPrivate(!isPrivate)}
+              />
+              <div className="w-[53px] xl:w-[60px]">
+                <Button
+                  type="button"
+                  size={{ default: 'xs', md: 'xs', xl: 'sm' }}
+                  onClick={handleCommentSubmit}
+                >
+                  저장
+                </Button>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      )}
       <div className="w-full">
         {comments.map((comment) => {
-          const isMyComment = comment.writer.id === userId;
-          console.log(
-            `Comment writer ID: ${comment.writer.id}, Logged in user ID: ${userId}, isMyComment: ${isMyComment}`,
-          );
+          console.log('렌더링 중인 댓글:', comment);
           return (
             <Comment
               key={comment.id}
               comment={comment}
-              onUpdate={() => fetchComments()}
-              onEdit={isMyComment ? handleCommentEdit : undefined}
-              onDelete={isMyComment ? handleCommentDelete : undefined}
+              onEdit={handleCommentEdit}
+              onDelete={handleCommentDelete}
+              onUpdate={fetchComments}
             />
           );
         })}
