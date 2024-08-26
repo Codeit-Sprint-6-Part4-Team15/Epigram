@@ -26,19 +26,7 @@ export default function EpigramDetailPage({
 }) {
   const [epigram, setEpigram] = useState<Epigram | null>(null);
   const [isLiked, setIsLiked] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const id = params.id;
-
-  
-  const checkLoginStatus = () => {
-    const token = localStorage.getItem('access_token');
-    setIsLoggedIn(!!token);
-  };
-
-  useEffect(() => {
-    checkLoginStatus(); // 컴포넌트가 처음 렌더링될 때 로그인 상태 체크
-  }, []); 
-
 
   const handleCopyClipBoard = async (text: string) => {
     try {
@@ -61,11 +49,11 @@ export default function EpigramDetailPage({
       if (epigram?.isLiked === false) {
         const data = await likeEpigram(id);
         setEpigram(data);
-        setIsLiked(!isLiked);
+        setIsLiked(true);
       } else {
         const data = await unlikeEpigram(id);
         setEpigram(data);
-        setIsLiked(!isLiked);
+        setIsLiked(false);
       }
     } catch (error) {
       console.error('좋아요 처리 중 오류가 발생했습니다:', error);
@@ -76,7 +64,7 @@ export default function EpigramDetailPage({
     try {
       const data = await getEpigramById(id);
       setEpigram(data);
-      console.log(data);
+      setIsLiked(data.isLiked);
     } catch (error) {
       console.error('에피그램을 불러오는데 실패했습니다:', error);
     }
@@ -126,7 +114,9 @@ export default function EpigramDetailPage({
           <div className="mb-[20px] mt-[32px] flex justify-center xl:mt-[36px]">
             <button
               onClick={handleLike}
-              className="typo-md-medium mr-[8px] flex items-center justify-center gap-[4px] rounded-[100px] bg-black-600 px-[14px] py-[6px] text-blue-100 xl:typo-xl-medium xl:mr-[16px]"
+              className={`typo-md-medium mr-[8px] flex items-center justify-center gap-[4px] rounded-[100px] ${
+                isLiked ? 'bg-black-600' : 'bg-gray-400'
+              } px-[14px] py-[6px] text-blue-100 xl:typo-xl-medium xl:mr-[16px]`}
             >
               <Image
                 src="/assets/ic-like.svg"
