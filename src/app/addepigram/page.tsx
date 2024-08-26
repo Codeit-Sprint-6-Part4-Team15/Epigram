@@ -8,6 +8,7 @@ import { useForm, SubmitHandler  } from "react-hook-form";
 import { getEpigrams, postEpigram } from "../api/epigram";
 import {toast } from 'react-toastify';
 import { useRouter } from "next/navigation";
+import Loading from "../loading";
 
 
 let errorClass = "mt-[8px] text-state-error typo-sm-medium xl:typo-lg-regual text-right";
@@ -33,7 +34,7 @@ export default function Page() {
   const [tagInput, setTagInput] = useState<string>("");
   const [epigrams, setEpigrams] = useState<any[]>([]); 
   const router = useRouter();
-
+  const [loading, setLoading] = useState(false);
   let borderColor = errors.author ? "border-red-500" : "border-blue-300";
 
 
@@ -69,7 +70,7 @@ export default function Page() {
       }
     }
   };
-  
+
   const handleTagClick = (index: number) => {
     setTags(tags.filter((_, i) => i !== index));
   };
@@ -87,8 +88,11 @@ export default function Page() {
     fetchEpigrams()
   }, []);
 
+  if (loading) {
+    return <Loading />; // 로딩 중일 때 로딩 컴포넌트 표시
+  }
   const onSubmitHandler: SubmitHandler<FormValue> = async (data) => {
-
+    setLoading(true);
     if (!data.referenceUrl) {
       delete data.referenceUrl;
   }
@@ -99,6 +103,8 @@ export default function Page() {
       router.push(`/feed`) 
     } catch (error) {
       console.error("에피그램 등록 실패:", error);
+    } finally{
+      setLoading(false); 
     }
   };
   const onErrorHandler = () => {
