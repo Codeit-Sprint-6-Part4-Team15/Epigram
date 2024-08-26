@@ -26,7 +26,19 @@ export default function EpigramDetailPage({
 }) {
   const [epigram, setEpigram] = useState<Epigram | null>(null);
   const [isLiked, setIsLiked] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const id = params.id;
+
+  
+  const checkLoginStatus = () => {
+    const token = localStorage.getItem('access_token');
+    setIsLoggedIn(!!token);
+  };
+
+  useEffect(() => {
+    checkLoginStatus(); // 컴포넌트가 처음 렌더링될 때 로그인 상태 체크
+  }, []); 
+
 
   const handleCopyClipBoard = async (text: string) => {
     try {

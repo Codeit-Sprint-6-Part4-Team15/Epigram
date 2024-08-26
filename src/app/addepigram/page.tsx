@@ -32,9 +32,23 @@ export default function Page() {
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState<string>("");
   const [epigrams, setEpigrams] = useState<any[]>([]); 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
 
   let borderColor = errors.author ? "border-red-500" : "border-blue-300";
+
+  const checkLoginStatus = () => {
+    const token = localStorage.getItem('access_token');
+    setIsLoggedIn(!!token);
+  };
+
+  useEffect(() => {
+    checkLoginStatus(); // 컴포넌트가 처음 렌더링될 때 로그인 상태 체크
+    if(!isLoggedIn){
+      toast.error('로그인이 필요합니다')
+      router.push(`/signin`);
+    }
+  }, []); 
 
   const [selectedAuthor, setSelectedAuthor] = useState<string>("직접 입력");
   const handleAuthorChange = (value: string) => {
