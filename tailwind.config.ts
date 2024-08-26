@@ -10,6 +10,7 @@ const config: Config = {
   theme: {
     extend: {
       screens: {
+        '2xs': '368px',
         md: '744px',
         // => @media (min-width: 744px) { ... }
         xl: '1200px',
@@ -132,6 +133,29 @@ const config: Config = {
         'custom-hover': '0 0 11px rgba(33,33,33,.2)',
         'custom-focus': 'inset 0 -2px 0 0 #40516E',
         'custom-focus-xl': 'inset 0 -3px 0 0 #40516E',
+      },
+      keyframes: {
+        shake: {
+          '0%, 100%': { transform: 'translateX(0)' },
+          '10%, 30%, 50%, 70%, 90%': { transform: 'translateX(-5px)' },
+          '20%, 40%, 60%, 80%': { transform: 'translateX(5px)' },
+        },
+        vibrate: {
+          '0%, 100%': { transform: 'translate(0)' },
+          '10%': { transform: 'translate(-1px, -1px) rotate(-1deg)' },
+          '20%': { transform: 'translate(1px, -1px) rotate(1deg)' },
+          '30%': { transform: 'translate(-1px, 1px) rotate(-1deg)' },
+          '40%': { transform: 'translate(1px, 1px) rotate(1deg)' },
+          '50%': { transform: 'translate(-1px, -1px) rotate(0)' },
+          '60%': { transform: 'translate(1px, -1px) rotate(-1deg)' },
+          '70%': { transform: 'translate(-1px, 1px) rotate(1deg)' },
+          '80%': { transform: 'translate(1px, 1px) rotate(0)' },
+          '90%': { transform: 'translate(0px, 0px) rotate(0)' },
+        },
+      },
+      animation: {
+        shake: 'shake 0.2s ease-in-out',
+        vibrate: 'vibrate 0.2s linear 1',
       },
     },
   },

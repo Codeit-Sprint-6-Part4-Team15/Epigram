@@ -4,6 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import { Epigram, EpigramTag } from '@/src/types/epigrams';
 import { getEpigrams } from '../../api/epigram';
 import EmptyEpigram from './EmptyEpigram';
+import Loader from '@/src/components/commons/Loader';
 
 const LIMIT = 7;
 
@@ -14,12 +15,13 @@ const SearchEpigram: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [cursor, setCursor] = useState<number | null>(null);
   const [allEpigrams, setAllEpigrams] = useState<Epigram[]>([]); // 전체 데이터를 저장할 상태
+  const [hasSearched, setHasSearched] = useState(false); // 검색 여부 상태 추가
   const fetchSearchEpigrams = useCallback(async () => {
     if (!searchWord) return; // 검색어가 없으면 함수 종료
 
     try {
       setLoading(true);
-      const response = await getEpigrams(9999, 0, searchWord); // 전체 데이터를 가져옵니다.
+      const response = await getEpigrams(999, 0, searchWord); // 전체 데이터를 가져옵니다.
       const epigramList: Epigram[] = response.list;
 
       // 태그에 포함된 경우 우선적으로 정렬
@@ -40,40 +42,16 @@ const SearchEpigram: React.FC = () => {
     }
   }, [searchWord]);
 
-  const fetchInitialEpigrams = useCallback(async (reset: boolean = false) => {
-    try {
-      setLoading(true);
-      
-      const currentCursor = reset ? 0 : cursor;
-  
-      const response = await getEpigrams(LIMIT, currentCursor ?? undefined);
-      const epigramList: Epigram[] = response.list;
-  
-      if (epigramList.length > 0) {
-        const nextCursor = epigramList[epigramList.length - 1].id;
-        setCursor(nextCursor);
-        if (reset) {
-          setEpigrams(epigramList);
-        } else {
-          setEpigrams(prevEpigramList => [...prevEpigramList, ...epigramList]);
-        }
-      } else {
-        setCursor(null);
-      }
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  }, [cursor]);
   
   useEffect(() => {
     if (searchWord) {
       fetchSearchEpigrams(); // 쿼리 값이 있을 경우 검색 데이터 요청
+      setHasSearched(true);
     } else {
-      fetchInitialEpigrams(true); // 쿼리 값이 없을 경우 초기 데이터 요청
+      setEpigrams([]); // 검색어가 없을 경우 초기 상태로 설정
+      setHasSearched(false); // 검색하지 않음
     }
-  }, [searchWord]);
+  }, [searchWord, fetchSearchEpigrams]);
   
   useEffect(() => {
     const handleScroll = () => {
@@ -88,17 +66,13 @@ const SearchEpigram: React.FC = () => {
             const nextEpigrams = allEpigrams.slice(currentLength, currentLength + LIMIT);
             setEpigrams(prev => [...prev, ...nextEpigrams]);
           }
-        } else {
-          if (cursor !== null) {
-            fetchInitialEpigrams(); // 다음 데이터 요청
-          }
-        }
+        } 
       }
     };
   
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [loading, epigrams.length, allEpigrams, searchWord, cursor, fetchInitialEpigrams]);
+  }, [loading, epigrams.length, allEpigrams, searchWord, cursor]);
 
   const highlightText = useCallback((text: string, highlight: string) => {
     if (!highlight) return text;
@@ -120,6 +94,7 @@ const SearchEpigram: React.FC = () => {
   const handleItemClick = (id: number) => {
     router.push(`/epigrams/${id}`);
   };
+  console.log(hasSearched)
   return (
     <div className='w-[360px] md:w-[384px] xl:w-[640px] xl:text-[20px]'>
       <div>
@@ -144,14 +119,14 @@ const SearchEpigram: React.FC = () => {
             </div>
           ))
         ) : (
-          <EmptyEpigram /> // 데이터가 없을 경우 EmptyEpigram 컴포넌트를 렌더링
+          hasSearched && <EmptyEpigram /> // 데이터가 없을 경우 EmptyEpigram 컴포넌트를 렌더링
         )}
       </div>
       {loading && (
-        <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pb-[100px]">
-          Loading...
-        </div>
-      )}
+  <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pb-[100px] flex flex-col items-center">
+    <Loader />
+  </div>
+)}
     </div>
   );
 }

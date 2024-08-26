@@ -12,9 +12,6 @@ const getToken = () => {
   );
 };
 
-//TODO: access token 수정 필요
-// const ACCESS_TOKKEN =
-// 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzY3LCJ0ZWFtSWQiOiI2LTE1Iiwic2NvcGUiOiJyZWZyZXNoIiwiaWF0IjoxNzI0MTEwOTA2LCJleHAiOjE3MjQ3MTU3MDYsImlzcyI6InNwLWVwaWdyYW0ifQ.MPl6M_2KfRMnkaQO7m1NLskIFTOILNaEOhlsQLMuIAg'
 const instance = axios.create({
   baseURL: API_URL,
   timeout: 5000,
@@ -26,7 +23,6 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   (config) => {
-    // const accessToken = ACCESS_TOKKEN;
     const accessToken = getToken();
     config.headers['Authorization'] = `Bearer ${accessToken}`;
     return config;
