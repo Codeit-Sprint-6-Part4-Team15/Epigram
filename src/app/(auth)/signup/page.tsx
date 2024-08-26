@@ -126,7 +126,6 @@ export default function SignUp() {
           <InputError isVisible={!!errors.password}>
             {errors.password?.message}
           </InputError>
-          <div className="sm:h-[10px] md:h-[16px]"></div>
           <Input
             type="password"
             placeholder="비밀번호 확인"
@@ -173,7 +172,7 @@ export default function SignUp() {
         >
           가입하기
         </Button>
-        <div className="mb-[40px] text-right text-blue-400 sm:typo-md-medium md:typo-lg-medium lg:typo-xl-medium">
+        <div className="mb-[40px] mt-2 text-center text-blue-400 sm:typo-md-medium md:typo-lg-medium lg:typo-xl-medium lg:mt-4">
           이미 회원이신가요?&nbsp;
           <Link
             href="/signin"
