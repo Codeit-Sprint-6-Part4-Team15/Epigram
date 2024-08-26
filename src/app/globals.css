@@ -95,7 +95,6 @@
     }
   }
 }
-
 body {
   font-family: 'Pretendard', sans-serif;
   overflow-x: hidden;
@@ -110,4 +109,12 @@ body::-webkit-scrollbar-thumb {
 }
 body::-webkit-scrollbar-track {
   background: rgba(33, 122, 244, 0.1); /*스크롤바 뒷 배경 색상*/
+}
+
+.like-button-image {
+  transition: transform 0.2s ease-in-out;
+}
+
+.like-button-image.active {
+  transform: translateY(4px);
 }

@@ -13,10 +13,9 @@ export default function Toggle({ content, checked, onChange }: ToggleProps) {
   return (
     <div>
       {content.map(({ value, label }) => (
-        <>
+        <div key={value}>
           <input
             type="checkbox"
-            key={value}
             id={value}
             checked={checked}
             onChange={() => onChange(!checked)}
@@ -32,7 +31,7 @@ export default function Toggle({ content, checked, onChange }: ToggleProps) {
               className={`${SizeStyles.sm} ${SizeStyles.md} flex items-center bg-gray-300`}
             ></i>
           </label>
-        </>
+        </div>
       ))}
     </div>
   );
