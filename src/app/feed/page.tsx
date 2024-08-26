@@ -46,6 +46,7 @@ export default function Feed() {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     fetchEpigrams(6, 0); // 초기 로드 시 6개 로드
   }, []);
 
