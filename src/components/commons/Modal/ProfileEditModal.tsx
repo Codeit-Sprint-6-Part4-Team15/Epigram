@@ -25,6 +25,7 @@ export default function ProfileEditModal({ user, onClose }: ProfileModalProps) {
 
       if (imageUrl) {
         await patchUserInfo(imageUrl, user.nickname);
+        onClose();
       }
     }
   };

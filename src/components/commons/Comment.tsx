@@ -1,6 +1,6 @@
 'use client';
 
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import IcoUser from '@/public/assets/ic_user.svg';
@@ -10,7 +10,6 @@ import Link from 'next/link';
 
 import useModal from '@/src/hooks/useModal';
 
-import { userId } from '../myPage/CommentContainer';
 import Button from './Button';
 import ConfirmModal from './Modal/ConfirmModal';
 import Modal from './Modal/Modal';
@@ -41,6 +40,18 @@ export default function Comment({
   const [content, setContent] = useState(comment.content);
   const [isPrivate, setIsPrivate] = useState(comment.isPrivate);
   const [isEdit, setIsEdit] = useState(false);
+  const [userId, setUserId] = useState(0);
+
+  useEffect(() => {
+    let user;
+    if (typeof window !== 'undefined') {
+      const userData = localStorage.getItem('user');
+      if (userData) {
+        user = JSON.parse(userData);
+        setUserId(user.id);
+      }
+    }
+  }, []);
 
   const formatTimeAgo = (dateString: string): string => {
     const date = new Date(dateString);
@@ -125,7 +136,9 @@ export default function Comment({
             />
             <div className="flex items-center justify-between">
               <Toggle
-                content={[{ value: 'isPrivate', label: '공개' }]}
+                content={[
+                  { value: 'isPrivate', label: isPrivate ? '비공개' : '공개' },
+                ]}
                 checked={isPrivate}
                 onChange={() => setIsPrivate(!isPrivate)}
               />

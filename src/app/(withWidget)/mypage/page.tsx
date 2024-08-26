@@ -23,6 +23,8 @@ function formatDate(date: Date): string {
 
 export default function MyPage() {
   const [userId, setUserId] = useState(0);
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [refreshKey, setRefreshKey] = useState(0);
   const today = formatDate(new Date());
   const router = useRouter();
 
@@ -39,6 +41,14 @@ export default function MyPage() {
     }
   }, []);
 
+  const handleDateChange = (date: Date) => {
+    setSelectedDate(date);
+  };
+
+  const handleEmotionPost = () => {
+    setRefreshKey((prevKey) => prevKey + 1);
+  };
+
   return (
     <div className="flex min-h-[100vh] flex-col items-center bg-bg-100 pt-[64px] xl:pt-[128px]">
       <div className="shadow-1 flex w-full flex-col items-center rounded-[24px] bg-white">
@@ -47,7 +57,7 @@ export default function MyPage() {
         </div>
         <div className="w-[384px] py-[36px] xl:w-[640px] xl:py-[80px]">
           <div className="mb-[16px] flex items-center justify-between">
-            <h3 className="typo-lg-semibold text-black-600 xl:typo-2xl-semibold xl:mb-[40px]">
+            <h3 className="typo-lg-semibold text-black-600 xl:typo-2xl-semibold">
               오늘의 감정
             </h3>
             <span className="typo-lg-regular text-gray-400 xl:typo-xl-regular">
@@ -55,9 +65,23 @@ export default function MyPage() {
             </span>
           </div>
           <div className="mb-[56px] flex justify-center lg:mb-[60px] xl:mb-[164px]">
-            {userId !== 0 && <TodayEmotionSelector userId={136} />}
+            {userId !== 0 && (
+              <TodayEmotionSelector
+                userId={userId}
+                onEmotionPost={handleEmotionPost}
+              />
+            )}
           </div>
-          <div>{userId !== 0 && <EmotionCalendar userId={136} />}</div>
+          <div>
+            {userId !== 0 && (
+              <EmotionCalendar
+                userId={userId}
+                selectedDate={selectedDate}
+                onDateChange={handleDateChange}
+                key={refreshKey}
+              />
+            )}
+          </div>
         </div>
         <div className="w-[384px] py-[36px] xl:w-[640px] xl:py-[80px]">
           <h3 className="typo-lg-semibold mb-[16px] text-black-600 xl:typo-2xl-semibold xl:mb-[40px]">
@@ -65,7 +89,12 @@ export default function MyPage() {
           </h3>
           <div className="flex justify-center rounded-[8px] border border-blue-200 py-[24px]">
             {userId !== 0 && (
-              <ChartContainer userId={136} year={2024} month={8} />
+              <ChartContainer
+                userId={userId}
+                year={selectedDate.getFullYear()}
+                month={selectedDate.getMonth() + 1}
+                key={refreshKey}
+              />
             )}
           </div>
         </div>

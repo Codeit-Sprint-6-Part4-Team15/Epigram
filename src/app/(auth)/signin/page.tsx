@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import {
@@ -32,10 +32,39 @@ export default function Login() {
     formState: { errors, isValid },
     handleSubmit,
     setError,
+    watch,
   } = useForm<SignInRequestBody>({
     shouldUseNativeValidation: true,
     mode: 'onBlur',
   });
+  const [googleOAuthUrl, setGoogleOAuthUrl] = useState('');
+  const [kakaoOAuthUrl, setKakaoOAuthUrl] = useState('');
+  const [isButtonEnabled, setIsButtonEnabled] = useState(false);
+
+  const emailValue = watch('email');
+  const passwordValue = watch('password');
+
+  // 페이지 로드 시 자동완성된 필드가 있는지 확인
+  useEffect(() => {
+    const emailField = document.querySelector(
+      'input[name="email"]',
+    ) as HTMLInputElement | null;
+    const passwordField = document.querySelector(
+      'input[name="password"]',
+    ) as HTMLInputElement | null;
+
+    if (emailField?.value && passwordField?.value) {
+      setIsButtonEnabled(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (emailValue && passwordValue && isValid) {
+      setIsButtonEnabled(true);
+    } else {
+      setIsButtonEnabled(false);
+    }
+  }, [emailValue, passwordValue, isValid]);
 
   useEffect(() => {
     if (localStorage.getItem('access_token') !== null) router.push('/');
@@ -82,16 +111,19 @@ export default function Login() {
     postSignIn(data).then(onAuthSucceeded, onAuthFailed);
   };
 
+  useEffect(() => {
+    setGoogleOAuthUrl(getGoogleOAuthUrlFor('signin'));
+    setKakaoOAuthUrl(getKakaoOauthUrlFor('signin'));
+  }, []);
+
   return (
     <div className="block">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="last-child:mb-[24px] *:mb-[16px]"
-      >
+      <form onSubmit={handleSubmit(onSubmit)} className="last-child:mb-[24px]">
         <label className="block">
           <Input
             type="email"
             placeholder="이메일"
+            autoComplete="username"
             {...register('email', {
               required: '이메일 주소를 입력해주세요',
               pattern: {
@@ -99,32 +131,37 @@ export default function Login() {
                 message: '잘못된 이메일 주소입니다.',
               },
             })}
+            hasError={!!errors.email}
           />
-          {errors.email && <InputError>{errors.email?.message}</InputError>}
+          <InputError isVisible={!!errors.email}>
+            {errors.email?.message || ' '}
+          </InputError>
         </label>
         <label className="block">
           <Input
             type="password"
             placeholder="비밀번호"
+            autoComplete="current-password"
             {...register('password', { required: '비밀번호를 입력해주세요' })}
+            hasError={!!errors.password}
           />
-          {errors.password && (
-            <InputError>{errors.password?.message}</InputError>
-          )}
+          <InputError isVisible={!!errors.password}>
+            {errors.password?.message || ' '}
+          </InputError>
         </label>
         <Button
           variant="wide"
           type="submit"
-          disabled={!isValid}
+          disabled={!isButtonEnabled}
           size={{ default: 'xl', md: '2xl', xl: '3xl' }}
         >
           로그인
         </Button>
       </form>
-      <div className="mb-[40px] text-right text-blue-400 sm:typo-md-medium md:typo-lg-medium lg:typo-xl-medium">
+      <div className="mb-[40px] mt-2 text-center text-blue-400 sm:typo-md-medium md:typo-lg-medium lg:typo-xl-medium lg:mt-4">
         회원이 아니신가요?&nbsp;
         <Link
-          href="/"
+          href="/signup"
           className="font-medium text-black-500 underline sm:text-[14px]/[26px] md:text-[16px]/[26px] lg:text-[20px]/[26px]"
         >
           가입하기
@@ -134,7 +171,7 @@ export default function Login() {
         SNS 계정으로 로그인하기
       </p>
       <div className="flex flex-row justify-center gap-x-[16px] *:h-[40px] *:w-[40px] lg:*:h-[60px] lg:*:w-[60px]">
-        <Link href={getGoogleOAuthUrlFor('signin')}>
+        <Link href={googleOAuthUrl}>
           <Image
             src="/assets/authPage/logo_google.svg"
             width="60"
@@ -142,7 +179,7 @@ export default function Login() {
             alt="구글로고"
           />
         </Link>
-        <Link href={getKakaoOauthUrlFor('signin')}>
+        <Link href={kakaoOAuthUrl}>
           <Image
             src="/assets/authPage/logo_kakao.svg"
             width="60"
