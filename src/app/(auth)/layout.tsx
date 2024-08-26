@@ -5,15 +5,18 @@ import Link from 'next/link';
 
 export default function AuthLayout({ children }: PropsWithChildren) {
   return (
-    <div className="m-auto w-[312px] md:w-[384px] lg:w-[640px]">
+    <div className="m-auto mt-[60px] flex w-[312px] flex-col items-center md:w-[384px] lg:mt-[100px] lg:w-[640px]">
       <Link href="/">
-        <Image
-          className="m-auto mb-[60px] mt-[60px] lg:mt-[100px]"
-          src="/assets/authPage/logo_epigram.svg"
-          width={172}
-          height={48}
-          alt="에피그램 로고"
-        />
+        <div className="w-[170px] lg:w-[280px]">
+          <Image
+            className="m-auto mb-[40px] h-auto w-full lg:mb-[60px]"
+            src="/assets/logo.svg"
+            width={170}
+            height={102}
+            priority={true}
+            alt="에피그램 로고"
+          />
+        </div>
       </Link>
       {children}
     </div>
