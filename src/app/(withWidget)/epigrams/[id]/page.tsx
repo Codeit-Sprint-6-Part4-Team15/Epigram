@@ -15,9 +15,9 @@ import {
 
 import DropdownMenu from '@/src/components/commons/DropdownMenu';
 import EpigramDetailPageCommentsSection from '@/src/components/epigrams/EpigramDetailPageCommentsSection';
+import { getUserMe } from '@/src/app/api/user';
 
-//FIX: 전역 유저 아이디 필요
-const USER_ID = 767;
+let USER_ID :any= null;
 
 export default function EpigramDetailPage({
   params,
@@ -26,7 +26,17 @@ export default function EpigramDetailPage({
 }) {
   const [epigram, setEpigram] = useState<Epigram | null>(null);
   const [isLiked, setIsLiked] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const id = params.id;
+
+  const checkLoginStatus = () => {
+    const token = localStorage.getItem('access_token');
+    setIsLoggedIn(!!token);
+  };
+
+  useEffect(() => {
+    checkLoginStatus(); // 컴포넌트가 처음 렌더링될 때 로그인 상태 체크
+  }, []); 
 
   const handleCopyClipBoard = async (text: string) => {
     try {
@@ -41,10 +51,13 @@ export default function EpigramDetailPage({
     try {
       const likeButtonImage = document.querySelector('.like-button-image');
       likeButtonImage?.classList.add('active');
-
       setTimeout(() => {
         likeButtonImage?.classList.remove('active');
       }, 200);
+
+      if(!isLoggedIn){
+        toast.info('로그인이 필요합니다.')
+      }
 
       if (epigram?.isLiked === false) {
         const data = await likeEpigram(id);
@@ -63,6 +76,8 @@ export default function EpigramDetailPage({
   const fetchEpigram = async () => {
     try {
       const data = await getEpigramById(id);
+      const userData=await getUserMe();
+      USER_ID=userData?.id;
       setEpigram(data);
       setIsLiked(data.isLiked);
     } catch (error) {
@@ -114,7 +129,7 @@ export default function EpigramDetailPage({
           <div className="mb-[20px] mt-[32px] flex justify-center xl:mt-[36px]">
             <button
               onClick={handleLike}
-              className={`typo-md-medium mr-[8px] flex items-center justify-center gap-[4px] rounded-[100px] ${
+              className={`w-[76px] xl:w-[102px] typo-md-medium mr-[8px] flex items-center justify-center gap-[4px] rounded-[100px] ${
                 isLiked ? 'bg-black-600' : 'bg-gray-400'
               } px-[14px] py-[6px] text-blue-100 xl:typo-xl-medium xl:mr-[16px]`}
             >
