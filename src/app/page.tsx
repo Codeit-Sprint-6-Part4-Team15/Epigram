@@ -99,7 +99,8 @@ export default function Home() {
 
   const router = useRouter();
   const handleClick = () => {
-    router.push('/feed');
+    //시작하기 버튼 클릭시
+    router.push('/epigrams');
   };
 
   return (
