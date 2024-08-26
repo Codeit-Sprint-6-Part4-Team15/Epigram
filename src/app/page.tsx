@@ -298,7 +298,6 @@ export default function Home() {
       </main>
       <div className="note-background flex w-screen  h-[780px] flex-col items-center justify-center">
         <div className='flex'>
-          <div className='m-0'>
         <ScrollWrapper direction="rotate">
         <Image
             src="/assets/landingPage/charcacter1.svg"
@@ -307,32 +306,14 @@ export default function Home() {
             height={200}
           />
           </ScrollWrapper>
-          </div>
-        <div className='flex flex-col items-center w-full md:mx-[40px] mx-[20px] '>
-        <div className="block md:hidden xl:hidden">
+        <div className='flex flex-col items-center w-full md:mx-[20px] mx-[20px] '>
           <Image
-            src="/assets/landingPage/logo2-lg.webp"
+            src="/assets/landingPage/logo2.svg"
             alt="날마다 에피그램"
             width={122}
             height={200}
+            className='w-[122px] h-[70px] xl:w-[184px] xl:h-[105px]'
           />
-        </div>
-        <div className="hidden md:block xl:hidden">
-          <Image
-            src="/assets/landingPage/logo2-lg.webp"
-            alt="날마다 에피그램"
-            width={122}
-            height={200}
-          />
-        </div>
-        <div className="hidden md:hidden xl:block">
-          <Image
-            src="/assets/landingPage/logo2-xl.webp"
-            alt="날마다 에피그램"
-            width={184}
-            height={388}
-          />
-        </div>
         <Button
           type="button"
           variant="main"
@@ -351,8 +332,8 @@ export default function Home() {
             height={200}
           />
           </ScrollWrapper>
+          </div>
         </div>
       </div>
-    </div>
   );
 }
