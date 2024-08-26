@@ -38,7 +38,7 @@ export default function EpigramsContainer({
   }, []);
 
   const fetchEpigrams = useCallback(async () => {
-    if (userId === null) return;
+    if (userId === 0) return;
 
     setIsLoading(true);
     try {
@@ -60,7 +60,7 @@ export default function EpigramsContainer({
     } finally {
       setIsLoading(false);
     }
-  }, [type]);
+  }, [type, userId]);
 
   const handleMore = async () => {
     let fetchedEpigrams: EpigramsResponse;
@@ -85,7 +85,7 @@ export default function EpigramsContainer({
   };
 
   useEffect(() => {
-    if (userId !== null) {
+    if (userId !== 0) {
       fetchEpigrams();
     }
   }, [fetchEpigrams, userId]);

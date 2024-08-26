@@ -42,7 +42,7 @@ export default function CommentsContainer({
   }, []);
 
   const fetchComments = useCallback(async () => {
-    if (userId === null) return;
+    if (userId === 0) return;
 
     setIsLoading(true);
     try {
@@ -64,7 +64,7 @@ export default function CommentsContainer({
     } finally {
       setIsLoading(false);
     }
-  }, [type]);
+  }, [type, userId]);
 
   const handleMore = async () => {
     setIsLoading(true);
@@ -89,7 +89,7 @@ export default function CommentsContainer({
   };
 
   useEffect(() => {
-    if (userId !== null) {
+    if (userId !== 0) {
       fetchComments();
     }
   }, [fetchComments, userId]);
