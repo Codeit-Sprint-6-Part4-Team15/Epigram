@@ -85,14 +85,20 @@ export default function Page() {
   };
 
   useEffect(() => {
+<<<<<<< HEAD
     window.scrollTo(0, 0);
+=======
+>>>>>>> 83d8a137882adc3aa5822836f7ed9cc268f567d4
     fetchEpigrams()
   }, []);
 
   if (loading) {
     return <Loading />; // 로딩 중일 때 로딩 컴포넌트 표시
   }
+<<<<<<< HEAD
   
+=======
+>>>>>>> 83d8a137882adc3aa5822836f7ed9cc268f567d4
   const onSubmitHandler: SubmitHandler<FormValue> = async (data) => {
     setLoading(true);
     if (!data.referenceUrl) {

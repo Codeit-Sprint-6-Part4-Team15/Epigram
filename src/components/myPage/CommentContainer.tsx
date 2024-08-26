@@ -42,6 +42,8 @@ export default function CommentsContainer({
   }, []);
 
   const fetchComments = useCallback(async () => {
+    if (userId === 0) return;
+
     setIsLoading(true);
     try {
       let fetchedComments: CommentsResponse;
@@ -62,7 +64,7 @@ export default function CommentsContainer({
     } finally {
       setIsLoading(false);
     }
-  }, [type]);
+  }, [type, userId]);
 
   const handleMore = async () => {
     setIsLoading(true);
@@ -87,7 +89,9 @@ export default function CommentsContainer({
   };
 
   useEffect(() => {
-    fetchComments();
+    if (userId !== 0) {
+      fetchComments();
+    }
   }, [fetchComments, userId]);
 
   return (

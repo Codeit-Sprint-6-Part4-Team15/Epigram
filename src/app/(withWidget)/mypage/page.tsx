@@ -55,7 +55,7 @@ export default function MyPage() {
         <div className="relative -mt-[40px] flex flex-col items-center gap-[8px] xl:-mt-[60px] xl:gap-[16px]">
           <UserInfo />
         </div>
-        <div className="w-[384px] py-[36px] xl:w-[640px] xl:py-[80px]">
+        <div className="w-[384px] max-w-[90%] py-[36px] xl:w-[640px] xl:py-[80px]">
           <div className="mb-[16px] flex items-center justify-between">
             <h3 className="typo-lg-semibold text-black-600 xl:typo-2xl-semibold">
               오늘의 감정
@@ -83,7 +83,7 @@ export default function MyPage() {
             )}
           </div>
         </div>
-        <div className="w-[384px] py-[36px] xl:w-[640px] xl:py-[80px]">
+        <div className="w-[384px] max-w-[90%] py-[36px] xl:w-[640px] xl:py-[80px]">
           <h3 className="typo-lg-semibold mb-[16px] text-black-600 xl:typo-2xl-semibold xl:mb-[40px]">
             감정차트
           </h3>
@@ -99,7 +99,7 @@ export default function MyPage() {
           </div>
         </div>
       </div>
-      <div className="w-[384px] py-[36px] xl:w-[640px] xl:py-[80px]">
+      <div className="w-[384px] max-w-[90%] py-[36px] xl:w-[640px] xl:py-[80px]">
         <h3 className="hidden">내 컨텐츠</h3>
         <MyContents />
       </div>
