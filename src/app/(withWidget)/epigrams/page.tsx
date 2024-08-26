@@ -1,9 +1,15 @@
+'use client';
+
 import { ClientSideUser } from '@/src/components/epigrams/ClientSideUserId';
 import EpigramsContainer from '@/src/components/epigrams/EpigramsContainer';
 import TodayEpigram from '@/src/components/epigrams/TodayEpigram';
 import CommentsContainer from '@/src/components/myPage/CommentContainer';
+import { useEffect } from 'react';
 
 export default async function EpigramsPage() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  },[]);
   return (
     <div className="flex min-h-[100vh] flex-col items-center bg-bg-100">
       <div className="w-[384px] py-[36px] xl:w-[640px] xl:py-[80px]">
