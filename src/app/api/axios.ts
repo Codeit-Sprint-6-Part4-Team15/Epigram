@@ -32,4 +32,33 @@ instance.interceptors.request.use(
   },
 );
 
+instance.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      try {
+        const refreshToken = localStorage.getItem('refresh_token');
+        const response = await axios.post(`${API_URL}/auth/refresh-token`, {
+          refreshToken: refreshToken,
+        });
+        const newAccessToken = response.data.accessToken;
+        localStorage.setItem('access_token', newAccessToken);
+        originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
+
+        return instance(originalRequest);
+      } catch (err) {
+        console.error('리프레시 토큰 갱신에 실패했습니다.', err);
+        return Promise.reject(err);
+      }
+    }
+
+    return Promise.reject(error);
+  },
+);
 export default instance;
