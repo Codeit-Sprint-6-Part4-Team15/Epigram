@@ -1,21 +1,19 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
-
 import { Epigram } from '@/src/types/epigrams';
 import Image from 'next/image';
 import Link from 'next/link';
-
 import {
   getEpigramById,
   likeEpigram,
   unlikeEpigram,
 } from '@/src/app/api/epigram';
-
 import DropdownMenu from '@/src/components/commons/DropdownMenu';
 import EpigramDetailPageCommentsSection from '@/src/components/epigrams/EpigramDetailPageCommentsSection';
 import { getUserMe } from '@/src/app/api/user';
+import useDetectClose from '@/src/hooks/useDetectClose';
 
 let USER_ID :any= null;
 
@@ -27,6 +25,8 @@ export default function EpigramDetailPage({
   const [epigram, setEpigram] = useState<Epigram | null>(null);
   const [isLiked, setIsLiked] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropDownRef = useRef<HTMLDivElement | null>(null);
   const id = params.id;
 
   const checkLoginStatus = () => {
@@ -57,6 +57,7 @@ export default function EpigramDetailPage({
 
       if(!isLoggedIn){
         toast.info('로그인이 필요합니다.')
+        return;
       }
 
       if (epigram?.isLiked === false) {
@@ -88,6 +89,32 @@ export default function EpigramDetailPage({
   useEffect(() => {
     fetchEpigram();
   }, []);
+
+  const handleShareButtonClick = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const handleOutsideClick = (e: MouseEvent) => {
+    if (dropDownRef.current && !dropDownRef.current.contains(e.target as Node)) {
+      setIsDropdownOpen(false);
+    }
+  };
+  
+const openLinkInNewTab = (url: string) => {
+  window.open(url, '_blank', 'noopener,noreferrer');
+};
+
+  useEffect(() => {
+    if (isDropdownOpen) {
+      document.addEventListener('click', handleOutsideClick);
+    } else {
+      document.removeEventListener('click', handleOutsideClick);
+    }
+
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
+  }, [isDropdownOpen]);
 
   return (
     <div className='w-screen h-screen bg-bg-100 bg-fixed'>
@@ -144,19 +171,42 @@ export default function EpigramDetailPage({
               {epigram?.likeCount}
             </button>
             {epigram && epigram.referenceTitle && (
-              <button
-                onClick={() => handleCopyClipBoard(epigram?.referenceUrl || '')}
-                className="typo-md-medium flex items-center justify-center gap-[6px] rounded-[100px] bg-line-100 px-[14px] py-[6px] text-gray-300 xl:typo-xl-medium"
-              >
-                {epigram?.referenceTitle}
-                <Image
-                  src="/assets/ic-external-link.svg"
-                  alt="에피그램 공유 버튼"
-                  width={36}
-                  height={36}
-                  className="h-[20px] w-[20px] md:h-[24px] md:w-[24px] xl:h-[36px] xl:w-[36px]"
-                />
-              </button>
+              <div className="relative">
+                <button
+                  onClick={handleShareButtonClick}
+                  className="typo-md-medium flex items-center justify-center gap-[6px] rounded-[100px] bg-line-100 px-[14px] py-[6px] text-gray-300 xl:typo-xl-medium"
+                >
+                  {epigram?.referenceTitle}
+                  <Image
+                    src="/assets/ic-external-link.svg"
+                    alt="에피그램 공유 버튼"
+                    width={36}
+                    height={36}
+                    className="h-[20px] w-[20px] md:h-[24px] md:w-[24px] xl:h-[36px] xl:w-[36px]"
+                  />
+                </button>
+                {isDropdownOpen && (
+                  <div ref={dropDownRef} className="absolute flex items-center justify-center right-0 mt-[8px] w-[200px] bg-white border border-bg-100 shadow-lg rounded-[8px] p-[8px]">
+                   <a
+                        className="text-sm text-gray-400 hover:underline cursor-pointer"
+                        onClick={() => openLinkInNewTab(epigram?.referenceUrl || '')}
+                      >
+                        {epigram?.referenceUrl}
+                      </a>
+                    <button
+                      onClick={() => handleCopyClipBoard(epigram?.referenceUrl || '')}
+                      className="ml-[10px] text-blue-500 hover:underline"
+                    >
+                      <Image
+                     src="/assets/ic-copy.svg"
+                     alt="링크 복사 버튼"
+                     width={20}
+                     height={20}
+                     />
+                    </button>
+                  </div>
+                )}
+              </div>
             )}
           </div>
         </div>
