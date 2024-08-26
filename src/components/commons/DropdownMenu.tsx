@@ -60,7 +60,7 @@ export default function DropdownMenu() {
         />
 
         {isOpen && (
-          <ul className="typo-md-regualr xl:typo-xl-regualr absolute right-[10px] flex h-[80px] w-[97px] flex-col items-center justify-center rounded-[16px] border-[1px] border-blue-300 bg-bg-100 xl:h-[112px] xl:w-[134px]">
+          <ul className="typo-md-regular xl:typo-xl-regular absolute right-[10px] flex h-[80px] w-[97px] flex-col items-center justify-center rounded-[16px] border-[1px] border-blue-300 bg-bg-100 xl:h-[112px] xl:w-[134px]">
             <li
               className="typo-md-medium my-[6px] xl:typo-xl-medium hover:text-black-100 xl:my-[8px]"
               onClick={() => handleEdit()}
