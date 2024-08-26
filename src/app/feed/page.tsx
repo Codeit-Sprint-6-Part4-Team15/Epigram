@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-
+import '../globals.css';
 import Image from 'next/image';
 import Link from 'next/link';
 

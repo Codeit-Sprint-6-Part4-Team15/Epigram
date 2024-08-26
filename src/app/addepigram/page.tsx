@@ -8,6 +8,7 @@ import { useForm, SubmitHandler  } from "react-hook-form";
 import { getEpigrams, postEpigram } from "../api/epigram";
 import {toast } from 'react-toastify';
 import { useRouter } from "next/navigation";
+import Loading from "../loading";
 
 
 let errorClass = "mt-[8px] text-state-error typo-sm-medium xl:typo-lg-regual text-right";
@@ -33,8 +34,9 @@ export default function Page() {
   const [tagInput, setTagInput] = useState<string>("");
   const [epigrams, setEpigrams] = useState<any[]>([]); 
   const router = useRouter();
-
+  const [loading, setLoading] = useState(false);
   let borderColor = errors.author ? "border-red-500" : "border-blue-300";
+
 
   const [selectedAuthor, setSelectedAuthor] = useState<string>("직접 입력");
   const handleAuthorChange = (value: string) => {
@@ -53,12 +55,19 @@ export default function Page() {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && tagInput.trim().length > 0 && tagInput.length <= 10 && tags.length < 3) {
-      setTags([...tags, tagInput.trim()]);
-      setTagInput("");
-      e.preventDefault(); // Enter 키로 폼 제출 방지
-    }else if(tags.length >= 3){
-      toast.info('태그는 3개까지 입력 가능합니다');
+    if (e.key === "Enter") {
+      const trimmedTag = tagInput.trim();
+      if (trimmedTag.length > 0 && trimmedTag.length <= 10) {
+        if (tags.includes(trimmedTag)) {
+          toast.error('이미 추가된 태그입니다.');
+        } else if (tags.length >= 3) {
+          toast.info('태그는 3개까지 입력 가능합니다');
+        } else {
+          setTags([...tags, trimmedTag]);
+        }
+        setTagInput("");
+        e.preventDefault(); // Enter 키로 폼 제출 방지
+      }
     }
   };
 
@@ -76,11 +85,14 @@ export default function Page() {
   };
 
   useEffect(() => {
-    fetchEpigrams();
+    fetchEpigrams()
   }, []);
 
+  if (loading) {
+    return <Loading />; // 로딩 중일 때 로딩 컴포넌트 표시
+  }
   const onSubmitHandler: SubmitHandler<FormValue> = async (data) => {
-
+    setLoading(true);
     if (!data.referenceUrl) {
       delete data.referenceUrl;
   }
@@ -91,6 +103,8 @@ export default function Page() {
       router.push(`/feed`) 
     } catch (error) {
       console.error("에피그램 등록 실패:", error);
+    } finally{
+      setLoading(false); 
     }
   };
   const onErrorHandler = () => {

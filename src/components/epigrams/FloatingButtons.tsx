@@ -1,14 +1,17 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-
+import { toast } from 'react-toastify';
 import IcoArrowUp from '@/public/assets/ic_arrow_up.svg';
 import IcoPencil from '@/public/assets/ic_pencil.svg';
 import Image from 'next/image';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function FloatingButtons() {
   const [scrollY, setScrollY] = useState(0);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const router = useRouter();
+
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -16,7 +19,21 @@ export default function FloatingButtons() {
     });
   };
 
+  const checkLoginStatus = () => {
+    const token = localStorage.getItem('access_token');
+    setIsLoggedIn(!!token);
+  };
+
+  const handleAddEpigramClick = () => {
+    if (isLoggedIn) {
+      router.push('/addepigram');
+    } else {
+      toast.error('로그인이 필요합니다.');
+    }
+  };
+
   useEffect(() => {
+    checkLoginStatus();
     const setScroll = () => {
       setScrollY(window.scrollY);
     };
@@ -26,10 +43,11 @@ export default function FloatingButtons() {
       document.removeEventListener('scroll', setScroll);
     };
   }, []);
+
   return (
     <div className="fixed bottom-[30px] right-[10px] flex flex-col items-end gap-[3px] z-[999]">
-      <Link
-        href="/addepigram"
+      <button
+        onClick={handleAddEpigramClick}
         className="group flex h-[50px] w-[50px] items-center justify-center overflow-hidden rounded-[100px] bg-blue-900 text-white transition-[width] hover:w-[158px]"
       >
         <Image
@@ -64,7 +82,7 @@ export default function FloatingButtons() {
             에피그램 만들기
           </span>
         </span>
-      </Link>
+      </button>
       {scrollY !== 0 && (
         <button
           type="button"
