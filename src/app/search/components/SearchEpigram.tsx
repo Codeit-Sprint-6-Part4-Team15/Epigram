@@ -16,6 +16,7 @@ const SearchEpigram: React.FC = () => {
   const [cursor, setCursor] = useState<number | null>(null);
   const [allEpigrams, setAllEpigrams] = useState<Epigram[]>([]); // 전체 데이터를 저장할 상태
   const [hasSearched, setHasSearched] = useState(false); // 검색 여부 상태 추가
+
   const fetchSearchEpigrams = useCallback(async () => {
     if (!searchWord) return; // 검색어가 없으면 함수 종료
 
@@ -96,9 +97,11 @@ const SearchEpigram: React.FC = () => {
   };
   console.log(hasSearched)
   return (
-    <div className='w-[360px] md:w-[384px] xl:w-[640px] xl:text-[20px]'>
-      <div>
-        {epigrams.length > 0 ? (
+    <div className='mt-[10px] w-[360px] md:mt-[16px] md:w-[384px] xl:mt-[24px] xl:w-[640px] xl:text-[20px]'>
+      <div className='mb-[30px]'>
+        {loading ? ( // 로딩 중일 경우 Loader 컴포넌트 표시
+          <Loader />
+        ) : epigrams.length > 0 ? (
           epigrams.map((epigram, index) => (
             <div
               className='flex border-b border-gray-100 flex-col gap-[8px] py-[16px] px-[24px] xl:py-[24px] xl:gap-[16px] cursor-pointer'
@@ -122,12 +125,7 @@ const SearchEpigram: React.FC = () => {
           hasSearched && <EmptyEpigram /> // 데이터가 없을 경우 EmptyEpigram 컴포넌트를 렌더링
         )}
       </div>
-      {loading && (
-  <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pb-[100px] flex flex-col items-center">
-    <Loader />
-  </div>
-)}
     </div>
   );
-}
+};
 export default SearchEpigram;
