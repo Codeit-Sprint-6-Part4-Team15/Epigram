@@ -81,7 +81,7 @@ export default function Feed() {
         <div
           className={`grid flex-grow gap-[16px] xl:gap-[30px] ${
             isGrid ? 'grid-cols-2' : 'grid-cols-1'
-          } justify-center lg:grid-cols-2`}
+          } align-content-start justify-center lg:grid-cols-2`}
         >
           {' '}
           {epigrams.map((epigram) => (
