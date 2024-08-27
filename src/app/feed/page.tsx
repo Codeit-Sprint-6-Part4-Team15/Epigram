@@ -54,7 +54,7 @@ export default function Feed() {
   return (
     <div className="flex min-h-screen flex-col items-center overflow-y-auto bg-bg-100 bg-cover">
       <FloatingButtons />
-      <div className="mx-[24px] flex min-h-screen w-full max-w-[1200px] flex-col px-[24px] lg:px-[72px]">
+      <div className="mx-[24px] flex w-full max-w-[1200px] flex-col px-[24px] lg:px-[72px]">
         <div className="flex justify-between">
           <h1 className="typo-lg-semibold mb-[24px] mt-[32px] md:typo-xl-semibold xl:typo-2xl-semibold xl:mb-[40px] xl:mt-[120px]">
             피드
@@ -81,7 +81,7 @@ export default function Feed() {
         <div
           className={`grid flex-grow gap-[16px] xl:gap-[30px] ${
             isGrid ? 'grid-cols-2' : 'grid-cols-1'
-          } align-content-start justify-center lg:grid-cols-2`}
+          } items-start justify-start lg:grid-cols-2`}
         >
           {' '}
           {epigrams.map((epigram) => (
