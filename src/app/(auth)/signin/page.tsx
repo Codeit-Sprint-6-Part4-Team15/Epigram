@@ -90,7 +90,7 @@ export default function Login() {
     localStorage.setItem('access_token', response.accessToken);
     localStorage.setItem('refresh_token', response.refreshToken);
     localStorage.setItem('user', JSON.stringify(response.user));
-    router.push('/');
+    router.back();
   };
 
   const onAuthFailed = (response: FormErrorResponse) => {
