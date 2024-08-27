@@ -24,11 +24,9 @@ export default function EpigramDetailPage({
   const [epigram, setEpigram] = useState<Epigram | null>(null);
   const [isLiked, setIsLiked] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-<<<<<<< HEAD
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropDownRef = useRef<HTMLDivElement | null>(null);
-=======
->>>>>>> 83d8a137882adc3aa5822836f7ed9cc268f567d4
+
   const id = params.id;
 
   const checkLoginStatus = () => {
@@ -59,10 +57,7 @@ export default function EpigramDetailPage({
 
       if(!isLoggedIn){
         toast.info('로그인이 필요합니다.')
-<<<<<<< HEAD
         return;
-=======
->>>>>>> 83d8a137882adc3aa5822836f7ed9cc268f567d4
       }
 
       if (epigram?.isLiked === false) {
@@ -92,6 +87,7 @@ export default function EpigramDetailPage({
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     fetchEpigram();
   }, []);
 
