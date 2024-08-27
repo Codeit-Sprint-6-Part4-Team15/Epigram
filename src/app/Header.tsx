@@ -162,7 +162,7 @@ function Header() {
             {isLoggedIn ? (
             <div className="relative" ref={dropdownRef}>
               <button onClick={handleToggleDropdown} className='flex items-center justify-center hover:bg-blue-200 rounded-full cursor-pointer p-[6px] md:p-[8px] xl:p-[12px]'>
-                <Image width={20} height={20} className='object-cover rounded-full md:w-[28px] md:h-[28px] xl:w-[36px] xl:h-[36px]' src={user?.image ?? userProfile} alt='profileIcon' />
+                <Image width={20} height={20} className='object-cover w-[20px] h-[20px] rounded-full md:w-[28px] md:h-[28px] xl:w-[36px] xl:h-[36px]' src={user?.image ?? userProfile} alt='profileIcon' />
               </button>
               {isDropdownOpen && (
               <ul className="typo-md-regular xl:typo-xl-regular absolute right-[10px] flex w-[80px] flex-col items-center justify-center rounded-[16px] border-[1px] border-blue-300 bg-bg-100 xl:w-[120px]">
