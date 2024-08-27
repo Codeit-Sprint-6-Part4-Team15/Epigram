@@ -22,14 +22,14 @@ export default function Toggle({ content, checked, onChange }: ToggleProps) {
             className={`toggle hidden`}
           />
           <label htmlFor={value} className="flex items-center gap-[8px]">
+            <i
+              className={`${SizeStyles.sm} ${SizeStyles.md} flex items-center bg-gray-300`}
+            ></i>
             <span
               className={`typo-xs-semibold text-gray-400 xl:typo-lg-semibold`}
             >
               {label}
             </span>
-            <i
-              className={`${SizeStyles.sm} ${SizeStyles.md} flex items-center bg-gray-300`}
-            ></i>
           </label>
         </div>
       ))}

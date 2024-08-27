@@ -70,7 +70,8 @@ export default function DonutChart({ data }: DonutChartProps) {
   };
 
   const renderDonutChart = () => {
-    if (sortedData && sortedData.every((item) => item.rate === 0)) {
+    console.log(sortedData);
+    if (sortedData.every((item) => item.rate === 0)) {
       return (
         <path
           key={0}
@@ -80,11 +81,29 @@ export default function DonutChart({ data }: DonutChartProps) {
           strokeLinejoin="round"
           strokeLinecap="round"
           d={`M ${getCoordFromDegrees(0, 50 - STROKE_WIDTH / 2)}
-              A ${50 - STROKE_WIDTH / 2} ${50 - STROKE_WIDTH / 2} 0 1 0 ${getCoordFromDegrees(360 - SPACE_LENGTH, 50 - STROKE_WIDTH / 2)}
-              L ${getCoordFromDegrees(360 - SPACE_LENGTH, 50 - FACE_WIDTH - STROKE_WIDTH / 2)}
+              A ${50 - STROKE_WIDTH / 2} ${50 - STROKE_WIDTH / 2} 0 1 0 ${getCoordFromDegrees(359.999, 50 - STROKE_WIDTH / 2)}
+              L ${getCoordFromDegrees(359.999, 50 - FACE_WIDTH - STROKE_WIDTH / 2)}
               A ${50 - FACE_WIDTH - STROKE_WIDTH / 2} ${50 - FACE_WIDTH - STROKE_WIDTH / 2} 0 1 1 ${getCoordFromDegrees(0, 50 - FACE_WIDTH - STROKE_WIDTH / 2)}`}
         />
       );
+    }
+    if (sortedData && sortedData.some((item) => item.rate === 100)) {
+      sortedData.map((item, index) => {
+        return (
+          <path
+            key={item.emotion}
+            fill={item.color}
+            stroke={item.color}
+            strokeWidth={STROKE_WIDTH}
+            strokeLinejoin="round"
+            strokeLinecap="round"
+            d={`M ${getCoordFromDegrees(0, 50 - STROKE_WIDTH / 2)}
+              A ${50 - STROKE_WIDTH / 2} ${50 - STROKE_WIDTH / 2} 0 1 0 ${getCoordFromDegrees(359.999, 50 - STROKE_WIDTH / 2)}
+              L ${getCoordFromDegrees(359.999, 50 - FACE_WIDTH - STROKE_WIDTH / 2)}
+              A ${50 - FACE_WIDTH - STROKE_WIDTH / 2} ${50 - FACE_WIDTH - STROKE_WIDTH / 2} 0 1 1 ${getCoordFromDegrees(0, 50 - FACE_WIDTH - STROKE_WIDTH / 2)}`}
+          />
+        );
+      });
     }
     return (
       sortedData &&
