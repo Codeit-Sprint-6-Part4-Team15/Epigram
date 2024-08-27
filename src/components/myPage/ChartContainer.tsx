@@ -115,18 +115,19 @@ export default function ChartContainer({
   const [loading, setLoading] = useState(true);
   const [loadingError, setLoadingError] = useState<Error | null>(null);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const result = await getMonthlyData(userId, year, month);
-        setData(result);
-      } catch (error: any) {
-        setLoadingError(error);
-      } finally {
-        setLoading(false);
-      }
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const result = await getMonthlyData(userId, year, month);
+      setData(result);
+    } catch (error: any) {
+      setLoadingError(error);
+    } finally {
+      setLoading(false);
     }
+  };
 
+  useEffect(() => {
     fetchData();
   }, [userId, year, month]);
 

@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 import { getMyEpigrams, getRecentEpigrams } from '../../app/api/epigram';
 import { Epigram, EpigramsResponse } from '../../types/epigrams';
-import Loader from '../commons/Loader';
+import DotLoader from '../commons/DotLoader';
 import LoadingError from '../commons/LoadingError';
 import TextCard from '../commons/TextCard';
 
@@ -38,6 +38,8 @@ export default function EpigramsContainer({
   }, []);
 
   const fetchEpigrams = useCallback(async () => {
+    if (userId === 0) return;
+
     setIsLoading(true);
     try {
       let fetchedEpigrams: EpigramsResponse;
@@ -58,7 +60,7 @@ export default function EpigramsContainer({
     } finally {
       setIsLoading(false);
     }
-  }, [type]);
+  }, [type, userId]);
 
   const handleMore = async () => {
     let fetchedEpigrams: EpigramsResponse;
@@ -83,7 +85,9 @@ export default function EpigramsContainer({
   };
 
   useEffect(() => {
-    fetchEpigrams();
+    if (userId !== 0) {
+      fetchEpigrams();
+    }
   }, [fetchEpigrams, userId]);
 
   return (
@@ -100,7 +104,6 @@ export default function EpigramsContainer({
             />
           </Link>
         ))}
-        {isLoading && <Loader />}
         {loadingError && <LoadingError>{loadingError?.message}</LoadingError>}
       </div>
       {cursor !== null && (
@@ -110,12 +113,16 @@ export default function EpigramsContainer({
           disabled={isLoading}
           className="typo-md-medium flex items-center gap-[4px] rounded-[100px] border border-line-200 px-[18px] py-[12px] text-blue-500 xl:typo-xl-medium xl:px-[40px]"
         >
-          <Image
-            src="/assets/ic_plus.svg"
-            width={24}
-            height={24}
-            alt="아이콘"
-          />
+          {isLoading ? (
+            <DotLoader />
+          ) : (
+            <Image
+              src="/assets/ic_plus.svg"
+              width={24}
+              height={24}
+              alt="아이콘"
+            />
+          )}
           <span>최신 에피그램 더보기</span>
         </button>
       )}
