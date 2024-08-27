@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import Image from 'next/image';
+import Link from 'next/link';
 
 import {
   getCommentsForEpigram,
@@ -19,7 +20,7 @@ import Toggle from '../commons/Toggle';
 
 interface CommentsSectionProps {
   epigramId: number;
-  userId: number;
+  userId: number | null;
 }
 
 export default function EpigramDetailPageCommentsSection({
@@ -51,10 +52,11 @@ export default function EpigramDetailPageCommentsSection({
       }
     };
 
-    fetchUserProfile();
-  }, []);
+    if (userId) {
+      fetchUserProfile();
+    }
+  }, [userId]);
 
-  // 댓글 불러오기 함수
   const fetchComments = async () => {
     if (cursor === null) return;
 
@@ -65,10 +67,7 @@ export default function EpigramDetailPageCommentsSection({
         PAGE_SIZE,
         cursor,
       );
-      console.log('서버로부터 불러온 댓글들:', response);
-      setComments((prevComments) => {
-        return [...prevComments, ...response.list];
-      });
+      setComments((prevComments) => [...prevComments, ...response.list]);
       if (response.list.length < PAGE_SIZE) {
         setCursor(null);
       } else {
@@ -88,25 +87,19 @@ export default function EpigramDetailPageCommentsSection({
   };
 
   useEffect(() => {
-    console.log('에피그램 ID에 대한 댓글 불러오기:', epigramId);
     fetchComments();
   }, []);
 
   const handleCommentSubmit = async () => {
     if (newComment.trim() === '') return;
     try {
-      console.log('댓글 제출 중:', newComment);
       const newCommentData = await handleCommentPost(
         epigramId,
         isPrivate,
         newComment,
       );
-      console.log('새로 제출된 댓글:', newCommentData);
       setNewComment('');
-      setComments((prevComments) => {
-        console.log('이전 댓글 리스트:', prevComments);
-        return [newCommentData, ...prevComments];
-      });
+      setComments((prevComments) => [newCommentData, ...prevComments]);
     } catch (error) {
       console.error('댓글 작성에 실패했습니다.', error);
     }
@@ -121,14 +114,12 @@ export default function EpigramDetailPageCommentsSection({
     }
   };
 
-  useEffect(() => {}, [userId]);
-
   return (
     <div className="flex flex-col items-center">
       <div className="typo-lg-semibold mb-4 self-start xl:typo-xl-semibold lg:mb-6">
         댓글 ({totalCount})
       </div>
-      {userId && (
+      {userId ? (
         <div className="mb-3 flex w-full items-start gap-4 lg:mb-8 xl:mb-10">
           <Image
             src={profileImage || '/assets/ic_user.svg'}
@@ -164,20 +155,39 @@ export default function EpigramDetailPageCommentsSection({
             </div>
           </div>
         </div>
+      ) : (
+        <div className="mb-3 flex w-full items-start gap-4 lg:mb-8 xl:mb-10">
+          <Image
+            src="/assets/ic_user.svg"
+            alt="User Profile Placeholder"
+            width={48}
+            height={48}
+            className="rounded-full"
+          />
+          <div className="flex-1">
+            <TextArea
+              placeholder="로그인이 필요합니다"
+              variant="outlined"
+              disabled // 비활성화 상태로 설정
+            />
+            <p className="mt-2 text-center text-red-500">
+              <Link href="/signin" className="text-blue-500 underline">
+                로그인 하러가기
+              </Link>
+            </p>
+          </div>
+        </div>
       )}
       <div className="w-full">
-        {comments.map((comment) => {
-          console.log('렌더링 중인 댓글:', comment);
-          return (
-            <Comment
-              key={comment.id}
-              comment={comment}
-              onEdit={handleCommentEdit}
-              onDelete={handleCommentDelete}
-              onUpdate={fetchComments}
-            />
-          );
-        })}
+        {comments.map((comment) => (
+          <Comment
+            key={comment.id}
+            comment={comment}
+            onEdit={handleCommentEdit}
+            onDelete={handleCommentDelete}
+            onUpdate={fetchComments}
+          />
+        ))}
         {isLoading && <Loader />}
         {error && <LoadingError>{error.message}</LoadingError>}
       </div>
