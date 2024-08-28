@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import '../globals.css';
+
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -11,6 +11,7 @@ import FloatingButtons from '@/src/components/epigrams/FloatingButtons';
 
 import { Epigram } from '../../types/epigrams';
 import { getEpigrams } from '../api/epigram';
+import '../globals.css';
 
 export default function Feed() {
   const [epigrams, setEpigrams] = useState<Epigram[]>([]);
@@ -53,7 +54,7 @@ export default function Feed() {
   return (
     <div className="flex min-h-screen flex-col items-center overflow-y-auto bg-bg-100 bg-cover">
       <FloatingButtons />
-      <div className="mx-[24px] flex min-h-screen w-full max-w-[1200px] flex-col px-[24px] lg:px-[72px]">
+      <div className="mx-[24px] flex w-full max-w-[1200px] flex-col px-[24px] lg:px-[72px]">
         <div className="flex justify-between">
           <h1 className="typo-lg-semibold mb-[24px] mt-[32px] md:typo-xl-semibold xl:typo-2xl-semibold xl:mb-[40px] xl:mt-[120px]">
             피드
@@ -80,12 +81,12 @@ export default function Feed() {
         <div
           className={`grid flex-grow gap-[16px] xl:gap-[30px] ${
             isGrid ? 'grid-cols-2' : 'grid-cols-1'
-          } lg:grid-cols-2`}
+          } items-start justify-start lg:grid-cols-2`}
         >
           {' '}
           {epigrams.map((epigram) => (
             <Link href={`epigrams/${epigram.id}`} key={epigram.id}>
-              <div className="transform transition hover:scale-105 hover:duration-700">
+              <div className="mx-auto max-w-[700px] transform transition hover:scale-105 hover:duration-700">
                 <TextCard
                   id={epigram.id}
                   content={epigram.content}
@@ -100,7 +101,7 @@ export default function Feed() {
           <button
             onClick={handleMore}
             disabled={isLoading}
-            className="typo-md-medium flex h-[48px] w-[180px] justify-center rounded-[100px] border border-[1px] border-line-200 bg-bg-100 px-[18px] py-[12px] text-blue-500 xl:typo-xl-medium hover:text-blue-800 xl:w-[238px] xl:py-[9px]"
+            className="typo-md-medium flex h-[48px] w-[180px] justify-center rounded-[100px] border-[1px] border-line-200 bg-bg-100 px-[18px] py-[12px] text-blue-500 xl:typo-xl-medium hover:text-blue-800 xl:w-[238px] xl:py-[9px]"
           >
             <Image
               src="/assets/ic_plus.svg"
