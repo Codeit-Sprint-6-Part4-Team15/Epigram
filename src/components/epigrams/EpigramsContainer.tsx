@@ -38,7 +38,7 @@ export default function EpigramsContainer({
   }, []);
 
   const fetchEpigrams = useCallback(async () => {
-    if (userId === 0) return;
+    if (type === 'my' && userId === 0) return;
 
     setIsLoading(true);
     try {
@@ -85,7 +85,7 @@ export default function EpigramsContainer({
   };
 
   useEffect(() => {
-    if (userId !== 0) {
+    if ((type === 'my' && userId !== 0) || type === 'recent') {
       fetchEpigrams();
     }
   }, [fetchEpigrams, userId]);
