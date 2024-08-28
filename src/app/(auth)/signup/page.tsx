@@ -182,7 +182,7 @@ export default function SignUp() {
           </Link>
         </div>
       </form>
-      <p className="mb-[26px] flex flex-row before:m-auto before:mr-2.5 before:flex-1 before:border-b before:border-solid before:content-[''] after:m-auto after:ml-2.5 after:flex-1 after:border-b after:border-solid after:content-[''] lg:mb-[40px]">
+      <p className="mb-[26px] flex flex-row text-blue-400 before:m-auto before:mr-2.5 before:flex-1 before:border-b before:border-solid before:border-blue-400 before:content-[''] after:m-auto after:ml-2.5 after:flex-1 after:border-b after:border-solid after:border-blue-400 after:content-[''] lg:mb-[40px]">
         SNS 계정으로 간편 가입하기
       </p>
       <div className="flex flex-row justify-center gap-x-[16px] *:h-[40px] *:w-[40px] lg:*:h-[60px] lg:*:w-[60px]">
