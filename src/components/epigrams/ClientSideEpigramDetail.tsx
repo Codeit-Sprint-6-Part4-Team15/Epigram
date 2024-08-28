@@ -16,7 +16,7 @@ import { getUserMe } from '@/src/app/api/user';
 
 let USER_ID :any= null;
 
-export default function EpigramDetailClientSide({ epigram, user }: { epigram: Epigram; user: any }) {
+export default function ClientSideEpigramDetail({ epigram, user }: { epigram: Epigram; user: any }) {
   const [isLiked, setIsLiked] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);

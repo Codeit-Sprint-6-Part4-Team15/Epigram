@@ -1,4 +1,4 @@
-import EpigramClientSide from './EpigramClientSide';
+import ClientSideEpigramDetail from "@/src/components/epigrams/ClientSideEpigramDetail";
 
 const API_URL = process.env.NEXT_PUBLIC_API;
 
@@ -28,7 +28,7 @@ export default async function EpigramDetailPage({
 
   return (
     <div>
-      <EpigramClientSide epigram={epigram} user={userData} />
+      <ClientSideEpigramDetail epigram={epigram} user={userData} />
     </div>
   );
 }
