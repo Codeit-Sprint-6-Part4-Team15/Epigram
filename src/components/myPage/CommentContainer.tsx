@@ -13,7 +13,6 @@ import {
 } from '../../app/api/comment';
 import Comment from '../commons/Comment';
 import DotLoader from '../commons/DotLoader';
-import Loader from '../commons/Loader';
 import LoadingError from '../commons/LoadingError';
 
 interface CommentsContainerProps {
@@ -43,7 +42,7 @@ export default function CommentsContainer({
   }, []);
 
   const fetchComments = useCallback(async () => {
-    if (userId === 0) return;
+    if (type === 'my' && userId === 0) return;
 
     setIsLoading(true);
     try {
@@ -90,7 +89,7 @@ export default function CommentsContainer({
   };
 
   useEffect(() => {
-    if (userId !== 0) {
+    if ((type === 'my' && userId !== 0) || type === 'recent') {
       fetchComments();
     }
   }, [fetchComments, userId]);
