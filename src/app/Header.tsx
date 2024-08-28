@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 
 import { User } from '@/src/types/auth';
+import { usePathname } from 'next/navigation';
 
 import HeaderServer from '@/src/components/Header/HeaderServer';
 
@@ -12,6 +13,7 @@ export default function Header() {
   const [user, setUser] = useState<User | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const pathname = usePathname();
 
   useEffect(() => {
     const token = localStorage.getItem('access_token');
@@ -37,7 +39,12 @@ export default function Header() {
 
   return (
     <div>
-      <HeaderServer user={user} isLoggedIn={isLoggedIn} isLoading={isLoading} />
+      <HeaderServer
+        user={user}
+        isLoggedIn={isLoggedIn}
+        isLoading={isLoading}
+        pathname={pathname}
+      />
     </div>
   );
 }

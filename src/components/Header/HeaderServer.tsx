@@ -9,9 +9,14 @@ type HeaderProps = {
   user: User | null;
   isLoggedIn: boolean;
   isLoading: boolean;
+  pathname: string;
 };
 
-function HeaderServer({ user, isLoggedIn, isLoading }: HeaderProps) {
+function HeaderServer({ user, isLoggedIn, isLoading, pathname }: HeaderProps) {
+  if (pathname === '/signin' || pathname === '/signup') {
+    return null;
+  }
+
   return (
     <nav className="sticky top-0 z-10 w-full bg-white">
       <div className="flex h-[52px] w-full items-center justify-between border-b border-line-300 px-[24px] md:h-[60px] md:px-[48px] xl:h-[80px] xl:px-[88px]">
