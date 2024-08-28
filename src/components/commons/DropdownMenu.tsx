@@ -1,6 +1,7 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { toast } from 'react-toastify';
 
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
@@ -34,7 +35,7 @@ export default function DropdownMenu() {
     //게시물 삭제
     try {
       deleteEpigram(Number(id));
-      console.log('게시물이 삭제되었습니다.');
+      toast.info('게시물이 삭제되었습니다.');
       router.push('/feed');
     } catch (error) {
       console.error('에피그램 삭제 중 오류가 발생했습니다:', error);
@@ -60,7 +61,7 @@ export default function DropdownMenu() {
         />
 
         {isOpen && (
-          <ul className="typo-md-regular xl:typo-xl-regular absolute right-[10px] flex h-[80px] w-[97px] flex-col items-center justify-center rounded-[16px] border-[1px] border-blue-300 bg-bg-100 xl:h-[112px] xl:w-[134px]">
+          <ul className="typo-md-regualr xl:typo-xl-regualr absolute right-[10px] flex h-[80px] w-[97px] flex-col items-center justify-center rounded-[16px] border-[1px] border-blue-300 bg-bg-100 xl:h-[112px] xl:w-[134px]">
             <li
               className="typo-md-medium my-[6px] xl:typo-xl-medium hover:text-black-100 xl:my-[8px]"
               onClick={() => handleEdit()}

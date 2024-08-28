@@ -70,7 +70,6 @@ export default function DonutChart({ data }: DonutChartProps) {
   };
 
   const renderDonutChart = () => {
-    console.log(sortedData);
     if (sortedData.every((item) => item.rate === 0)) {
       return (
         <path
