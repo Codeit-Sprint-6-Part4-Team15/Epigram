@@ -60,7 +60,7 @@ function HeaderServer({ user, isLoggedIn, isLoading, pathname }: HeaderProps) {
           </div>
           )}
           <Link href="/search">
-            <div className={`hidden items-center justify-center rounded-full p-[6px] 2xs:flex md:p-[8px] xl:p-[12px] ${isActiveLink('/search') ? 'cursor-default' : 'hover:bg-blue-200'}`}>
+            <div className={`hidden items-center justify-center rounded-full p-[6px] 2xs:flex md:p-[8px] xl:p-[12px] ${isActiveLink('/search') ? 'cursor-default' : 'transition-transform duration-200 ease-in-out hover:scale-110'}`}>
               <SearchIcon
                 className={`h-[20px] w-[20px] ${isActiveLink('/search') ? 'cursor-default' : 'cursor-pointer'} md:h-[28px] md:w-[28px] xl:h-[36px] xl:w-[36px]`}
                 color={pathname === '/search' ? '#ABB8CE' : 'black'} // 현재 페이지에 따라 색상 변경
