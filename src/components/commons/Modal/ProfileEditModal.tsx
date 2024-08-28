@@ -32,6 +32,7 @@ export default function ProfileEditModal({
         await patchUserInfo(imageUrl, user.nickname);
         onUpdate();
         onClose();
+        window.location.reload();
       }
     }
   };

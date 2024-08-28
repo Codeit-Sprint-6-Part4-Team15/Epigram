@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { User } from '@/src/types/auth';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation'; // usePathname 추가
 
 type HeaderClientProps = {
   user: User | null;
@@ -15,6 +16,7 @@ export default function HeaderClient({ user, isLoggedIn }: HeaderClientProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
+  const pathname = usePathname(); // usePathname 사용하여 현재 경로 가져오기
 
   const handleToggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev);
@@ -43,6 +45,9 @@ export default function HeaderClient({ user, isLoggedIn }: HeaderClientProps) {
       document.removeEventListener('click', handleClickOutside);
     };
   }, []);
+  if (pathname === '/mypage') {
+    return null;
+  }
 
   return isLoggedIn ? (
     <div className="relative" ref={dropdownRef}>
