@@ -6,7 +6,6 @@ import { Epigram } from '@/src/types/epigrams';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
-  getEpigramById,
   likeEpigram,
   unlikeEpigram,
 } from '@/src/app/api/epigram';
@@ -16,13 +15,13 @@ import { getUserMe } from '@/src/app/api/user';
 
 let USER_ID :any= null;
 
-export default function ClientSideEpigramDetail({ epigram, user }: { epigram: Epigram; user: any }) {
-  const [isLiked, setIsLiked] = useState(false);
+export default function ClientSideEpigramDetail({ epigram ,id}: { epigram: Epigram , id:number}) {
+  const [isLiked, setIsLiked] = useState(epigram.isLiked);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropDownRef = useRef<HTMLDivElement | null>(null);
+  const [epigramData, setEpigramData] = useState<Epigram | null>(epigram);
 
-  const id = user.id;
 
   const checkLoginStatus = () => {
     const token = localStorage.getItem('access_token');
@@ -30,6 +29,17 @@ export default function ClientSideEpigramDetail({ epigram, user }: { epigram: Ep
   };
 
   useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const userData = await getUserMe();
+        if (userData && userData.id) {
+          USER_ID=userData.id;
+        } 
+      } catch (error) {
+        console.error('유저 정보를 가져오는 데 실패하였습니다.');
+      }
+    };
+    fetchUserData();
     window.scrollTo(0, 0);
     checkLoginStatus(); // 컴포넌트가 처음 렌더링될 때 로그인 상태 체크
   }, []); 
@@ -50,19 +60,21 @@ export default function ClientSideEpigramDetail({ epigram, user }: { epigram: Ep
       setTimeout(() => {
         likeButtonImage?.classList.remove('active');
       }, 200);
-
-      if(!isLoggedIn){
-        toast.info('로그인이 필요합니다.')
+  
+      if (!isLoggedIn) {
+        toast.info('로그인이 필요합니다.');
         return;
       }
-
-      if (epigram?.isLiked === false) {
-        const data = await likeEpigram(id);
-        setIsLiked(true);
+  
+      let updatedData;
+      if (!epigramData?.isLiked) {
+        updatedData = await likeEpigram(id);
       } else {
-        const data = await unlikeEpigram(id);
-        setIsLiked(false);
+        updatedData = await unlikeEpigram(id);
       }
+      
+      setEpigramData(updatedData);
+  
     } catch (error) {
       console.error('좋아요 처리 중 오류가 발생했습니다:', error);
     }
@@ -102,7 +114,7 @@ const openLinkInNewTab = (url: string) => {
             {epigram && epigram.tags && (
               <div className="flex items-center overflow-hidden whitespace-nowrap">
                 <div className="flex">
-                  {epigram?.tags.map((tag, index) => (
+                  {epigramData?.tags.map((tag, index) => (
                     <Link
                       key={index}
                       href={{
@@ -126,16 +138,16 @@ const openLinkInNewTab = (url: string) => {
             {USER_ID === epigram?.writerId && <DropdownMenu />}
           </div>
           <p className="iropke-2xl text-black-700 xl:iropke-3xl md:mt-[24px] xl:mt-[32px]">
-            {epigram?.content}
+            {epigramData?.content}
           </p>
           <p className="iropke-lg mt-[16px] text-right text-blue-400 md:iropke-xl xl:iropke-2xl md:mt-[24px] xl:mt-[40px]">
-            - {epigram?.author} -
+            - {epigramData?.author} -
           </p>
           <div className="mb-[20px] mt-[32px] flex justify-center xl:mt-[36px]">
             <button
               onClick={handleLike}
               className={`w-[76px] xl:w-[102px] typo-md-medium mr-[8px] flex items-center justify-center gap-[4px] rounded-[100px] ${
-                isLiked ? 'bg-black-600' : 'bg-gray-400'
+                epigramData?.isLiked ? 'bg-black-600' : 'bg-gray-400'
               } px-[14px] py-[6px] text-blue-100 xl:typo-xl-medium xl:mr-[16px]`}
             >
               <Image
@@ -145,7 +157,7 @@ const openLinkInNewTab = (url: string) => {
                 height={36}
                 className="like-button-image mr-[4px] h-[20px] w-[20px] md:h-[24px] md:w-[24px] xl:h-[36px] xl:w-[36px]"
               />
-              {epigram?.likeCount}
+              {epigramData?.likeCount}
             </button>
             {epigram && epigram.referenceTitle && (
               <div className="relative">
