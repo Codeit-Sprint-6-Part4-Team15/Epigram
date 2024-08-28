@@ -23,6 +23,7 @@ const SearchEpigram: React.FC = () => {
     try {
       setLoading(true);
       const response = await getEpigrams(999, 0, searchWord); // 전체 데이터를 가져옵니다.
+      console.log(response)
       const epigramList: Epigram[] = response.list;
 
       // 태그에 포함된 경우 우선적으로 정렬
@@ -95,7 +96,6 @@ const SearchEpigram: React.FC = () => {
   const handleItemClick = (id: number) => {
     router.push(`/epigrams/${id}`);
   };
-  console.log(hasSearched)
   return (
     <div className='mt-[10px] w-[360px] md:mt-[16px] md:w-[384px] xl:mt-[24px] xl:w-[640px] xl:text-[20px]'>
       <div className='mb-[30px]'>
@@ -104,7 +104,7 @@ const SearchEpigram: React.FC = () => {
         ) : epigrams.length > 0 ? (
           epigrams.map((epigram, index) => (
             <div
-              className='flex border-b border-gray-100 flex-col gap-[8px] py-[16px] px-[24px] xl:py-[24px] xl:gap-[16px] cursor-pointer'
+              className='flex border-b border-gray-100 hover:border-blue-500 transition-all duration-100 flex-col gap-[8px] py-[16px] px-[24px] xl:py-[24px] xl:gap-[16px] cursor-pointer'
               key={`${epigram.id}-${index}`}
               onClick={() => handleItemClick(epigram.id)}
             >
@@ -113,11 +113,15 @@ const SearchEpigram: React.FC = () => {
                 <div className='text-blue-400'>- {highlightText(epigram.author, searchWord)} -</div>
               </div>
               <div className='flex gap-[12px] justify-end'>
-                {epigram.tags.map((tag, tagIndex) => (
-                  <div className='text-blue-400 font-pretendard font-normal' key={`${tag.name}-${tagIndex}`}>
-                    #{highlightText(tag.name, searchWord)}
-                  </div>
-                ))}
+              {epigram.tags && epigram.tags.length > 0 ? (
+              epigram.tags.map((tag, tagIndex) => (
+                <div className='text-blue-400 font-pretendard font-normal' key={`${tag.name}-${tagIndex}`}>
+                  #{highlightText(tag.name, searchWord)}
+                </div>
+                ))
+              ) : (
+              <div className='text-blue-300'>태그없음</div>
+              )}
               </div>
             </div>
           ))
