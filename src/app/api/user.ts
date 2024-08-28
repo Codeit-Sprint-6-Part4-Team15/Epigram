@@ -13,7 +13,6 @@ export async function getUserMe() {
 
 export async function postImage(image: FormData) {
   try {
-    console.log(image);
     const res = await instance.post('/images/upload', image, {
       headers: {
         'Content-Type': 'multipart/form-data',

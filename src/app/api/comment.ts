@@ -80,16 +80,12 @@ export async function getCommentsForEpigram(
   cursor?: number | null,
 ): Promise<CommentsResponse> {
   try {
-    console.log(
-      `Fetching comments for epigramId: ${epigramId}, limit: ${limit}, cursor: ${cursor}`,
-    );
     const res = await instance.get(`/epigrams/${epigramId}/comments`, {
       params: {
         limit,
         cursor,
       },
     });
-    console.log('Response data:', res.data);
     return res.data;
   } catch (error: unknown) {
     if (error instanceof Error) {

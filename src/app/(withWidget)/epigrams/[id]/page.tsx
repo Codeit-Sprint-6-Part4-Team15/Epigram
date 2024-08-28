@@ -45,7 +45,7 @@ export default function EpigramDetailPage({
       await navigator.clipboard.writeText(text);
       toast.info('링크가 복사되었습니다.');
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 
