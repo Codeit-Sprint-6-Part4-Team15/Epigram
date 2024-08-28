@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -27,12 +27,10 @@ export default function EpigramDetailPageCommentsSection({
   epigramId,
   userId,
 }: CommentsSectionProps) {
-  const PAGE_SIZE = 4;
   const [comments, setComments] = useState<CommentType[]>([]);
   const [newComment, setNewComment] = useState('');
   const [profileImage, setProfileImage] = useState('');
   const [isPrivate, setIsPrivate] = useState(false);
-  const [cursor, setCursor] = useState<number | null>(0);
   const [totalCount, setTotalCount] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -57,22 +55,19 @@ export default function EpigramDetailPageCommentsSection({
     }
   }, [userId]);
 
-  const fetchComments = async () => {
-    if (cursor === null) return;
-
+  const fetchComments = useCallback(async () => {
     setIsLoading(true);
     try {
-      const response = await getCommentsForEpigram(
-        epigramId,
-        PAGE_SIZE,
-        cursor,
-      );
-      setComments((prevComments) => [...prevComments, ...response.list]);
-      if (response.list.length < PAGE_SIZE) {
-        setCursor(null);
-      } else {
-        setCursor(response.nextCursor);
-      }
+      const response = await getCommentsForEpigram(epigramId);
+
+      setComments((prevComments) => {
+        const newComments = response.list.filter(
+          (newComment) =>
+            !prevComments.some((comment) => comment.id === newComment.id),
+        );
+        return [...prevComments, ...newComments];
+      });
+
       setTotalCount(response.totalCount);
     } catch (err) {
       if (err instanceof Error) {
@@ -84,11 +79,40 @@ export default function EpigramDetailPageCommentsSection({
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [epigramId]);
 
   useEffect(() => {
     fetchComments();
   }, []);
+
+  const onEditComment = async (
+    id: number,
+    content: string,
+    isPrivate: boolean,
+  ) => {
+    try {
+      await handleCommentEdit(id, content, isPrivate);
+      setComments((prevComments) =>
+        prevComments.map((comment) =>
+          comment.id === id ? { ...comment, content, isPrivate } : comment,
+        ),
+      );
+    } catch (error) {
+      console.error('댓글 수정에 실패했습니다.', error);
+    }
+  };
+
+  const onDeleteComment = async (id: number) => {
+    try {
+      await handleCommentDelete(id);
+      setComments((prevComments) =>
+        prevComments.filter((comment) => comment.id !== id),
+      );
+      setTotalCount((prevTotalCount) => prevTotalCount - 1);
+    } catch (error) {
+      console.error('댓글 삭제에 실패했습니다.', error);
+    }
+  };
 
   const handleCommentSubmit = async () => {
     if (newComment.trim() === '') return;
@@ -100,6 +124,7 @@ export default function EpigramDetailPageCommentsSection({
       );
       setNewComment('');
       setComments((prevComments) => [newCommentData, ...prevComments]);
+      setTotalCount((prevTotalCount) => prevTotalCount + 1);
     } catch (error) {
       console.error('댓글 작성에 실패했습니다.', error);
     }
@@ -115,7 +140,7 @@ export default function EpigramDetailPageCommentsSection({
   };
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="mb-[40px] flex flex-col items-center">
       <div className="typo-lg-semibold mb-4 self-start xl:typo-xl-semibold lg:mb-6">
         댓글 ({totalCount})
       </div>
@@ -168,7 +193,7 @@ export default function EpigramDetailPageCommentsSection({
             <TextArea
               placeholder="로그인이 필요합니다"
               variant="outlined"
-              disabled // 비활성화 상태로 설정
+              disabled
             />
             <p className="mt-2 text-center text-red-500">
               <Link href="/signin" className="text-blue-500 underline">
@@ -183,30 +208,14 @@ export default function EpigramDetailPageCommentsSection({
           <Comment
             key={comment.id}
             comment={comment}
-            onEdit={handleCommentEdit}
-            onDelete={handleCommentDelete}
+            onEdit={onEditComment}
+            onDelete={onDeleteComment}
             onUpdate={fetchComments}
           />
         ))}
         {isLoading && <Loader />}
         {error && <LoadingError>{error.message}</LoadingError>}
       </div>
-      {cursor !== null && (
-        <button
-          type="button"
-          onClick={fetchComments}
-          disabled={isLoading}
-          className="typo-md-medium mt-[40px] flex items-center gap-[4px] rounded-[100px] border border-line-200 px-[18px] py-[12px] text-blue-500 xl:typo-xl-medium xl:mt-[72px] xl:px-[40px]"
-        >
-          <Image
-            src="/assets/ic_plus.svg"
-            width={24}
-            height={24}
-            alt="아이콘"
-          />
-          <span>댓글 더보기</span>
-        </button>
-      )}
     </div>
   );
 }

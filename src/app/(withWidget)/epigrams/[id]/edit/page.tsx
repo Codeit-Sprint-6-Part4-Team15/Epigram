@@ -1,6 +1,7 @@
 "use client";
 
 import { getEpigramById, updateEpigram } from "@/src/app/api/epigram";
+import Wrapper from "@/src/components/commons/animation";
 import Button from "@/src/components/commons/Button";
 import RadioGroup from "@/src/components/commons/RadioGroup";
 import TextArea from "@/src/components/commons/TextArea";
@@ -122,6 +123,7 @@ export default function Edit({ params }: { params: { id: number } }) {
   };
 
   return (
+    <Wrapper>
     <div className="flex justify-center h-screen">
       <div className="flex flex-col h-screen ml-[24px] mr-[24px] ">
         <h1 className="typo-lg-semibold mt-[24px] md:typo-xl-semibold xl:typo-2xl-semibold">
@@ -238,5 +240,6 @@ export default function Edit({ params }: { params: { id: number } }) {
         </form>
       </div>
     </div>
+    </Wrapper>
   );
 }

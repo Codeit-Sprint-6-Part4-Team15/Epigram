@@ -24,6 +24,7 @@ import {
   postOAuthKakao,
   postSignIn,
 } from '../../api/auth';
+import Wrapper from '@/src/components/commons/animation';
 
 export default function Login() {
   const router = useRouter();
@@ -67,7 +68,13 @@ export default function Login() {
   }, [emailValue, passwordValue, isValid]);
 
   useEffect(() => {
-    if (localStorage.getItem('access_token') !== null) router.push('/');
+    if (localStorage.getItem('access_token') !== null) {
+      router.back();
+      setTimeout(() => {
+        window.location.reload();
+      }, 100);
+      return;
+    }
     const searchParams = new URL(window.location.href).searchParams;
     const hashParams = new URLSearchParams(window.location.hash);
     if (hashParams.has('id_token')) {
@@ -91,6 +98,10 @@ export default function Login() {
     localStorage.setItem('refresh_token', response.refreshToken);
     localStorage.setItem('user', JSON.stringify(response.user));
     router.back();
+
+    setTimeout(() => {
+      window.location.reload();
+    }, 100);
   };
 
   const onAuthFailed = (response: FormErrorResponse) => {
@@ -117,6 +128,7 @@ export default function Login() {
   }, []);
 
   return (
+    <Wrapper>
     <div className="block">
       <form onSubmit={handleSubmit(onSubmit)} className="last-child:mb-[24px]">
         <label className="block">
@@ -167,7 +179,7 @@ export default function Login() {
           가입하기
         </Link>
       </div>
-      <p className="mb-[26px] flex flex-row before:m-auto before:mr-2.5 before:flex-1 before:border-b before:border-solid before:content-[''] after:m-auto after:ml-2.5 after:flex-1 after:border-b after:border-solid after:content-[''] lg:mb-[40px]">
+      <p className="mb-[26px] flex flex-row text-blue-400 before:m-auto before:mr-2.5 before:flex-1 before:border-b before:border-solid before:border-blue-400 before:content-[''] after:m-auto after:ml-2.5 after:flex-1 after:border-b after:border-solid after:border-blue-400 after:content-[''] lg:mb-[40px]">
         SNS 계정으로 로그인하기
       </p>
       <div className="flex flex-row justify-center gap-x-[16px] *:h-[40px] *:w-[40px] lg:*:h-[60px] lg:*:w-[60px]">
@@ -189,5 +201,6 @@ export default function Login() {
         </Link>
       </div>
     </div>
+    </Wrapper>
   );
 }

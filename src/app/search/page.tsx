@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import SearchEpigram from './components/SearchEpigram';
 import SearchHistory from './components/SearchHistory';
+import Wrapper from '@/src/components/commons/animation';
 
 function SearchPage() {
   const router = useRouter();
@@ -143,6 +144,7 @@ function SearchPage() {
   }, [isFocused]);
 
   return (
+  <Wrapper>
     <div className="flex justify-center">
       <div className="flex flex-col md:w-[384px] md:px-0 xl:w-[640px]">
         <div className="relative flex justify-center">
@@ -191,6 +193,7 @@ function SearchPage() {
         </Suspense>
       </div>
     </div>
+    </Wrapper>
   );
 }
 

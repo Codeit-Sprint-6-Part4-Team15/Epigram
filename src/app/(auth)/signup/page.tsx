@@ -23,6 +23,7 @@ import {
   postOAuthKakao,
   postSignUp,
 } from '../../api/auth';
+import Wrapper from '@/src/components/commons/animation';
 
 export default function SignUp() {
   const router = useRouter();
@@ -86,6 +87,7 @@ export default function SignUp() {
   };
 
   return (
+    <Wrapper>
     <div className="block">
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -134,8 +136,8 @@ export default function SignUp() {
               required: '비밀번호를 입력해주세요.',
               pattern: {
                 value:
-                  /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?/~`])(.){12,}$/,
-                message: '숫자, 영어, 특수문자 포함 12자 이상 입력해주세요.',
+                  /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?/~`])(.){8,}$/,
+                message: '숫자, 영어, 특수문자 포함 8자 이상 입력해주세요.',
               },
               validate: {
                 areEachPasswordNotEqual: (_, values) => {
@@ -182,7 +184,7 @@ export default function SignUp() {
           </Link>
         </div>
       </form>
-      <p className="mb-[26px] flex flex-row before:m-auto before:mr-2.5 before:flex-1 before:border-b before:border-solid before:content-[''] after:m-auto after:ml-2.5 after:flex-1 after:border-b after:border-solid after:content-[''] lg:mb-[40px]">
+      <p className="mb-[26px] flex flex-row text-blue-400 before:m-auto before:mr-2.5 before:flex-1 before:border-b before:border-solid before:border-blue-400 before:content-[''] after:m-auto after:ml-2.5 after:flex-1 after:border-b after:border-solid after:border-blue-400 after:content-[''] lg:mb-[40px]">
         SNS 계정으로 간편 가입하기
       </p>
       <div className="flex flex-row justify-center gap-x-[16px] *:h-[40px] *:w-[40px] lg:*:h-[60px] lg:*:w-[60px]">
@@ -204,5 +206,6 @@ export default function SignUp() {
         </Link>
       </div>
     </div>
+    </Wrapper>
   );
 }

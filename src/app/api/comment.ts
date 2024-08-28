@@ -76,14 +76,11 @@ export async function handleCommentPost(
 
 export async function getCommentsForEpigram(
   epigramId: number,
-  limit: number,
-  cursor?: number | null,
 ): Promise<CommentsResponse> {
   try {
     const res = await instance.get(`/epigrams/${epigramId}/comments`, {
       params: {
-        limit,
-        cursor,
+        limit: 9999,
       },
     });
     return res.data;
