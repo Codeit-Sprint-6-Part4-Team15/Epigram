@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import Image from 'next/image';
@@ -12,6 +12,43 @@ import FloatingButtons from '@/src/components/epigrams/FloatingButtons';
 import { Epigram } from '../../types/epigrams';
 import { getEpigrams } from '../api/epigram';
 import '../globals.css';
+import { useScrollAnimation } from '@/src/hooks/useScrollAnimation';
+import { motion, Variants } from 'framer-motion';
+import Wrapper from '@/src/components/commons/animation';
+
+interface ScrollWrapperProps {
+  children: ReactNode;
+}
+
+const feedVariant: Variants = {
+  hiddenState: { opacity: 0, y: 30 },
+  showState: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: 'spring',
+      stiffness: 50,  // 기존보다 줄임
+      damping: 10,    // 기존보다 줄임
+      duration: 1.5,  // 기존보다 늘림
+      bounce: 0.2,    // 조금 더 부드럽게
+    },
+  },
+};
+
+const ScrollWrapper = ({ children }: ScrollWrapperProps) => {
+  const { ref, animation } = useScrollAnimation();
+
+  return (
+    <motion.div
+      ref={ref}
+      variants={feedVariant}
+      initial="hidden"
+      animate={animation}
+    >
+      {children}
+    </motion.div>
+  );
+};
 
 export default function Feed() {
   const [epigrams, setEpigrams] = useState<Epigram[]>([]);
@@ -52,6 +89,8 @@ export default function Feed() {
   }, []);
 
   return (
+    
+    <Wrapper>
     <div className="flex min-h-screen flex-col items-center overflow-y-auto bg-bg-100 bg-cover">
       <FloatingButtons />
       <div className="mx-[24px] flex w-full max-w-[1200px] flex-col px-[24px] lg:px-[72px]">
@@ -86,7 +125,9 @@ export default function Feed() {
           {' '}
           {epigrams.map((epigram) => (
             <Link href={`epigrams/${epigram.id}`} key={epigram.id}>
-              <div className="mx-auto max-w-[700px] transform transition hover:scale-105 hover:duration-700">
+              
+            <ScrollWrapper>
+              <div className="mx-auto max-w-[700px] transform transition hover:scale-105 hover:duration-200">
                 <TextCard
                   id={epigram.id}
                   content={epigram.content}
@@ -94,6 +135,7 @@ export default function Feed() {
                   tags={epigram.tags}
                 />
               </div>
+              </ScrollWrapper>
             </Link>
           ))}
         </div>
@@ -115,5 +157,6 @@ export default function Feed() {
         </div>
       </div>
     </div>
+    </Wrapper>
   );
 }

@@ -24,6 +24,7 @@ import {
   postOAuthKakao,
   postSignIn,
 } from '../../api/auth';
+import Wrapper from '@/src/components/commons/animation';
 
 export default function Login() {
   const router = useRouter();
@@ -127,6 +128,7 @@ export default function Login() {
   }, []);
 
   return (
+    <Wrapper>
     <div className="block">
       <form onSubmit={handleSubmit(onSubmit)} className="last-child:mb-[24px]">
         <label className="block">
@@ -199,5 +201,6 @@ export default function Login() {
         </Link>
       </div>
     </div>
+    </Wrapper>
   );
 }
