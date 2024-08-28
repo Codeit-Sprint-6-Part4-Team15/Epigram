@@ -16,6 +16,7 @@ import { getUserMe } from '@/src/app/api/user';
 
 import DropdownMenu from '@/src/components/commons/DropdownMenu';
 import EpigramDetailPageCommentsSection from '@/src/components/epigrams/EpigramDetailPageCommentsSection';
+import Wrapper from '@/src/components/commons/animation';
 
 let USER_ID: any = null;
 
@@ -122,6 +123,7 @@ export default function EpigramDetailPage({
   }, [isDropdownOpen]);
 
   return (
+    <Wrapper>
     <div className="h-screen w-screen bg-bg-100 bg-fixed">
       <div className="absolute bg-bg-100">
         <div className="note-background flex h-auto w-screen flex-col items-center pt-[40px]">
@@ -235,5 +237,6 @@ export default function EpigramDetailPage({
         </div>
       </div>
     </div>
+    </Wrapper>
   );
 }

@@ -13,6 +13,7 @@ import TextArea from '@/src/components/commons/TextArea';
 
 import { getEpigrams, postEpigram } from '../api/epigram';
 import Loading from '../loading';
+import Wrapper from '@/src/components/commons/animation';
 
 let errorClass =
   'mt-[8px] text-state-error typo-sm-medium xl:typo-lg-regual text-right';
@@ -122,11 +123,21 @@ export default function Page() {
   };
 
   return (
+    <Wrapper>
     <div className="flex h-screen justify-center">
       <div className="ml-[24px] mr-[24px] flex h-screen flex-col">
-        <h1 className="typo-lg-semibold mt-[24px] md:typo-xl-semibold xl:typo-2xl-semibold">
+      <div className='flex items-center mt-[24px]'>
+      <Image
+              src="/assets/ic-epigram-logo.png"
+              alt="에피그램 로고"
+              width={25}
+              height={25}
+              className="mr-[6px]"
+            />
+        <h1 className="typo-lg-semibold md:typo-xl-semibold xl:typo-2xl-semibold">
           에피그램 만들기
         </h1>
+        </div>
         <form
           onSubmit={handleSubmit(onSubmitHandler)}
           className="mt-[24px] flex flex-col"
@@ -234,5 +245,6 @@ export default function Page() {
         </form>
       </div>
     </div>
+    </Wrapper>
   );
 }
