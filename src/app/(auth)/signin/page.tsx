@@ -67,7 +67,13 @@ export default function Login() {
   }, [emailValue, passwordValue, isValid]);
 
   useEffect(() => {
-    if (localStorage.getItem('access_token') !== null) router.push('/');
+    if (localStorage.getItem('access_token') !== null) {
+      router.back();
+      setTimeout(() => {
+        window.location.reload();
+      }, 100);
+      return;
+    }
     const searchParams = new URL(window.location.href).searchParams;
     const hashParams = new URLSearchParams(window.location.hash);
     if (hashParams.has('id_token')) {
@@ -91,6 +97,10 @@ export default function Login() {
     localStorage.setItem('refresh_token', response.refreshToken);
     localStorage.setItem('user', JSON.stringify(response.user));
     router.back();
+
+    setTimeout(() => {
+      window.location.reload();
+    }, 100);
   };
 
   const onAuthFailed = (response: FormErrorResponse) => {
