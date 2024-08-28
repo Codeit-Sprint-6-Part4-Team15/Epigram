@@ -128,7 +128,6 @@ export default function TodayEmotionSelector({
     setSelectedEmotion(emotion);
     try {
       await postTodayEmotion(emotion.postName ?? 'defaultPostName');
-      console.log("Posted today's emotion:", emotion.postName);
       setIsEmotionPosted(true);
       if (onEmotionPost) {
         onEmotionPost();

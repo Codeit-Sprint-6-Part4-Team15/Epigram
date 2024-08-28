@@ -1,10 +1,13 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+
+import { Epigram, EpigramTag } from '@/src/types/epigrams';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
-import { Epigram, EpigramTag } from '@/src/types/epigrams';
+
+import Loader from '@/src/components/commons/Loader';
+
 import { getEpigrams } from '../../api/epigram';
 import EmptyEpigram from './EmptyEpigram';
-import Loader from '@/src/components/commons/Loader';
 
 const LIMIT = 7;
 
@@ -23,14 +26,19 @@ const SearchEpigram: React.FC = () => {
     try {
       setLoading(true);
       const response = await getEpigrams(999, 0, searchWord); // 전체 데이터를 가져옵니다.
-      console.log(response)
       const epigramList: Epigram[] = response.list;
 
       // 태그에 포함된 경우 우선적으로 정렬
       epigramList.sort((a: Epigram, b: Epigram) => {
-        const aIncludesKeywordInTag = a.tags?.some((tag: EpigramTag) => tag.name.includes(searchWord));
-        const bIncludesKeywordInTag = b.tags?.some((tag: EpigramTag) => tag.name.includes(searchWord));
-        return (bIncludesKeywordInTag ? 1 : 0) - (aIncludesKeywordInTag ? 1 : 0);
+        const aIncludesKeywordInTag = a.tags?.some((tag: EpigramTag) =>
+          tag.name.includes(searchWord),
+        );
+        const bIncludesKeywordInTag = b.tags?.some((tag: EpigramTag) =>
+          tag.name.includes(searchWord),
+        );
+        return (
+          (bIncludesKeywordInTag ? 1 : 0) - (aIncludesKeywordInTag ? 1 : 0)
+        );
       });
 
       // 전체 데이터를 상태에 저장
@@ -44,7 +52,6 @@ const SearchEpigram: React.FC = () => {
     }
   }, [searchWord]);
 
-  
   useEffect(() => {
     if (searchWord) {
       fetchSearchEpigrams(); // 쿼리 값이 있을 경우 검색 데이터 요청
@@ -54,24 +61,30 @@ const SearchEpigram: React.FC = () => {
       setHasSearched(false); // 검색하지 않음
     }
   }, [searchWord, fetchSearchEpigrams]);
-  
+
   useEffect(() => {
     const handleScroll = () => {
-      const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-      const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
-      const clientHeight = document.documentElement.clientHeight || window.innerHeight;
-  
+      const scrollTop =
+        document.documentElement.scrollTop || document.body.scrollTop;
+      const scrollHeight =
+        document.documentElement.scrollHeight || document.body.scrollHeight;
+      const clientHeight =
+        document.documentElement.clientHeight || window.innerHeight;
+
       if (scrollTop + clientHeight >= scrollHeight - 100 && !loading) {
         if (searchWord) {
           const currentLength = epigrams.length;
           if (allEpigrams.length > currentLength) {
-            const nextEpigrams = allEpigrams.slice(currentLength, currentLength + LIMIT);
-            setEpigrams(prev => [...prev, ...nextEpigrams]);
+            const nextEpigrams = allEpigrams.slice(
+              currentLength,
+              currentLength + LIMIT,
+            );
+            setEpigrams((prev) => [...prev, ...nextEpigrams]);
           }
-        } 
+        }
       }
     };
-  
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [loading, epigrams.length, allEpigrams, searchWord, cursor]);
@@ -89,7 +102,7 @@ const SearchEpigram: React.FC = () => {
         </span>
       ) : (
         part
-      )
+      ),
     );
   }, []);
 
@@ -97,31 +110,38 @@ const SearchEpigram: React.FC = () => {
     router.push(`/epigrams/${id}`);
   };
   return (
-    <div className='mt-[10px] w-[360px] md:mt-[16px] md:w-[384px] xl:mt-[24px] xl:w-[640px] xl:text-[20px]'>
-      <div className='mb-[30px]'>
+    <div className="mt-[10px] w-[360px] md:mt-[16px] md:w-[384px] xl:mt-[24px] xl:w-[640px] xl:text-[20px]">
+      <div className="mb-[30px]">
         {loading ? ( // 로딩 중일 경우 Loader 컴포넌트 표시
           <Loader />
         ) : epigrams.length > 0 ? (
           epigrams.map((epigram, index) => (
             <div
-              className='flex border-b border-gray-100 hover:border-blue-500 transition-all duration-100 flex-col gap-[8px] py-[16px] px-[24px] xl:py-[24px] xl:gap-[16px] cursor-pointer'
+              className="flex cursor-pointer flex-col gap-[8px] border-b border-gray-100 px-[24px] py-[16px] transition-all duration-100 hover:border-blue-500 xl:gap-[16px] xl:py-[24px]"
               key={`${epigram.id}-${index}`}
               onClick={() => handleItemClick(epigram.id)}
             >
-              <div className='flex flex-col font-iropke gap-[4px] md:gap-[8px] xl:gap-[24px]'>
-                <div className='text-black-600'>{highlightText(epigram.content, searchWord)}</div>
-                <div className='text-blue-400'>- {highlightText(epigram.author, searchWord)} -</div>
-              </div>
-              <div className='flex gap-[12px] justify-end'>
-              {epigram.tags && epigram.tags.length > 0 ? (
-              epigram.tags.map((tag, tagIndex) => (
-                <div className='text-blue-400 font-pretendard font-normal' key={`${tag.name}-${tagIndex}`}>
-                  #{highlightText(tag.name, searchWord)}
+              <div className="flex flex-col gap-[4px] font-iropke md:gap-[8px] xl:gap-[24px]">
+                <div className="text-black-600">
+                  {highlightText(epigram.content, searchWord)}
                 </div>
-                ))
-              ) : (
-              <div className='text-blue-300'>태그없음</div>
-              )}
+                <div className="text-blue-400">
+                  - {highlightText(epigram.author, searchWord)} -
+                </div>
+              </div>
+              <div className="flex justify-end gap-[12px]">
+                {epigram.tags && epigram.tags.length > 0 ? (
+                  epigram.tags.map((tag, tagIndex) => (
+                    <div
+                      className="font-pretendard font-normal text-blue-400"
+                      key={`${tag.name}-${tagIndex}`}
+                    >
+                      #{highlightText(tag.name, searchWord)}
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-blue-300">태그없음</div>
+                )}
               </div>
             </div>
           ))
