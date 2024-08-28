@@ -2,15 +2,11 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
-
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
-
 import useDetectClose from '@/src/hooks/useDetectClose';
 import useModal from '@/src/hooks/useModal';
-
 import { deleteEpigram } from '@/src/app/api/epigram';
-
 import Loader from './Loader';
 import ConfirmModal from './Modal/ConfirmModal';
 import Modal from './Modal/Modal';

@@ -23,6 +23,7 @@ import {
   postOAuthKakao,
   postSignUp,
 } from '../../api/auth';
+import Wrapper from '@/src/components/commons/animation';
 
 export default function SignUp() {
   const router = useRouter();
@@ -86,6 +87,7 @@ export default function SignUp() {
   };
 
   return (
+    <Wrapper>
     <div className="block">
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -204,5 +206,6 @@ export default function SignUp() {
         </Link>
       </div>
     </div>
+    </Wrapper>
   );
 }

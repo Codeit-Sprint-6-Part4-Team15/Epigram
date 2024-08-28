@@ -1,5 +1,6 @@
 'use client';
 
+import Wrapper from '@/src/components/commons/animation';
 import { ClientSideUser } from '@/src/components/epigrams/ClientSideUserId';
 import EpigramsContainer from '@/src/components/epigrams/EpigramsContainer';
 import TodayEpigram from '@/src/components/epigrams/TodayEpigram';
@@ -11,6 +12,7 @@ export default async function EpigramsPage() {
     window.scrollTo(0, 0);
   },[]);
   return (
+    <Wrapper>
     <div className="flex min-h-[100vh] flex-col items-center bg-bg-100">
       <div className="w-[384px] max-w-[90%] py-[36px] xl:w-[640px] xl:py-[80px]">
         <h3 className="typo-lg-semibold mb-[16px] text-black-600 xl:typo-2xl-semibold xl:mb-[40px]">
@@ -39,5 +41,6 @@ export default async function EpigramsPage() {
         <CommentsContainer type="recent" />
       </div>
     </div>
+    </Wrapper>
   );
 }
