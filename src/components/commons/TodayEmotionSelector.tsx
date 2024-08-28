@@ -68,7 +68,6 @@ export default function TodayEmotionSelector({
 }: EmotionSelectorProps) {
   const [selectedEmotion, setSelectedEmotion] = useState<Emotion | null>(null);
   const [isEmotionPosted, setIsEmotionPosted] = useState<boolean>(false);
-  const [hasConfirmed, setHasConfirmed] = useState<boolean>(false);
 
   const getTodayDateInLocal = (): Date => {
     const now = new Date();
@@ -114,12 +113,6 @@ export default function TodayEmotionSelector({
   const handleEmotionClick = async (emotion: Emotion) => {
     if (!userId) {
       toast.error('로그인이 필요합니다');
-      return;
-    }
-
-    if (!hasConfirmed) {
-      toast.info('오늘의 감정은 하루에 한 번만 선택할 수 있습니다.');
-      setHasConfirmed(true);
       return;
     }
 
