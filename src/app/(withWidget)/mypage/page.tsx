@@ -9,6 +9,7 @@ import ChartContainer from '@/src/components/myPage/ChartContainer';
 import EmotionCalendar from '@/src/components/myPage/EmotionCalender';
 import MyContents from '@/src/components/myPage/MyContents';
 import UserInfo from '@/src/components/myPage/UserInfo';
+import Wrapper from '@/src/components/commons/animation';
 
 function formatDate(date: Date): string {
   return new Intl.DateTimeFormat('ko-KR', {
@@ -50,6 +51,7 @@ export default function MyPage() {
   };
 
   return (
+    <Wrapper>
     <div className="flex min-h-[100vh] flex-col items-center bg-bg-100 pt-[64px] xl:pt-[128px]">
       <div className="shadow-1 flex w-full flex-col items-center rounded-[24px] bg-white">
         <div className="relative -mt-[40px] flex flex-col items-center gap-[8px] xl:-mt-[60px] xl:gap-[16px]">
@@ -104,5 +106,6 @@ export default function MyPage() {
         <MyContents />
       </div>
     </div>
+    </Wrapper>
   );
 }
