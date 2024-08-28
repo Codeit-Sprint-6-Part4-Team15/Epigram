@@ -12,7 +12,7 @@ import {
   handleCommentEdit,
 } from '../../app/api/comment';
 import Comment from '../commons/Comment';
-import Loader from '../commons/Loader';
+import DotLoader from '../commons/DotLoader';
 import LoadingError from '../commons/LoadingError';
 
 interface CommentsContainerProps {
@@ -42,7 +42,7 @@ export default function CommentsContainer({
   }, []);
 
   const fetchComments = useCallback(async () => {
-    if (userId === 0) return;
+    if (type === 'my' && userId === 0) return;
 
     setIsLoading(true);
     try {
@@ -89,7 +89,7 @@ export default function CommentsContainer({
   };
 
   useEffect(() => {
-    if (userId !== 0) {
+    if ((type === 'my' && userId !== 0) || type === 'recent') {
       fetchComments();
     }
   }, [fetchComments, userId]);
@@ -106,7 +106,6 @@ export default function CommentsContainer({
             onUpdate={fetchComments}
           />
         ))}
-        {isLoading && <Loader />}
         {loadingError && <LoadingError>{loadingError?.message}</LoadingError>}
       </div>
       {cursor !== null && (
@@ -116,12 +115,16 @@ export default function CommentsContainer({
           disabled={isLoading}
           className="typo-md-medium flex items-center gap-[4px] rounded-[100px] border border-line-200 px-[18px] py-[12px] text-blue-500 xl:typo-xl-medium xl:px-[40px]"
         >
-          <Image
-            src="/assets/ic_plus.svg"
-            width={24}
-            height={24}
-            alt="아이콘"
-          />
+          {isLoading ? (
+            <DotLoader />
+          ) : (
+            <Image
+              src="/assets/ic_plus.svg"
+              width={24}
+              height={24}
+              alt="아이콘"
+            />
+          )}
           <span>최신 댓글 더보기</span>
         </button>
       )}

@@ -12,9 +12,14 @@ import FileInput from '../FileInput';
 interface ProfileModalProps {
   user: User;
   onClose: () => void;
+  onUpdate: () => void;
 }
 
-export default function ProfileEditModal({ user, onClose }: ProfileModalProps) {
+export default function ProfileEditModal({
+  user,
+  onClose,
+  onUpdate,
+}: ProfileModalProps) {
   const [fileValue, setFileValue] = useState<File | null>(null);
 
   const handlePatch = async () => {
@@ -25,6 +30,7 @@ export default function ProfileEditModal({ user, onClose }: ProfileModalProps) {
 
       if (imageUrl) {
         await patchUserInfo(imageUrl, user.nickname);
+        onUpdate();
         onClose();
       }
     }

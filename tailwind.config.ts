@@ -10,7 +10,7 @@ const config: Config = {
   theme: {
     extend: {
       screens: {
-        '2xs': '368px',
+        '2xs': '500px',
         md: '744px',
         // => @media (min-width: 744px) { ... }
         xl: '1200px',
@@ -152,10 +152,15 @@ const config: Config = {
           '80%': { transform: 'translate(1px, 1px) rotate(0)' },
           '90%': { transform: 'translate(0px, 0px) rotate(0)' },
         },
+        wave: {
+          '0%, 60%, 100%': { transform: 'initial' },
+          '30%': { transform: 'translateY(-15px)' },
+        },
       },
       animation: {
         shake: 'shake 0.2s ease-in-out',
         vibrate: 'vibrate 0.2s linear 1',
+        wave: 'wave 1s linear infinite',
       },
     },
   },

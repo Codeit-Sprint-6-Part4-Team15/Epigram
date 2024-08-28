@@ -45,12 +45,12 @@ export default function UserInfo() {
     return userData;
   };
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const userData = await getUser();
-      setUser(userData);
-    };
+  const fetchUser = async () => {
+    const userData = await getUser();
+    setUser(userData);
+  };
 
+  useEffect(() => {
     fetchUser();
   }, []);
 
@@ -92,7 +92,11 @@ export default function UserInfo() {
         로그아웃
       </button>
       <Modal opened={isProfileEditModalOpened} onClose={closeProfileEditModal}>
-        <ProfileEditModal user={user!} onClose={closeProfileEditModal} />
+        <ProfileEditModal
+          user={user!}
+          onClose={closeProfileEditModal}
+          onUpdate={fetchUser}
+        />
       </Modal>
     </>
   );
