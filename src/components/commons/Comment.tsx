@@ -120,13 +120,15 @@ export default function Comment({
       className="w-full rounded border-t border-line-200 bg-bg-100 px-6 py-4"
     >
       <div className="flex items-start space-x-4">
-        <Image
-          src={comment.writer.image ?? IcoUser}
-          width={48}
-          height={48}
-          alt="프로필"
-          className="rounded-full bg-white"
-        />
+        <figure className="h-[48px] w-[48px]">
+          <Image
+            src={comment.writer.image ?? IcoUser}
+            width={48}
+            height={48}
+            alt="프로필"
+            className="h-full w-full rounded-full bg-white object-cover"
+          />
+        </figure>
         {isEdit ? (
           <div className="w-full">
             <textarea
