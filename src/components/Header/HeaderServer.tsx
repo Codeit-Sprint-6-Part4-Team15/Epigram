@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import DotLoader from '../commons/DotLoader';
+import Loader from '../commons/Loader';
 import HeaderClient from './HeaderClient';
 
 type HeaderProps = {
@@ -57,9 +58,7 @@ function HeaderServer({ user, isLoggedIn, isLoading, pathname }: HeaderProps) {
             </div>
           </Link>
           {isLoading ? (
-            <div className="flex h-[32px] w-[65px] items-center justify-center">
-              <DotLoader />
-            </div>
+            <Loader isButtonStyle={true} />
           ) : isLoggedIn ? (
             <HeaderClient user={user} isLoggedIn={isLoggedIn} />
           ) : (
