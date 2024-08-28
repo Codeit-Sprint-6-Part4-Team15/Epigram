@@ -40,7 +40,8 @@ export async function getEpigramById(id: number) {
   try {
     const response = await instance.get(`/epigrams/${id}`);
     return response.data;
-  } catch (error) {
+  } catch (error:any) {
+    console.error(`API 호출 실패: ${error.message}`, error.response?.data);
     throw new Error(`${id}번 에피그램을 불러오는데 실패했습니다.`);
   }
 }

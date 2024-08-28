@@ -24,7 +24,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
+        <head>
+        <link rel="icon" href="/favicon.ico" />
+      </head>
       <body>
+        <link rel="icon" href="./favicon.ico" sizes="any" />
         <div>
           <Header />
           <ToastContainer autoClose={2000} />
