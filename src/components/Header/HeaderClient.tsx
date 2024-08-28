@@ -57,16 +57,16 @@ export default function HeaderClient({ user, isLoggedIn }: HeaderClientProps) {
         />
       </button>
       {isDropdownOpen && (
-        <ul className="typo-md-regular absolute right-[10px] flex w-[80px] flex-col items-center justify-center rounded-[16px] border-[1px] border-blue-300 bg-bg-100 xl:typo-xl-regular xl:w-[120px]">
+        <ul className="typo-md-regular absolute right-0 flex w-[100px] flex-col items-center justify-center rounded-[16px] border-[1px] border-blue-300 bg-bg-100 xl:typo-xl-regular xl:w-[120px]">
           <Link
             href="/mypage"
             onClick={() => setIsDropdownOpen(false)}
-            className="typo-md-medium my-[8px] cursor-pointer xl:typo-xl-medium hover:text-black-100 xl:my-[12px]"
+            className="typo-md-medium mt-[10px] cursor-pointer xl:typo-xl-medium hover:text-black-100 xl:mt-[16px]"
           >
             마이페이지
           </Link>
           <li
-            className="typo-md-medium my-[8px] cursor-pointer text-[12px] text-blue-600 xl:typo-xl-medium hover:text-blue-400 xl:my-[12px] xl:text-[16px]"
+            className="typo-md-medium my-[10px] cursor-pointer text-[12px] text-blue-600 xl:typo-xl-medium hover:text-blue-400 xl:my-[12px] xl:text-[16px]"
             onClick={handleLogout}
           >
             로그아웃
