@@ -2,7 +2,7 @@ import { User } from '@/src/types/user';
 
 import instance from './axios';
 
-export async function getUserMe() {
+export async function getUserMe(req: any) {
   try {
     const res = await instance.get('/users/me');
     return res.data as User;
