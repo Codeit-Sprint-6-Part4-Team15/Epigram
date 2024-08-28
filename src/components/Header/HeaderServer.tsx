@@ -22,14 +22,16 @@ function HeaderServer({ user, isLoggedIn, isLoading, pathname }: HeaderProps) {
     <nav className="sticky top-0 z-10 w-full bg-white">
       <div className="overflow:hidden flex h-[52px] w-full items-center justify-between border-b border-line-300 px-[24px] md:h-[60px] md:px-[48px] xl:h-[80px] xl:px-[88px]">
         <div className="flex">
-          <Image
-            priority={true}
-            width={101}
-            height={50}
-            className="h-[50px] w-[101px] cursor-pointer md:h-[58px] xl:h-[78px] xl:w-[170px]"
-            src="/assets/logo.svg"
-            alt="epigramLogo"
-          />
+          <Link href="/">
+            <Image
+              priority={true}
+              width={101}
+              height={50}
+              className="h-[50px] w-[101px] cursor-pointer md:h-[58px] xl:h-[78px] xl:w-[170px]"
+              src="/assets/logo.svg"
+              alt="epigramLogo"
+            />
+          </Link>
         </div>
         <div className="flex items-center gap-[6px] md:gap-[8px]">
           {isLoggedIn && (
