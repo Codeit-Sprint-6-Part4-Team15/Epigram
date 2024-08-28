@@ -61,7 +61,7 @@ export default function HeaderClient({ user, isLoggedIn }: HeaderClientProps) {
           <Link
             href="/mypage"
             onClick={() => setIsDropdownOpen(false)}
-            className="typo-md-medium mt-[10px] cursor-pointer xl:typo-xl-medium hover:text-black-100 xl:my-[12px]"
+            className="typo-md-medium mt-[10px] cursor-pointer xl:typo-xl-medium hover:text-black-100 xl:mt-[16px]"
           >
             마이페이지
           </Link>
