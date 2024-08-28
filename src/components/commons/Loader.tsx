@@ -1,20 +1,6 @@
-// Loader.tsx
-import React from 'react';
-
-type LoaderProps = {
-  isButtonStyle?: boolean;
-};
-
-export default function Loader({ isButtonStyle }: LoaderProps) {
+export default function Loader() {
   return (
-    <div
-      role="status"
-      className={`flex items-center justify-center ${
-        isButtonStyle
-          ? 'h-[32px] w-[65px] rounded-3xl bg-black-500 px-[14px] py-[6px] md:h-[37px] md:w-[73px] md:px-[18px] md:py-[8px] xl:h-[43px] xl:w-[90px] xl:px-[24px] xl:py-[12px]'
-          : ''
-      }`}
-    >
+    <div role="status" className="flex h-full justify-center">
       <svg
         aria-hidden="true"
         className="h-6 w-6 animate-spin fill-blue-600 text-gray-200 dark:text-gray-600"

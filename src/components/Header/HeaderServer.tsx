@@ -20,7 +20,7 @@ function HeaderServer({ user, isLoggedIn, isLoading, pathname }: HeaderProps) {
 
   return (
     <nav className="sticky top-0 z-10 w-full bg-white">
-      <div className="flex h-[52px] w-full items-center justify-between border-b border-line-300 px-[24px] md:h-[60px] md:px-[48px] xl:h-[80px] xl:px-[88px]">
+      <div className="overflow:hidden flex h-[52px] w-full items-center justify-between border-b border-line-300 px-[24px] md:h-[60px] md:px-[48px] xl:h-[80px] xl:px-[88px]">
         <div className="flex">
           <Image
             priority={true}
@@ -58,7 +58,9 @@ function HeaderServer({ user, isLoggedIn, isLoading, pathname }: HeaderProps) {
             </div>
           </Link>
           {isLoading ? (
-            <Loader isButtonStyle={true} />
+            <div className="flex h-[32px] w-[65px] cursor-pointer items-center justify-center rounded-3xl bg-black-500 px-[14px] py-[6px] text-[12px] text-white transition-colors duration-100 hover:bg-black-600 md:h-[37px] md:w-[73px] md:px-[18px] md:py-[8px] md:text-[14px] xl:h-[43px] xl:w-[90px] xl:px-[24px] xl:py-[12px] xl:text-[16px]">
+              <Loader />
+            </div>
           ) : isLoggedIn ? (
             <HeaderClient user={user} isLoggedIn={isLoggedIn} />
           ) : (
