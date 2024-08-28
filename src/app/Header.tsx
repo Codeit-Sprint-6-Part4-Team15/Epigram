@@ -35,7 +35,7 @@ export default function Header() {
       setIsLoggedIn(false);
       setIsLoading(false);
     }
-  }, []);
+  }, [pathname]);
 
   return (
     <div>

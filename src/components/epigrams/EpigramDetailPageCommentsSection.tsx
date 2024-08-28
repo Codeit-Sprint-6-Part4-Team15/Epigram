@@ -151,7 +151,7 @@ export default function EpigramDetailPageCommentsSection({
             alt="User Profile"
             width={48}
             height={48}
-            className="rounded-full"
+            className="rounded-full w-[48px] h-[48px] object-cover"
           />
           <div className="flex-1">
             <TextArea

@@ -53,16 +53,16 @@ export default function HeaderClient({ user, isLoggedIn }: HeaderClientProps) {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={handleToggleDropdown}
-        className="flex cursor-pointer items-center justify-center rounded-full p-[6px] hover:bg-blue-200 md:p-[8px] xl:p-[12px]"
+        className="flex cursor-pointer items-center justify-center rounded-full"
       >
         <img
           src={user?.image ?? '/assets/ic_user.svg'}
           alt="profileIcon"
-          className="h-[20px] w-[20px] rounded-full object-cover md:h-[28px] md:w-[28px] xl:h-[36px] xl:w-[36px]"
+          className="h-[20px] w-[20px] rounded-full object-cover md:h-[28px] md:w-[28px] xl:h-[36px] xl:w-[36px] transition-transform duration-200 ease-in-out hover:scale-110" // 애니메이션 추가
         />
       </button>
       {isDropdownOpen && (
-        <ul className="typo-md-regular absolute right-0 flex w-[100px] flex-col items-center justify-center rounded-[16px] border-[1px] border-blue-300 bg-bg-100 xl:typo-xl-regular xl:w-[120px]">
+        <ul className="typo-md-regular absolute right-0 flex w-[100px] flex-col items-center top-6 justify-center rounded-[16px] border-[1px] border-blue-300 bg-bg-100 xl:typo-xl-regular md:top-8 xl:top-11 xl:w-[120px]">
           <Link
             href="/mypage"
             onClick={() => setIsDropdownOpen(false)}
