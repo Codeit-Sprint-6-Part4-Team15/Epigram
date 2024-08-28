@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-
 import closeIcon from '@/public/assets/ic_close_bk.svg';
 import hamberger from '@/public/assets/ic_hamberger.svg';
 import searchIcon from '@/public/assets/ic_search.svg';
@@ -10,69 +9,72 @@ import epigramLogo from '@/public/assets/logo.svg';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-
 import Loader from '../components/commons/Loader';
 import { User } from '../types/auth';
 import instance from './api/axios';
 
 function Header() {
   const pathname = usePathname();
+  const router = useRouter();
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+  
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<User | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const router = useRouter();
-  const dropdownRef = useRef<HTMLDivElement | null>(null); // 드롭다운을 참조하기 위한 ref
 
   const handleToggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev);
   };
 
   const handleClickOutside = (event: MouseEvent) => {
-    if (
-      dropdownRef.current &&
-      !dropdownRef.current.contains(event.target as Node)
-    ) {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
       setIsDropdownOpen(false);
     }
   };
 
-  useEffect(() => {
-    // 이벤트 리스너 등록
-    document.addEventListener('click', handleClickOutside);
-    return () => {
-      // 컴포넌트 언마운트 시 이벤트 리스너 제거
-      document.removeEventListener('click', handleClickOutside);
-    };
-  }, []);
-
   const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
+    setIsSidebarOpen((prev) => !prev);
   };
 
   const getUser = async () => {
-    let userData;
-    setIsLoading(true);
     try {
       const res = await instance.get('users/me');
-      userData = await res.data;
+      return res.data;
     } catch (error) {
       console.error('유저 데이터를 불러오는데 실패했습니다.', error);
-    } finally {
-      setIsLoading(false);
+      return null;
     }
-    return userData;
+  };
+
+  const checkLoginStatus = () => {
+    const token = localStorage.getItem('access_token');
+    setIsLoggedIn(!!token);
+    return token;
   };
 
   useEffect(() => {
     const fetchUser = async () => {
-      const userData = await getUser();
-      setUser(userData);
+      const token = checkLoginStatus();
+      if (token) {
+        const userData = await getUser();
+        setUser(userData);
+      }
+      setIsLoading(false);
     };
+    if (isSidebarOpen) {
+      setIsSidebarOpen(false);
+    }
 
     fetchUser();
-  }, []);
+    document.addEventListener('click', handleClickOutside);
+    
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [pathname]);
+
   const handleLogout = () => {
     localStorage.removeItem('access_token');
     localStorage.removeItem('user');
@@ -80,30 +82,6 @@ function Header() {
     router.replace('/'); // 홈 페이지로 리다이렉트
     window.location.reload(); // 페이지 새로 고침
   };
-
-  const checkLoginStatus = () => {
-    const token = localStorage.getItem('access_token');
-    setIsLoggedIn(!!token);
-  };
-
-  useEffect(() => {
-    checkLoginStatus(); // 컴포넌트가 처음 렌더링될 때 로그인 상태 체크
-
-    if (isSidebarOpen) {
-      setIsSidebarOpen(false);
-    }
-  }, [pathname]); // pathname이 변경될 때마다 로그인 상태 체크
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      if (isLoggedIn) {
-        const userData = await getUser();
-        setUser(userData);
-      }
-    };
-
-    fetchUser();
-  }, [isLoggedIn]);
 
   const renderNavBarContent = () => {
     if (
@@ -129,7 +107,7 @@ function Header() {
                 priority={true}
                 width={101}
                 height={50}
-                className="cursor-pointer md:h-[58px] xl:h-[78px] xl:w-[170px]"
+                className="w-[101px] h-[50px] cursor-pointer md:h-[58px] xl:h-[78px] xl:w-[170px]"
                 src={epigramLogo}
                 alt="epigramLogo"
               />
@@ -153,6 +131,8 @@ function Header() {
             <Link href="/search">
               <div className="2xs:flex hidden items-center justify-center rounded-full p-[6px] hover:bg-blue-200 md:p-[8px] xl:p-[12px]">
                 <Image
+                  width={20}
+                  height={20}
                   className="h-[20px] w-[20px] cursor-pointer md:h-[28px] md:w-[28px] xl:h-[36px] xl:w-[36px]"
                   src={searchIcon}
                   alt="searchIcon"
@@ -173,7 +153,7 @@ function Header() {
                   마이페이지
                 </Link>
                 <li
-                  className="typo-md-medium cursor-pointer my-[8px] xl:typo-xl-medium hover:text-black-100 xl:my-[12px]"
+                  className="typo-md-medium text-blue-600 text-[12px] xl:text-[16px] cursor-pointer my-[8px] xl:typo-xl-medium hover:text-blue-400 xl:my-[12px]"
                   onClick={handleLogout}
                 >
                   로그아웃
@@ -184,7 +164,7 @@ function Header() {
             ) : (
               <Link
                 href="/signin"
-                className="flex cursor-pointer items-center justify-center rounded-3xl bg-black-500 px-[14px] py-[6px] text-[12px] text-white transition-colors duration-100 hover:bg-black-600 md:px-[18px] md:py-[8px] md:text-[14px] xl:px-[24px] xl:py-[12px] xl:text-[16px]"
+                className="flex w-[65px] h-[32px] md:w-[73px] md:h-[37px] xl:w-[90px] xl:h-[43px] cursor-pointer items-center justify-center rounded-3xl bg-black-500 px-[14px] py-[6px] text-[12px] text-white transition-colors duration-100 hover:bg-black-600 md:px-[18px] md:py-[8px] md:text-[14px] xl:px-[24px] xl:py-[12px] xl:text-[16px]"
               >
                 로그인
               </Link>
