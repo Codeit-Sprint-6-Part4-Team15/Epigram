@@ -1,4 +1,6 @@
-import { PostEpigramData } from '../../types/epigrams';
+import { SWRResponse } from 'swr';
+
+import { EpigramsResponse, PostEpigramData } from '../../types/epigrams';
 import instance from './axios';
 
 //에피그램 목록 조회
@@ -82,7 +84,10 @@ export async function getMyEpigrams(id: number, limit: number, cursor: number) {
   return comments;
 }
 
-export async function getRecentEpigrams(limit: number, cursor: number) {
+export async function getRecentEpigrams(
+  limit: number,
+  cursor: number,
+): Promise<any> {
   let comments;
   try {
     const res = await instance.get('/epigrams', {
@@ -99,12 +104,14 @@ export async function getRecentEpigrams(limit: number, cursor: number) {
 }
 
 //에피그램 좋아요 POST
-export async function likeEpigram( epigramId: number) {
+export async function likeEpigram(epigramId: number) {
   try {
     const response = await instance.post(`/epigrams/${epigramId}/like`);
     return response.data;
   } catch (error) {
-    throw new Error(`${epigramId}번 에피그램에 좋아요를 추가하는데 실패했습니다.`);
+    throw new Error(
+      `${epigramId}번 에피그램에 좋아요를 추가하는데 실패했습니다.`,
+    );
   }
 }
 
@@ -114,6 +121,8 @@ export async function unlikeEpigram(epigramId: number) {
     const response = await instance.delete(`/epigrams/${epigramId}/like`);
     return response.data;
   } catch (error) {
-    throw new Error(`${epigramId}번 에피그램에 좋아요를 취소하는데 실패했습니다.`);
+    throw new Error(
+      `${epigramId}번 에피그램에 좋아요를 취소하는데 실패했습니다.`,
+    );
   }
 }

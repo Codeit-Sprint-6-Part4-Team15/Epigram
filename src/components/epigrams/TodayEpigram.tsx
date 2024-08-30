@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 
+import Link from 'next/link';
+
 import instance from '../../app/api/axios';
 import { Epigram } from '../../types/epigrams';
 import Loader from '../commons/Loader';
@@ -12,6 +14,7 @@ export default function TodayEpigram() {
   const [todayEpigram, setTodayEpigram] = useState<Epigram | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [loadingError, setLoadingError] = useState<Error | null>(null);
+  const [epigramId, setEpigramId] = useState(0);
 
   const getTodayEpigram = async () => {
     let todayEpigramData;
@@ -22,6 +25,7 @@ export default function TodayEpigram() {
         res = await instance.get('epigrams/222');
       }
       todayEpigramData = await res.data;
+      setEpigramId(res.data.id);
     } catch (error) {
       console.error('오늘의 에피그램 데이터를 불러오는데 실패했습니다.', error);
       setLoadingError(error as Error);
@@ -49,12 +53,14 @@ export default function TodayEpigram() {
 
   return (
     <>
-      <TextCard
-        id={todayEpigram?.id ?? 0}
-        content={todayEpigram?.content ?? ''}
-        author={todayEpigram?.author ?? ''}
-        tags={todayEpigram?.tags ?? []}
-      />
+      <Link key={epigramId} href={`epigrams/${epigramId}`}>
+        <TextCard
+          id={todayEpigram?.id ?? 0}
+          content={todayEpigram?.content ?? ''}
+          author={todayEpigram?.author ?? ''}
+          tags={todayEpigram?.tags ?? []}
+        />
+      </Link>
     </>
   );
 }
