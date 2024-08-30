@@ -17,7 +17,7 @@ interface ChartContainerProps {
   userId: number;
   year: number;
   month: number;
-  refreshKey: number;
+  key: number;
 }
 
 type Item = {
@@ -112,7 +112,7 @@ export default function ChartContainer({
   userId,
   year,
   month,
-  refreshKey,
+  key,
 }: ChartContainerProps) {
   const { data, error, isValidating } = useSWR(
     ['emotionLogs/monthly', userId, year, month],
