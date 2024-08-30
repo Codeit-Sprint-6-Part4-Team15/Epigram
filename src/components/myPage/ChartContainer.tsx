@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 
 import IMG_EMOTION from '@/public/assets/emotionChart';
 import { EmotionData } from '@/src/types/emotion';
+import useSWR from 'swr';
 
 import instance from '@/src/app/api/axios';
 
@@ -111,28 +112,12 @@ export default function ChartContainer({
   year,
   month,
 }: ChartContainerProps) {
-  const [data, setData] = useState<EmotionData[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [loadingError, setLoadingError] = useState<Error | null>(null);
+  const { data, error, isLoading } = useSWR('emotionLogs/monthly', () =>
+    getMonthlyData(userId, year, month),
+  );
 
-  const fetchData = async () => {
-    setLoading(true);
-    try {
-      const result = await getMonthlyData(userId, year, month);
-      setData(result);
-    } catch (error: any) {
-      setLoadingError(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, [userId, year, month]);
-
-  if (loading) return <Loader />;
-  if (loadingError) return <LoadingError>{loadingError?.message}</LoadingError>;
+  if (isLoading) return <Loader />;
+  if (error) return <LoadingError>{error?.message}</LoadingError>;
 
   return (
     <div>

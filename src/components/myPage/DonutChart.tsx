@@ -7,7 +7,7 @@ import { EmotionChartData, EmotionData } from '@/src/types/emotion';
 import Image from 'next/image';
 
 interface DonutChartProps {
-  data: EmotionData[];
+  data: EmotionData[] | undefined;
 }
 
 const sortAndCalculateDeg = (data: EmotionData[]): EmotionChartData[] => {
@@ -31,7 +31,7 @@ const SPACE_LENGTH = (OUTLINE_WIDTH * 2 * 360) / 100 / Math.PI;
 
 export default function DonutChart({ data }: DonutChartProps) {
   const [sortedData, setSortedData] = useState<EmotionChartData[]>(
-    sortAndCalculateDeg(data),
+    sortAndCalculateDeg(data ?? []),
   );
 
   const [bestEmotion, setBestEmotion] = useState<EmotionChartData | null>(
