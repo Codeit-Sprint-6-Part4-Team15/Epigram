@@ -1,9 +1,8 @@
-# Epigram✉️
+
 
 ## 프로젝트 소개
 Epigram은 감정상태에 따른 명언과 글귀들을 열람하고 공유하는 서비스입니다.
 
----
 
 ## 팀원 소개
 
@@ -16,10 +15,12 @@ Epigram은 감정상태에 따른 명언과 글귀들을 열람하고 공유하�
 </div>
 <br>
 
----
 
 ## 배포 
 <https://epigram-one.vercel.app/>
+
+## 협업 노션
+<https://first-shift-ecd.notion.site/c172523c1d07470eaab4be0e4daeaf0d/>
 
 ## 개발 기간
 
