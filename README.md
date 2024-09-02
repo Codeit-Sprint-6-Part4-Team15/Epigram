@@ -11,12 +11,15 @@ Epigram은 감정상태에 따른 명언과 글귀들을 열람하고 공유하�
 
 | 팀장 임찬호 | 이율 | 곽서연 | 이동석 | 최태중 |
 | :------: | :------: | :------: | :------: | :------: |
-| [<img src="https://www.svgrepo.com/show/58873/male-user-shadow.svg" height=150 width=150> <br/> 임찬호](https://github.com/Lee-Dong-Seok) | [<img src="https://cdn.discordapp.com/attachments/1260546219512692777/1278991025708470283/1725005614139.jpg?ex=66d2d0b7&is=66d17f37&hm=6e463980433408b3b1e5d978505a268e1b89f32cd362e114e0818c4cf2f54f86&" height=150 width=150> <br/> 이율](https://github.com/tkddbs587) | [<img src="https://www.svgrepo.com/show/58873/male-user-shadow.svg" height=150 width=150> <br/> 곽서연](https://github.com/JiminN2) | [<img src="https://www.svgrepo.com/show/58873/male-user-shadow.svg" height=150 width=150> <br/> 이동석](https://github.com/hnitam) | [<img src="https://www.svgrepo.com/show/58873/male-user-shadow.svg" height=150 width=150> <br/> 최태중](https://github.com/emotigom) |
+| [<img src="https://www.svgrepo.com/show/58873/male-user-shadow.svg" height=150 width=150> <br/> 임찬호](https://github.com/CHAN-H0) | [<img src="https://cdn.discordapp.com/attachments/1260546219512692777/1278991025708470283/1725005614139.jpg?ex=66d2d0b7&is=66d17f37&hm=6e463980433408b3b1e5d978505a268e1b89f32cd362e114e0818c4cf2f54f86&" height=150 width=150> <br/> 이율](https://github.com/yulrang) | [<img src="https://www.svgrepo.com/show/58873/male-user-shadow.svg" height=150 width=150> <br/> 곽서연](https://github.com/yeonilil) | [<img src="https://www.svgrepo.com/show/58873/male-user-shadow.svg" height=150 width=150> <br/> 이동석](https://github.com/Lee-Dong-Seok) | [<img src="https://www.svgrepo.com/show/58873/male-user-shadow.svg" height=150 width=150> <br/> 최태중](https://github.com/dotw0xff) |
 
 </div>
 <br>
 
 ---
+
+## 배포 
+<https://epigram-one.vercel.app/>
 
 ## 개발 기간
 
@@ -34,8 +37,6 @@ Epigram은 감정상태에 따른 명언과 글귀들을 열람하고 공유하�
 - 리팩토링 8/22~8/29
 - 발표 8/30
 
----
-
 ## 기술 스택
 ### 주요 기술
 <img src="https://img.shields.io/badge/typescript-3178C6?style=flat&logo=typescript&logoColor=white"/> <img src="https://img.shields.io/badge/react-181717?style=flat&logo=react&logoColor=white"/><img src="https://img.shields.io/badge/Next.js-000000?style=flat&logo=nextdotjs&logoColor=white"/> <img src="https://img.shields.io/badge/Axios-5A29E4?style=flat&logo=Axios&logoColor=white"/> <img src="https://img.shields.io/badge/npm-CB3837?style=flat&logo=npm&logoColor=white"/> <img src="https://img.shields.io/badge/tailwind%20Css-06B6D4?style=flat&logo=tailwindcss&logoColor=white"/>
@@ -47,7 +48,6 @@ Epigram은 감정상태에 따른 명언과 글귀들을 열람하고 공유하�
 
 </br>
 
----
 
 ## 후기
 
@@ -71,8 +71,3 @@ Epigram은 감정상태에 따른 명언과 글귀들을 열람하고 공유하�
   - 느낀점 :
     - 앱라우트와 서버사이드, 클라이언트사이드에 대한 이해도가 올라갔다.
     - 사용자의 입장에서 스트레스나 불편함을 느낄 수 있는 부분들에 대해서 여러 관점에서 보고 수정을 하는것에 흥미를 느꼈다
-
----
-
-## 배포
-<https://epigram-one.vercel.app/>
